@@ -6,6 +6,15 @@ const Dashboard = lazy(() => import('@/pages/User/Dashboard/index'));
 const Home = lazy(() => import('@/pages/User/Home'));
 
 const ProductActivation = lazy(() => import('@/pages/User/ProductActivation'));
+
+const ProductActivationDetail = lazy(
+  () => import('@/pages/User/ProductActivation/Detail')
+);
+
+const ProductActivationSettingAccount = lazy(
+  () => import('@/pages/User/ProductActivation/SettingAccount')
+);
+
 const ChannelSubscribe = lazy(() => import('@/pages/User/ChannelSubscribe'));
 
 const ChannelSubscribeDetail = lazy(
@@ -158,6 +167,20 @@ const Routers: ListRouteProps[] = [
   {
     comp: ProductActivation,
     path: '/product-activation',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.USER],
+  },
+  {
+    comp: ProductActivationDetail,
+    path: '/product-activation/:id',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.USER],
+  },
+  {
+    comp: ProductActivationSettingAccount,
+    path: '/product-activation/:id/setting-account',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.USER],

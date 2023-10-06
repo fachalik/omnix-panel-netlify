@@ -1,7 +1,12 @@
 import { Card, Row, Col, Avatar, Button } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
+import whatsappImg from '@/assets/icons/whatsapp.svg';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function CardSettingChannel() {
+  const navigate = useNavigate();
+  const params: any = useParams();
+  const { id } = params;
   return (
     <Card
       bodyStyle={{
@@ -24,7 +29,7 @@ export default function CardSettingChannel() {
         }}
       >
         <Col xs={24} sm={24} md={24} lg={1} xl={1}>
-          <Avatar size={'large'} src={`/icons/whatsapp.svg`} />
+          <Avatar size={'large'} src={whatsappImg} />
         </Col>
         <Col xs={24} sm={24} md={24} lg={14} xl={14}>
           <div
@@ -55,7 +60,13 @@ export default function CardSettingChannel() {
           </div>
         </Col>
         <Col xs={24} sm={24} md={24} lg={9} xl={9}>
-          <Button type="primary" icon={<SettingOutlined />}>
+          <Button
+            onClick={() =>
+              navigate(`/product-activation/${id}/setting-account`)
+            }
+            type="primary"
+            icon={<SettingOutlined />}
+          >
             Configuration
           </Button>
         </Col>

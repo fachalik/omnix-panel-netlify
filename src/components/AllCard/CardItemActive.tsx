@@ -5,6 +5,7 @@ import { formatRupiah } from '@/utils/utilitys';
 
 import channelService from '@/assets/icons/channelservice.svg';
 import channelmarketing from '@/assets/icons/channelmarketing.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface ICardItem {
   id: number;
@@ -28,8 +29,10 @@ interface IItem {
 }
 
 export default function CardItemActive(props: IItem) {
+  const navigate = useNavigate();
   const { item } = props;
   const {
+    id,
     package_name,
     package_type,
     package_price,
@@ -233,6 +236,7 @@ export default function CardItemActive(props: IItem) {
         </Col>
         <Col xs={24} sm={24} md={24} lg={2} xl={2}>
           <Button
+            onClick={() => navigate(`/product-activation/${id}`)}
             block
             icon={<EllipsisOutlined style={{ fontSize: 20 }} />}
           ></Button>
