@@ -1,8 +1,97 @@
-import { Card, Breadcrumb, Row, Col, Tabs, Form, Input } from 'antd';
+import {
+  Card,
+  Breadcrumb,
+  Row,
+  Col,
+  Tabs,
+  Table,
+  Popconfirm,
+  Button,
+} from 'antd';
 import CardSettingChannel from '@/components/AllCard/CardSettingChannel';
 import marketingImg from '@/assets/icons/channelmarketing.svg';
+import { DeleteOutlined } from '@ant-design/icons';
 
 export default function Page() {
+  const columns: any = () => [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+    },
+    {
+      title: 'Role',
+      dataIndex: 'role',
+    },
+    {
+      title: 'Last Login',
+      dataIndex: 'last_login',
+    },
+    {
+      title: '#',
+      width: '10%',
+      align: 'center',
+      dataIndex: 'action',
+      render: () => (
+        // text: any, record: any
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            gap: '10px',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 10,
+            }}
+          >
+            <Popconfirm
+              placement="left"
+              title="Are you sure want delete?"
+              onConfirm={() => {
+                console.log('YES DELETED!');
+              }}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                type="text"
+                danger
+                key="/delete"
+                icon={<DeleteOutlined />}
+              ></Button>
+            </Popconfirm>
+          </div>
+        </div>
+      ),
+    },
+  ];
+  const data = [
+    {
+      id: 1,
+      name: 'Amelia Fauziyyah',
+      email: 'ameliafauziyyah@gmail.com',
+      role: 'Marketer User',
+      last_login: new Date(),
+    },
+    {
+      id: 1,
+      name: 'Villia Fitriarti',
+      email: 'villiafitri00@gmail.com',
+      role: 'Sales User',
+      last_login: new Date(),
+    },
+  ];
+
   return (
     <div>
       <Card>
@@ -81,21 +170,12 @@ export default function Page() {
               label: 'Credential Information',
               key: 'credential',
               children: (
-                <Row>
-                  <Col xs={24} sm={24} md={24} lg={12}>
-                    <Form layout="vertical">
-                      <Form.Item label="Link Pembayaran">
-                        <Input value="Admin@omnix.ac.id" />
-                      </Form.Item>
-                      <Form.Item label="E-Wallet Agregator">
-                        <Input value="9812ncjsdn09237e0" />
-                      </Form.Item>
-                      <Form.Item label="API Static VA">
-                        <Input value="mileasejahtera" />
-                      </Form.Item>
-                    </Form>
-                  </Col>
-                </Row>
+                <Table
+                  columns={columns()}
+                  rowKey={(record) => record.id}
+                  dataSource={data}
+                  pagination={false}
+                />
               ),
             },
             {
