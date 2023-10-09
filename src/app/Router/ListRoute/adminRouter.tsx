@@ -4,6 +4,7 @@ import { RoleEnum } from '@/models';
 
 const Home = lazy(() => import('@/pages/Admin/Home'));
 const ManageProduct = lazy(() => import('@/pages/Admin/ManageProduct'));
+const UserManagement = lazy(() => import('@/pages/Admin/UserManagement'));
 
 const Routers: ListRouteProps[] = [
   {
@@ -23,6 +24,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: ManageProduct,
     path: '/manage-product',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.ADMIN],
+  },
+  {
+    comp: UserManagement,
+    path: '/user-management',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.ADMIN],

@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { palette } from '@/theme/themeConfig';
 import { Button } from 'antd';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { confirmEmail } from '@/service/auth';
 import AuthLayout3 from '@/layouts/NoLayout/AuthLayout3';
 
@@ -14,13 +14,29 @@ export default function ConfirmEmail() {
   const [isSuccess, setIsSuccess] = React.useState<any>(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const params: any = useParams();
+  const { id } = params;
   const hash = searchParams.get('hash');
+
+  React.useEffect(() => {
+    let isMount = true;
+
+    if (isMount) {
+      if (!(id === 'user' || id === 'admin' || id === 'reseller')) {
+        navigate('/');
+      }
+    }
+
+    return () => {
+      isMount = false;
+    };
+  }, [id]);
 
   const emailConfirm = async () => {
     const payload = {
       hash,
     };
-    await confirmEmail(payload)
+    await confirmEmail(payload, id)
       .then(() => {
         setIsSuccess(true);
       })
@@ -98,6 +114,24 @@ export default function ConfirmEmail() {
               block
             >
               Back to login
+            </Button>
+          </>
+        )}
+        {!hash && isSuccess === null && (
+          <>
+            <p style={{ fontWeight: 700, fontSize: 20, marginBottom: '1em' }}>
+              {`Something wrong :(`}
+            </p>
+            <p style={{ fontWeight: 600, fontSize: 14, textAlign: 'center' }}>
+              {`Click button below to login page`}
+            </p>
+            <Button
+              onClick={() => navigate('/')}
+              type="primary"
+              style={{ marginTop: '1em' }}
+              block
+            >
+              Go to login
             </Button>
           </>
         )}

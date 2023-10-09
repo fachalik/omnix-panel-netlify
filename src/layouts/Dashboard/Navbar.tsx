@@ -13,7 +13,6 @@ import { useOtherStore, useAuthStore, useModalLogoutstore } from '@/store';
 
 export default function Navbar() {
   const { pathname } = useLocation();
-  console.log('pathname', pathname);
 
   const { user, logoutAuth, setIsLogout } = useAuthStore((state) => state);
 
@@ -136,9 +135,9 @@ export default function Navbar() {
             textAlign: 'right',
           }}
         >
-          <p
-            style={{ color: '#6e6b7b', fontWeight: 'bold', fontSize: 12 }}
-          >{`${user?.firstName} ${user?.lastName}`}</p>
+          <p style={{ color: '#6e6b7b', fontWeight: 'bold', fontSize: 12 }}>
+            {user?.firstName}
+          </p>
           <p
             style={{
               color: palette.primary.main,

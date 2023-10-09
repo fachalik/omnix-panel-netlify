@@ -3,5 +3,6 @@ import Dashboard from './Dashboard.svg';
 import Home from './Home.svg';
 import Planet from './Planet.svg';
 import Windows from './Windows.svg';
+import UserSetting from './UserSetting.svg';
 
-export { Channel, Dashboard, Home, Planet, Windows };
+export { Channel, Dashboard, Home, Planet, Windows, UserSetting };

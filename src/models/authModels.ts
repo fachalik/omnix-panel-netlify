@@ -1,7 +1,7 @@
 export enum RoleEnum {
+  ADMIN = 'admin',
   USER = 'user',
   RESELLER = 'reseller',
-  ADMIN = 'admin',
 }
 
 export type RoleAuth = 'user' | 'admin' | 'reseller';
@@ -23,6 +23,7 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
   deletedAt: null;
+  phoneNumber: string;
   photo: null;
   role: Role;
   status: Role;

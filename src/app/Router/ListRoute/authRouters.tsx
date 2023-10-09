@@ -63,7 +63,7 @@ const ListRoute: ListRouteProps[] = [
   },
   {
     comp: ConfirmEmail,
-    path: '/confirm-email',
+    path: '/:id/confirm-email',
     index: true,
     layout: 'Plain',
     auth: 'Public',

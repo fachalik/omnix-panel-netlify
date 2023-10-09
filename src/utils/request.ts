@@ -5,16 +5,24 @@ const http = axios.create({
   baseURL: import.meta.env.VITE_APP_APP_API_URL,
 });
 
-const getToken = () => {
+const getToken = (): any => {
   const auth = getLogin();
   if (auth) {
-    return auth;
+    return auth.token;
   }
   return false;
 };
 
-const token = getToken().token;
-const refreshToken = getToken().refreshToken;
+const getRefreshToken = (): any => {
+  const auth = getLogin();
+  if (auth) {
+    return auth.refreshToken;
+  }
+  return false;
+};
+
+const token = getToken();
+const refreshToken = getRefreshToken();
 
 http.defaults.headers.common.Accept = 'application/json';
 if (token) {

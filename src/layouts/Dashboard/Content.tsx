@@ -17,6 +17,7 @@ function Content({ children }: IContent) {
         minHeight: '100%',
         width: '100%',
         background: colorBgContainer,
+        textAlign: 'start',
       }}
     >
       {children}
