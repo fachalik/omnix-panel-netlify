@@ -2,13 +2,16 @@
 
 import { adminRoutes, userRoutes, resellerRoutes } from './Config';
 
-import { LogoutOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { Layout, Menu, Avatar, Dropdown, Modal, Tooltip } from 'antd';
-import type { MenuProps } from 'antd';
+import { Layout, Menu, Tooltip } from 'antd';
+// import type { MenuProps } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { palette } from '@/theme/themeConfig';
-import { useOtherStore, useAuthStore, useModalLogoutstore } from '@/store';
+import {
+  useOtherStore,
+  useAuthStore,
+  //  useModalLogoutstore
+} from '@/store';
 import useIsMobile from '@/hooks/useIsMobile';
 import useWindowSize from '@/hooks/useWindowSize';
 import OmnixSmall from '@/assets/omnix-icon-white.png';
@@ -23,9 +26,12 @@ export default function Sidebar() {
 
   const { height } = useWindowSize();
 
-  const { user, logoutAuth, setIsLogout } = useAuthStore((state) => state);
+  const {
+    user,
+    //  logoutAuth, setIsLogout
+  } = useAuthStore((state) => state);
 
-  const { reset: resetModalLogout } = useModalLogoutstore((state) => state);
+  // const { reset: resetModalLogout } = useModalLogoutstore((state) => state);
 
   const navigate = useNavigate();
 
@@ -35,60 +41,60 @@ export default function Sidebar() {
 
   const isMobile = useIsMobile();
 
-  const items: MenuProps['items'] = [
-    {
-      key: '/logout',
-      icon: <LogoutOutlined />,
-      label: (
-        <p
-          onClick={() => {
-            Modal.confirm({
-              title: 'Logout',
-              icon: <ExclamationCircleOutlined />,
-              content: (
-                <div style={{ borderTop: '1px solid #d4d4d4' }}>
-                  <div style={{ marginTop: 5 }}>Are you sure want logout?</div>
-                </div>
-              ),
-              okText: 'Yes',
-              cancelText: 'No',
-              okButtonProps: {
-                type: 'primary',
-                style: {
-                  background: palette.primary.main,
-                  color: '#fff',
-                  float: 'left',
-                  border: '1px solid ' + palette.primary.main,
-                },
-              },
-              cancelButtonProps: {
-                type: 'default',
-                style: {
-                  color: palette.primary.main,
-                  float: 'left',
-                  marginLeft: '34px',
-                  border: '1px solid ' + palette.primary.main,
-                },
-              },
-              onOk: async () => {
-                await logoutAuth();
-                await resetModalLogout;
-                await setIsLogout(false);
-              },
-            });
-          }}
-        >
-          Logout
-        </p>
-      ),
+  // const items: MenuProps['items'] = [
+  //   {
+  //     key: '/logout',
+  //     icon: <LogoutOutlined />,
+  //     label: (
+  //       <p
+  //         onClick={() => {
+  //           Modal.confirm({
+  //             title: 'Logout',
+  //             icon: <ExclamationCircleOutlined />,
+  //             content: (
+  //               <div style={{ borderTop: '1px solid #d4d4d4' }}>
+  //                 <div style={{ marginTop: 5 }}>Are you sure want logout?</div>
+  //               </div>
+  //             ),
+  //             okText: 'Yes',
+  //             cancelText: 'No',
+  //             okButtonProps: {
+  //               type: 'primary',
+  //               style: {
+  //                 background: palette.primary.main,
+  //                 color: '#fff',
+  //                 float: 'left',
+  //                 border: '1px solid ' + palette.primary.main,
+  //               },
+  //             },
+  //             cancelButtonProps: {
+  //               type: 'default',
+  //               style: {
+  //                 color: palette.primary.main,
+  //                 float: 'left',
+  //                 marginLeft: '34px',
+  //                 border: '1px solid ' + palette.primary.main,
+  //               },
+  //             },
+  //             onOk: async () => {
+  //               await logoutAuth();
+  //               await resetModalLogout;
+  //               await setIsLogout(false);
+  //             },
+  //           });
+  //         }}
+  //       >
+  //         Logout
+  //       </p>
+  //     ),
 
-      title: '',
-      style: {
-        fontSize: 12,
-        borderTop: '1px solid #f0f0f0',
-      },
-    },
-  ];
+  //     title: '',
+  //     style: {
+  //       fontSize: 12,
+  //       borderTop: '1px solid #f0f0f0',
+  //     },
+  //   },
+  // ];
 
   const mapRoute = (role: string): any => {
     console.log('ROLE', role);
@@ -194,7 +200,7 @@ export default function Sidebar() {
           }
         )}
       />
-      <Dropdown menu={{ items }} placement="topRight" trigger={['click']}>
+      {/* <Dropdown menu={{ items }} placement="topRight" trigger={['click']}>
         <div
           style={{
             display: 'flex',
@@ -214,7 +220,7 @@ export default function Sidebar() {
             {user?.firstName.charAt(0)}
           </Avatar>
         </div>
-      </Dropdown>
+      </Dropdown> */}
     </Layout.Sider>
   );
 }
