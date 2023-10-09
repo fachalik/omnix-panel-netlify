@@ -4,6 +4,7 @@ import { ListRouteProps } from './models';
 
 const NotFound = lazy(() => import('@/pages/NotFound'));
 const Login = lazy(() => import('@/pages/Auth/Login'));
+const LoginAdmin = lazy(() => import('@/pages/Auth/LoginAdmin'));
 const SignUp = lazy(() => import('@/pages/Auth/SingUp'));
 const Google = lazy(() => import('@/pages/Auth/Google'));
 const ForgetPassword = lazy(() => import('@/pages/Auth/ForgetPassword'));
@@ -21,6 +22,13 @@ const ListRoute: ListRouteProps[] = [
   {
     comp: Login,
     path: '/',
+    index: true,
+    layout: 'Plain',
+    auth: 'Public',
+  },
+  {
+    comp: LoginAdmin,
+    path: '/login/admin',
     index: true,
     layout: 'Plain',
     auth: 'Public',

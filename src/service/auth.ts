@@ -30,6 +30,21 @@ export const postLogin = (payload: any) =>
     }
   });
 
+export const postLoginAdmin = (payload: any) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.post(`/api/v1/auth/admin/email/login`, payload);
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      // const message: string = err.response
+      //   ? `${err.response.data.message}`
+      //   : 'Oops, something wrong with our server, please try again later.';
+      reject(err);
+    }
+  });
+
 export const logout = () =>
   new Promise<any>(async (resolve, reject) => {
     try {

@@ -6,6 +6,7 @@ import { ListRouteProps } from './ListRoute/models';
 import authRouters from './ListRoute/authRouters';
 import userRouters from './ListRoute/userRouters';
 import resellerRouters from './ListRoute/resellerRouter';
+import adminRoutes from './ListRoute/adminRouter';
 
 // Layout
 import DashLayout from '@/layouts/Dashboard';
@@ -37,6 +38,24 @@ export default function IndexRoute() {
 
       case 'reseller':
         routeByAuth = resellerRouters.filter((val) => {
+          switch (val.auth) {
+            case 'Public':
+              return true;
+            case 'AllRole':
+              return isLogin;
+            case 'NoAuth':
+              return !isLogin;
+            default:
+              if (typeof val.auth === 'object') {
+                return val.auth.includes(role.toLowerCase());
+              }
+              return false;
+          }
+        });
+        break;
+
+      case 'admin':
+        routeByAuth = adminRoutes.filter((val) => {
           switch (val.auth) {
             case 'Public':
               return true;

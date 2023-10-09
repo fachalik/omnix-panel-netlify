@@ -1,6 +1,4 @@
-import { Home, Channel } from '@/assets/icons';
-
-// const path = '/admin';
+import { Home, Planet } from '@/assets/icons';
 
 const adminRoutes: any = [
   {
@@ -9,8 +7,8 @@ const adminRoutes: any = [
     label: 'Home',
   },
   {
-    key: `/manage-tenant`,
-    icon: Channel,
+    key: `/manage-product`,
+    icon: Planet,
     label: 'Manage Tenant',
   },
 ];

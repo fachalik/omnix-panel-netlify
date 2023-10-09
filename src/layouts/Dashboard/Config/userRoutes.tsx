@@ -1,7 +1,5 @@
 import { Home, Channel, Planet, Dashboard } from '@/assets/icons';
 
-// const path = '/user';
-
 const userRoutes: any = [
   {
     key: `/home`,

@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { postLogin } from '@/service/auth';
+import { postLogin, postLoginAdmin } from '@/service/auth';
 // import { adminRoutes, userRoutes, resellerRoutes } from '@/routes';
 import { setLogin, removeLogin, getLogin } from '@/utils/sessions';
 
@@ -19,6 +19,8 @@ interface IStoreAuth {
   isLogout: boolean;
 
   login: (payload: { email: string; password: string }) => void;
+
+  loginAdmin: (payload: { email: string; password: string }) => void;
 
   setAuth: (payload: any) => void;
 
@@ -72,22 +74,51 @@ export const useAuthStore = create<IStoreAuth>()(
               type: 'success',
             };
             await useAlertStore.getState().setAlert(payload);
-            // window.location.replace('dashboard');
-            // if (typeof window !== 'undefined') {
-            //   switch (response.user.role.name.toLocaleLowerCase()) {
-            //     case 'user':
-            //       return window.location.replace(userRoutes[0].key);
+          } else {
+            console.log('inactive');
+            const payload = await {
+              status: 'your account is inactive',
+              hit: true,
+              type: 'error',
+            };
+            await useAlertStore.getState().setAlert(payload);
+          }
+        },
 
-            //     case 'admin':
-            //       return window.location.replace(adminRoutes[0].key);
+        async loginAdmin(payload: { email: string; password: string }) {
+          const response: UserType = await postLoginAdmin(payload).catch(
+            (err) => {
+              if (err.response.data.status == '422') {
+                const payload = {
+                  status: `Email not exists`,
+                  hit: true,
+                  type: 'error',
+                };
+                useAlertStore.getState().setAlert(payload);
+              }
+            }
+          );
 
-            //     case 'reseller':
-            //       return window.location.replace(resellerRoutes[0].key);
-
-            //     default:
-            //       break;
-            //   }
-            // }
+          if (response.user.status.name.toLowerCase() !== 'inactive') {
+            set(
+              () => ({
+                token: response.token,
+                refreshToken: response.refreshToken,
+                user: response.user,
+              }),
+              false
+            );
+            setLogin({
+              token: response.token,
+              refreshToken: response.refreshToken,
+              user: response.user,
+            });
+            const payload = await {
+              status: `welcome back ${response.user.firstName}`,
+              hit: true,
+              type: 'success',
+            };
+            await useAlertStore.getState().setAlert(payload);
           } else {
             console.log('inactive');
             const payload = await {

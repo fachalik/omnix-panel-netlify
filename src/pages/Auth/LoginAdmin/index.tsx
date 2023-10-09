@@ -1,8 +1,6 @@
-import { GoogleOutlined } from '@ant-design/icons';
+import { Row, Col, Card } from 'antd';
 
-import { Row, Col, Card, Button, Divider } from 'antd';
-
-import FormSignIn from '@/components/SingIn/Form/FormSignIn';
+import FormSignInAdmin from '@/components/SingIn/Form/FormSignInAdmin';
 
 import useIsMobile from '@/hooks/useIsMobile';
 import { palette } from '@/theme/themeConfig';
@@ -12,31 +10,12 @@ import AlertContext from '@/hooks/AlertContext';
 import useCheckIsNotLogin from '@/hooks/useCheckIsNotLogin';
 import Loading from '@/components/Loading';
 
-import { useNavigate } from 'react-router-dom';
-
-import thirdPartyLogin from '@/lib/third-party-login';
-
 import RegisterImage from '@/assets/image/register-image.png';
 
-export default function Login() {
-  // const { push } = useRouter();
-  const navigate = useNavigate();
+export default function LoginAdmin() {
   const isMobile = useIsMobile();
 
   const { isLoading, isNotLogin } = useCheckIsNotLogin();
-
-  const redirect =
-    import.meta.env.MODE === 'development'
-      ? 'http://localhost:3000/google'
-      : 'https://omnix-panel.netlify.app/google';
-
-  const googleLogin = async () => {
-    thirdPartyLogin(
-      `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${
-        import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
-      }&scope=openid%20email%20profile&redirect_uri=${redirect}&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow`
-    );
-  };
 
   if (isLoading) {
     <Loading />;
@@ -294,28 +273,10 @@ export default function Login() {
                       marginBottom: '1em',
                     }}
                   >
-                    Sign In
+                    Sign In Admin
                   </p>
 
-                  <FormSignIn />
-                  <Divider plain>Or</Divider>
-                  <Button onClick={googleLogin} type="primary" block>
-                    <GoogleOutlined />
-                    Sign in with google
-                  </Button>
-                  <div
-                    style={{
-                      marginTop: '2em',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <p style={{ marginRight: '1em' }}>Belum memiliki akun?</p>
-                    <Button type="primary" onClick={() => navigate('/sign-up')}>
-                      Buat Akun
-                    </Button>
-                  </div>
+                  <FormSignInAdmin />
                 </Col>
               </Row>
             </Card>

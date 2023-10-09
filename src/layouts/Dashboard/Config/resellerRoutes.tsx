@@ -1,7 +1,5 @@
 import { Home, Dashboard, Windows, Channel, Planet } from '@/assets/icons';
 
-// const path = '/reseller';
-
 const resellerRoutes: any = [
   {
     key: `/home`,
