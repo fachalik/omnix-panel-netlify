@@ -1,26 +1,25 @@
 import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { InboxOutlined, LockOutlined } from '@ant-design/icons';
-import useFormSignIn from '../Hooks/useFormSignIn';
+import useFormSignInReseller from '../Hooks/useFormSignInReseller';
 
 type FieldType = {
   email?: string;
   password?: string;
 };
 
-export default function FormSignIn() {
+export default function FormSignInReseller() {
   const navigate = useNavigate();
-
-  const { form, isLoading, onFinish, onFinishFailed } = useFormSignIn();
+  const { form, isLoading, onFinish, onFinishFailed } = useFormSignInReseller();
 
   return (
     <main style={{ width: '100%' }}>
       <Form
         style={{ marginTop: 20 }}
         autoComplete="off"
+        form={form}
         name="basic"
         layout="vertical"
-        form={form}
         initialValues={{}}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -31,16 +30,9 @@ export default function FormSignIn() {
         <Form.Item<FieldType>
           name="email"
           hasFeedback
-          rules={[
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-            { required: true, message: 'Email is required' },
-          ]}
+          rules={[{ required: true, message: 'Email is required' }]}
         >
           <Input
-            name="email"
             autoComplete="off"
             prefix={<InboxOutlined />}
             placeholder="Input your email here"
@@ -50,16 +42,15 @@ export default function FormSignIn() {
         <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
           Password
         </div>
-        <Form.Item<FieldType>
+
+        <Form.Item
           name="password"
           style={{ marginBottom: 2 }}
           rules={[{ required: true, message: 'Password is required!' }]}
           hasFeedback
         >
           <Input.Password
-            autoComplete="off"
-            prefix={<LockOutlined />}
-            placeholder="Input your password here"
+   
           />
         </Form.Item>
         <a
@@ -75,11 +66,11 @@ export default function FormSignIn() {
         >
           Forgot password ?
         </a>
+
         <Button
           type="primary"
           block
           htmlType="submit"
-          disabled={isLoading}
           style={{ fontSize: 14, fontWeight: 700 }}
         >
           {!isLoading ? 'Sign In' : 'Loading...'}

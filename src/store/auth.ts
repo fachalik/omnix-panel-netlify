@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { postLogin, postLoginAdmin } from '@/service/auth';
+import { postLoginReseller } from '@/service/authReseller';
 // import { adminRoutes, userRoutes, resellerRoutes } from '@/routes';
 import { setLogin, removeLogin, getLogin } from '@/utils/sessions';
 
@@ -19,6 +20,8 @@ interface IStoreAuth {
   isLogout: boolean;
 
   login: (payload: { email: string; password: string }) => void;
+
+  loginReseller: (payload: { email: string; password: string }) => void;
 
   loginAdmin: (payload: { email: string; password: string }) => void;
 
@@ -43,93 +46,160 @@ export const useAuthStore = create<IStoreAuth>()(
         ...initialState,
 
         async login(payload: { email: string; password: string }) {
-          const response: UserType = await postLogin(payload).catch((err) => {
-            if (err.response.data.status == '422') {
-              const payload = {
-                status: `Email not exists`,
+          const response: any = await postLogin(payload)
+            .then((res) => {
+              return res;
+            })
+            .catch((err) => {
+              return err.response.data;
+            });
+
+          if (response?.status != '422') {
+            if (
+              response?.user !== undefined &&
+              response?.user?.status?.name?.toLowerCase() !== 'inactive'
+            ) {
+              const payload = await {
+                status: `welcome back ${response.user.firstName}`,
+                hit: true,
+                type: 'success',
+              };
+              await useAlertStore.getState().setAlert(payload);
+              await set(
+                () => ({
+                  token: response.token,
+                  refreshToken: response.refreshToken,
+                  user: response.user,
+                }),
+                false
+              );
+              await setLogin({
+                token: response.token,
+                refreshToken: response.refreshToken,
+                user: response.user,
+              });
+            } else {
+              const payload = await {
+                status: 'your account is inactive',
                 hit: true,
                 type: 'error',
               };
-              useAlertStore.getState().setAlert(payload);
+              await useAlertStore.getState().setAlert(payload);
             }
-          });
-
-          if (response.user.status.name.toLowerCase() !== 'inactive') {
-            set(
-              () => ({
-                token: response.token,
-                refreshToken: response.refreshToken,
-                user: response.user,
-              }),
-              false
-            );
-            setLogin({
-              token: response.token,
-              refreshToken: response.refreshToken,
-              user: response.user,
-            });
-            const payload = await {
-              status: `welcome back ${response.user.firstName}`,
-              hit: true,
-              type: 'success',
-            };
-            await useAlertStore.getState().setAlert(payload);
           } else {
-            console.log('inactive');
-            const payload = await {
-              status: 'your account is inactive',
+            const payload = {
+              status: `Email not exists`,
               hit: true,
               type: 'error',
             };
             await useAlertStore.getState().setAlert(payload);
           }
+          await window.location.reload();
+        },
+
+        async loginReseller(payload: { email: string; password: string }) {
+          const response: any = await postLoginReseller(payload)
+            .then((res) => {
+              return res;
+            })
+            .catch((err) => {
+              return err.response.data;
+            });
+
+          if (response?.status != '422') {
+            if (
+              response?.user !== undefined &&
+              response?.user?.status?.name?.toLowerCase() !== 'inactive'
+            ) {
+              const payload = await {
+                status: `welcome back ${response.user.firstName}`,
+                hit: true,
+                type: 'success',
+              };
+              await useAlertStore.getState().setAlert(payload);
+              await set(
+                () => ({
+                  token: response.token,
+                  refreshToken: response.refreshToken,
+                  user: response.user,
+                }),
+                false
+              );
+              await setLogin({
+                token: response.token,
+                refreshToken: response.refreshToken,
+                user: response.user,
+              });
+            } else {
+              const payload = await {
+                status: 'your account is inactive',
+                hit: true,
+                type: 'error',
+              };
+              await useAlertStore.getState().setAlert(payload);
+            }
+          } else {
+            const payload = {
+              status: `Email not exists`,
+              hit: true,
+              type: 'error',
+            };
+            await useAlertStore.getState().setAlert(payload);
+          }
+          await window.location.reload();
         },
 
         async loginAdmin(payload: { email: string; password: string }) {
-          const response: UserType = await postLoginAdmin(payload).catch(
-            (err) => {
-              if (err.response.data.status == '422') {
-                const payload = {
-                  status: `Email not exists`,
-                  hit: true,
-                  type: 'error',
-                };
-                useAlertStore.getState().setAlert(payload);
-              }
-            }
-          );
+          const response: any = await postLoginAdmin(payload)
+            .then((res) => {
+              return res;
+            })
+            .catch((err) => {
+              return err.response.data;
+            });
 
-          if (response.user.status.name.toLowerCase() !== 'inactive') {
-            set(
-              () => ({
+          if (response?.status != '422') {
+            if (
+              response?.user !== undefined &&
+              response?.user?.status?.name?.toLowerCase() !== 'inactive'
+            ) {
+              const payload = await {
+                status: `welcome back ${response.user.firstName}`,
+                hit: true,
+                type: 'success',
+              };
+              await useAlertStore.getState().setAlert(payload);
+              await set(
+                () => ({
+                  token: response.token,
+                  refreshToken: response.refreshToken,
+                  user: response.user,
+                }),
+                false
+              );
+              await setLogin({
                 token: response.token,
                 refreshToken: response.refreshToken,
                 user: response.user,
-              }),
-              false
-            );
-            setLogin({
-              token: response.token,
-              refreshToken: response.refreshToken,
-              user: response.user,
-            });
-            const payload = await {
-              status: `welcome back ${response.user.firstName}`,
-              hit: true,
-              type: 'success',
-            };
-            await useAlertStore.getState().setAlert(payload);
+              });
+            } else {
+              const payload = await {
+                status: 'your account is inactive',
+                hit: true,
+                type: 'error',
+              };
+              await useAlertStore.getState().setAlert(payload);
+            }
           } else {
-            console.log('inactive');
-            const payload = await {
-              status: 'your account is inactive',
+            const payload = {
+              status: `Email not exists`,
               hit: true,
               type: 'error',
             };
             await useAlertStore.getState().setAlert(payload);
           }
+          await window.location.reload();
         },
-
         setIsLogout(isLogout: boolean) {
           set(
             () => ({
@@ -140,14 +210,10 @@ export const useAuthStore = create<IStoreAuth>()(
           );
         },
 
-        logoutAuth() {
-          const checklocalStorage = getLogin();
+        async logoutAuth() {
+          const checklocalStorage = await getLogin();
           if (checklocalStorage !== undefined) {
-            logout();
-            set(() => initialState, false, 'omnix-reset');
-            localStorage.clear();
-            removeLogin();
-          } else {
+            logout(checklocalStorage?.user?.role?.name);
             set(() => initialState, false, 'omnix-reset');
             localStorage.clear();
             removeLogin();

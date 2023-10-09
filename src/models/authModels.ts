@@ -1,7 +1,7 @@
 export enum RoleEnum {
+  ADMIN = 'admin',
   USER = 'user',
   RESELLER = 'reseller',
-  ADMIN = 'admin',
 }
 
 export type RoleAuth = 'user' | 'admin' | 'reseller';

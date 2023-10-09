@@ -13,7 +13,6 @@ import { useOtherStore, useAuthStore, useModalLogoutstore } from '@/store';
 
 export default function Navbar() {
   const { pathname } = useLocation();
-  console.log('pathname', pathname);
 
   const { user, logoutAuth, setIsLogout } = useAuthStore((state) => state);
 

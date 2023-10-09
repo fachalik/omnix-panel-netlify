@@ -1,6 +1,7 @@
 import { Button, Form, Input } from 'antd';
-import useFormSignInAdmin from '../Hooks/useFormSignInAdmin';
 import { useNavigate } from 'react-router-dom';
+import { InboxOutlined, LockOutlined } from '@ant-design/icons';
+import useFormSignInAdmin from '../Hooks/useFormSignInAdmin';
 
 type FieldType = {
   email?: string;
@@ -10,11 +11,7 @@ type FieldType = {
 export default function FormSignInAdmin() {
   const navigate = useNavigate();
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
-
-  const formik: any = useFormSignInAdmin();
+  const { form, isLoading, onFinish, onFinishFailed } = useFormSignInAdmin();
 
   return (
     <main style={{ width: '100%' }}>
@@ -23,8 +20,9 @@ export default function FormSignInAdmin() {
         autoComplete="off"
         name="basic"
         layout="vertical"
+        form={form}
         initialValues={{}}
-        onFinish={formik.handleSubmit}
+        onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
         <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
@@ -32,22 +30,19 @@ export default function FormSignInAdmin() {
         </div>
         <Form.Item<FieldType>
           name="email"
-          validateStatus={
-            Boolean(formik.touched.email && formik.errors.email) ? 'error' : ''
-          }
           hasFeedback
-          help={formik.touched.email ? formik.errors.email : ''}
+          rules={[
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            { required: true, message: 'Email is required' },
+          ]}
         >
           <Input
-            status={
-              Boolean(formik.touched.email && formik.errors.email)
-                ? 'error'
-                : ''
-            }
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            autoComplete="off"
+            prefix={<InboxOutlined />}
+            placeholder="Input your email here"
           />
         </Form.Item>
 
@@ -56,42 +51,38 @@ export default function FormSignInAdmin() {
         </div>
         <Form.Item<FieldType>
           name="password"
-          validateStatus={
-            Boolean(formik.touched.password && formik.errors.password)
-              ? 'error'
-              : ''
-          }
+          style={{ marginBottom: 2 }}
+          rules={[{ required: true, message: 'Password is required!' }]}
           hasFeedback
-          help={formik.touched.password ? formik.errors.password : ''}
         >
-          <a
-            type="link"
-            style={{
-              textAlign: 'start',
-              float: 'left',
-              fontSize: 12,
-              textDecoration: 'underline',
-              marginBottom: 10,
-            }}
-            onClick={() => navigate('/forget-password')}
-          >
-            Forgot password ?
-          </a>
           <Input.Password
-            name="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            autoComplete="off"
+            prefix={<LockOutlined />}
+            placeholder="Input your password here"
           />
         </Form.Item>
+        <a
+          type="link"
+          style={{
+            textAlign: 'start',
+            float: 'left',
+            fontSize: 12,
+            textDecoration: 'underline',
+            marginBottom: 10,
+          }}
+          onClick={() => navigate('/forget-password')}
+        >
+          Forgot password ?
+        </a>
 
         <Button
           type="primary"
           block
           htmlType="submit"
+          loading={isLoading}
           style={{ fontSize: 14, fontWeight: 700 }}
         >
-          Sign In
+          {!isLoading ? 'Sign In' : 'Loading...'}
         </Button>
       </Form>
     </main>

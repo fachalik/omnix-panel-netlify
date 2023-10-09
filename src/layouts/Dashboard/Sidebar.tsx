@@ -97,7 +97,6 @@ export default function Sidebar() {
   // ];
 
   const mapRoute = (role: string): any => {
-    console.log('ROLE', role);
     switch (role) {
       case 'user':
         return userRoutes;

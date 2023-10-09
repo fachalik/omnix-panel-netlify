@@ -1,8 +1,10 @@
-import { GoogleOutlined } from '@ant-design/icons';
+import React from 'react';
+import { GoogleOutlined, UserOutlined, BankOutlined } from '@ant-design/icons';
 
 import { Row, Col, Card, Button, Divider } from 'antd';
 
 import FormSignIn from '@/components/SingIn/Form/FormSignIn';
+import FormSignInReseller from '@/components/SingIn/Form/FormSignInReseller';
 
 import useIsMobile from '@/hooks/useIsMobile';
 import { palette } from '@/theme/themeConfig';
@@ -22,6 +24,7 @@ export default function Login() {
   // const { push } = useRouter();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const [user, setUser] = React.useState<string>('user');
 
   const { isLoading, isNotLogin } = useCheckIsNotLogin();
 
@@ -297,7 +300,69 @@ export default function Login() {
                     Sign In
                   </p>
 
-                  <FormSignIn />
+                  <Row gutter={[8, 16]}>
+                    <Col span={12}>
+                      <Card
+                        onClick={() => setUser('user')}
+                        style={{
+                          cursor: 'pointer',
+                          borderColor:
+                            user === 'user' ? palette.primary.main : '',
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <UserOutlined
+                            style={{
+                              fontSize: 22,
+                              color:
+                                user === 'user' ? palette.primary.main : '',
+                            }}
+                          />
+                          <p>Regular</p>
+                        </div>
+                      </Card>
+                    </Col>
+                    <Col span={12}>
+                      <Card
+                        onClick={() => setUser('reseller')}
+                        style={{
+                          cursor: 'pointer',
+                          borderColor:
+                            user === 'reseller' ? palette.primary.main : '',
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <BankOutlined
+                            style={{
+                              fontSize: 22,
+                              color:
+                                user === 'reseller' ? palette.primary.main : '',
+                            }}
+                          />
+                          <p>Reseller</p>
+                        </div>
+                      </Card>
+                    </Col>
+                  </Row>
+
+                  {user === 'user' && <FormSignIn />}
+
+                  {user === 'reseller' && <FormSignInReseller />}
+
                   <Divider plain>Or</Divider>
                   <Button onClick={googleLogin} type="primary" block>
                     <GoogleOutlined />
