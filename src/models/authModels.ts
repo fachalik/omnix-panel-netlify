@@ -23,6 +23,7 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
   deletedAt: null;
+  phoneNumber: string;
   photo: null;
   role: Role;
   status: Role;
