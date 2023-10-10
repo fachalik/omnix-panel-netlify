@@ -32,7 +32,7 @@
     }
   },
   "include": [
-    "./src/**/**/**/**/**/**/*",
+    "./src/**/**/**/**/**/**/**/*",
     ".eslintrc.cjs",
     "src",
     "vite.config.ts",
