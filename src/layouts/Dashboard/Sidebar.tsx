@@ -159,6 +159,7 @@ export default function Sidebar() {
           height: height - 150,
           position: 'relative',
           backgroundColor: palette.primary.dark,
+          fontSize: 12,
         }}
         theme="dark"
         mode="inline"
@@ -195,31 +196,18 @@ export default function Sidebar() {
                 </Tooltip>
               ),
               label: val.label,
+              children:
+                val.children &&
+                val.children.map((item: any) => {
+                  return {
+                    key: item.key,
+                    label: item.label,
+                  };
+                }),
             };
           }
         )}
       />
-      {/* <Dropdown menu={{ items }} placement="topRight" trigger={['click']}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar
-            style={{
-              background: palette.primary.main,
-              color: '#fff',
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-            }}
-            size={'large'}
-          >
-            {user?.firstName.charAt(0)}
-          </Avatar>
-        </div>
-      </Dropdown> */}
     </Layout.Sider>
   );
 }

@@ -51,6 +51,7 @@ export default function Modal(props: IModal) {
       onOk={handleOk}
       onCancel={handleCancel}
       footer={footer}
+      width={1000}
     >
       {children}
     </ModalANTD>

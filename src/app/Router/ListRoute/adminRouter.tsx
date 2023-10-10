@@ -3,8 +3,15 @@ import { ListRouteProps } from './models';
 import { RoleEnum } from '@/models';
 
 const Home = lazy(() => import('@/pages/Admin/Home'));
-const ManageProduct = lazy(() => import('@/pages/Admin/ManageProduct'));
-const UserManagement = lazy(() => import('@/pages/Admin/UserManagement'));
+const ManageProduct = lazy(
+  () => import('@/pages/Admin/ManageProduct/Product/index')
+);
+const SubProduct = lazy(
+  () => import('@/pages/admin/ManageProduct/SubProduct/index')
+);
+const SubProductChannel = lazy(
+  () => import('@/pages/admin/ManageProduct/SubProductChannel/index')
+);
 
 const Routers: ListRouteProps[] = [
   {
@@ -23,14 +30,21 @@ const Routers: ListRouteProps[] = [
   },
   {
     comp: ManageProduct,
-    path: '/manage-product',
+    path: '/manage-product/product',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.ADMIN],
   },
   {
-    comp: UserManagement,
-    path: '/user-management',
+    comp: SubProduct,
+    path: '/manage-product/sub-product',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.ADMIN],
+  },
+  {
+    comp: SubProductChannel,
+    path: '/manage-product/sub-product-channel',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.ADMIN],
