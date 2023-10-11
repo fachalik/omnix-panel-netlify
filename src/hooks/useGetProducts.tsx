@@ -20,11 +20,14 @@ const useGetProducts = () => {
       page: 1,
       limit: 1000,
     });
-    let tempData = temp[0]?.map((item: any): OutSelect => {
-      return { value: item.productId, label: item.productName };
+    let tempData: any = await temp[0]?.map((item: any): OutSelect => {
+      return {
+        value: item.productId,
+        label: `${item.productId}_${item.productName}`,
+      };
     });
 
-    setData(tempData ?? []);
+    setData([{ value: '', label: '-' }, ...tempData] ?? []);
     setIsLoading(false);
   };
 

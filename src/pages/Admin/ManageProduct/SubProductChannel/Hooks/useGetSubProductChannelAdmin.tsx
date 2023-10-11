@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { useNotificatonStore } from '@/store';
+
 import {
   deleteSubProductChannel,
   getSubProductChannel,
@@ -51,15 +53,24 @@ const createSubProductChannelAdmin = async (val: any) => {
 
 export const useCreateSubProductChannelAdmin = () => {
   const queryClient = useQueryClient();
+  const { setNotification } = useNotificatonStore((state) => state);
   return useMutation<any, Error, any>(createSubProductChannelAdmin, {
-    onSuccess: async () =>
-      // data
-      {
-        await queryClient.invalidateQueries(QUERY_KEY);
-        // await Toast('success', `${menu} ${data.branch} has been added`);
-      },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QUERY_KEY);
+      await setNotification({
+        message: 'Produk Channel ditambahkan',
+        description: 'Produk Channel Berhasil Ditambahkan',
+        type: 'success',
+        hit: true,
+      });
+    },
     onError: (error) => {
-      console.error(error);
+      setNotification({
+        message: 'Create produk channel mengalami kesalahan',
+        description: error.message,
+        type: 'error',
+        hit: true,
+      });
     },
   });
 };
@@ -72,12 +83,24 @@ const destroySubProductChannelAdmin = async (id: number) => {
 
 export const useDestroySubProductChannelAdmin = () => {
   const queryClient = useQueryClient();
+  const { setNotification } = useNotificatonStore((state) => state);
   return useMutation<any, Error, any>(destroySubProductChannelAdmin, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY);
+      await setNotification({
+        message: 'Produk Channel dihapus',
+        description: 'Produk Channel Berhasil Dihapus',
+        type: 'success',
+        hit: true,
+      });
     },
     onError: (error) => {
-      console.error(error);
+      setNotification({
+        message: 'Delete produk channel mengalami kesalahan',
+        description: error.message,
+        type: 'error',
+        hit: true,
+      });
     },
   });
 };
@@ -90,12 +113,24 @@ const patchSubProductChannelAdmin = async ({ val, id }: any) => {
 
 export const usePatchSubProductChannelAdmin = () => {
   const queryClient = useQueryClient();
+  const { setNotification } = useNotificatonStore((state) => state);
   return useMutation<any, Error, any>(patchSubProductChannelAdmin, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY);
+      await setNotification({
+        message: 'Produk Channel diupdate',
+        description: 'Produk Channel Berhasil Diupdate',
+        type: 'success',
+        hit: true,
+      });
     },
     onError: (error) => {
-      console.error(error);
+      setNotification({
+        message: 'Update produk channel mengalami kesalahan',
+        description: error.message,
+        type: 'error',
+        hit: true,
+      });
     },
   });
 };

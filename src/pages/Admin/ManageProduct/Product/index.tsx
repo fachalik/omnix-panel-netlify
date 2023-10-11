@@ -1,16 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  Tag,
-  Popconfirm,
-  Tooltip,
-  Table,
-  Card,
-  Divider,
-  Select,
-  Input,
-} from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import { Button, Card, Divider, Select, Input, Row, Col } from 'antd';
 import {
   useGetProductAdmin,
   useDestroyProduct,
@@ -18,21 +7,18 @@ import {
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import { palette } from '@/theme/themeConfig';
-import moment from 'moment';
-import { EditTwoTone, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import Modal from '@/components/Modal';
+import debounce from 'lodash.debounce';
+import CardProduct from '@/components/AllCard/CardProduct';
+
 import FormProduct from './Form/FormProduct';
 import FormProductEdit from './Form/FormProductEdit';
-import debounce from 'lodash.debounce';
-import { formatRupiah } from '@/utils/utilitys';
+import FormAddSubProduct from './Form/FormAddSubProduct';
 
 export default function ManageProduct() {
-  // const [page, setPage] = React.useState<number>(1);
   const [limit, setLimit] = React.useState<number>(100);
   const [search, setSearch] = React.useState<string>('');
-  // const [sortField, setSortField] = React.useState<string>('');
-  // const [sortOrder, setSortOrder] = React.useState<string>('');
 
   const filterSearch = (e: any) => setSearch(e.target.value);
 
@@ -43,6 +29,11 @@ export default function ManageProduct() {
   // ** Modal Create
   const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
   const handleCancelCreate = () => setIsModalCreate(false);
+
+  // ** Modal Create
+  const [IsModalAddSubProduct, setIsModalAddSubProduct] =
+    React.useState<boolean>(false);
+  const handleCancelAddSubProduct = () => setIsModalAddSubProduct(false);
 
   // ** Modal Edit
   const [editData, setEditData] = React.useState(null);
@@ -62,95 +53,95 @@ export default function ManageProduct() {
       sortOrder: '',
     });
 
-  const columns: ColumnsType<any> = [
-    {
-      title: 'Product ID',
-      dataIndex: 'productId',
-    },
-    {
-      title: 'Product Name',
-      dataIndex: 'productName',
-    },
-    {
-      title: 'Product Unit',
-      dataIndex: 'productUnit',
-    },
-    {
-      key: 'productPrice',
-      title: 'Price',
-      dataIndex: 'productPrice',
-      render: (_, record: any) => {
-        return (
-          <p>{`${formatRupiah(record?.productPrice.toString(), 'Rp. ')}`}</p>
-        );
-      },
-    },
-    {
-      key: 'createdAt',
-      title: 'Created At',
-      dataIndex: 'createdAt',
-      render: (_, record: any) => {
-        return (
-          <Tag color={palette.primary.main}>
-            {moment(record?.createdAt).format('LLL')}
-          </Tag>
-        );
-      },
-    },
-    {
-      key: 'updatedAt',
-      title: 'UpdatedAt At',
-      dataIndex: 'updatedAt',
-      render: (_, record: any) => {
-        return (
-          <Tag color={palette.primary.main}>
-            {moment(record?.updatedAt).format('LLL')}
-          </Tag>
-        );
-      },
-    },
-    {
-      key: 'action',
-      title: 'Action',
-      dataIndex: 'action',
-      render: (_, record: any) => {
-        return (
-          <div>
-            <Tooltip title={'Edit user'}>
-              <Button
-                onClick={() => {
-                  setIsModalEdit(true);
-                  setEditData(null);
-                  setEditData(record);
-                }}
-                style={{ marginRight: '0.5em' }}
-                color={palette.primary.main}
-                icon={<EditTwoTone />}
-              />
-            </Tooltip>
-            <Tooltip title={'Delete user'}>
-              <Popconfirm
-                title="Delete user?"
-                description="Are you sure to delete this user?"
-                onConfirm={() => {
-                  mutate(record.id);
-                }}
-                onCancel={() => {}}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button
-                  onClick={() => console.log(record?.id)}
-                  color={'red'}
-                  icon={<DeleteOutlined style={{ color: 'red' }} />}
-                />
-              </Popconfirm>
-            </Tooltip>
-          </div>
-        );
-      },
-    },
-  ];
+  // const columns: ColumnsType<any> = [
+  //   {
+  //     title: 'Product ID',
+  //     dataIndex: 'productId',
+  //   },
+  //   {
+  //     title: 'Product Name',
+  //     dataIndex: 'productName',
+  //   },
+  //   {
+  //     title: 'Product Unit',
+  //     dataIndex: 'productUnit',
+  //   },
+  //   {
+  //     key: 'productPrice',
+  //     title: 'Price',
+  //     dataIndex: 'productPrice',
+  //     render: (_, record: any) => {
+  //       return (
+  //         <p>{`${formatRupiah(record?.productPrice.toString(), 'Rp. ')}`}</p>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     key: 'createdAt',
+  //     title: 'Created At',
+  //     dataIndex: 'createdAt',
+  //     render: (_, record: any) => {
+  //       return (
+  //         <Tag color={palette.primary.main}>
+  //           {moment(record?.createdAt).format('LLL')}
+  //         </Tag>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     key: 'updatedAt',
+  //     title: 'UpdatedAt At',
+  //     dataIndex: 'updatedAt',
+  //     render: (_, record: any) => {
+  //       return (
+  //         <Tag color={palette.primary.main}>
+  //           {moment(record?.updatedAt).format('LLL')}
+  //         </Tag>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     key: 'action',
+  //     title: 'Action',
+  //     dataIndex: 'action',
+  //     render: (_, record: any) => {
+  //       return (
+  //         <div>
+  //           <Tooltip title={'Edit user'}>
+  //             <Button
+  //               onClick={() => {
+  //                 setIsModalEdit(true);
+  //                 setEditData(null);
+  //                 setEditData(record);
+  //               }}
+  //               style={{ marginRight: '0.5em' }}
+  //               color={palette.primary.main}
+  //               icon={<EditTwoTone />}
+  //             />
+  //           </Tooltip>
+  //           <Tooltip title={'Delete user'}>
+  //             <Popconfirm
+  //               title="Delete user?"
+  //               description="Are you sure to delete this user?"
+  //               onConfirm={() => {
+  //                 mutate(record.id);
+  //               }}
+  //               onCancel={() => {}}
+  //               okText="Yes"
+  //               cancelText="No"
+  //             >
+  //               <Button
+  //                 onClick={() => console.log(record?.id)}
+  //                 color={'red'}
+  //                 icon={<DeleteOutlined style={{ color: 'red' }} />}
+  //               />
+  //             </Popconfirm>
+  //           </Tooltip>
+  //         </div>
+  //       );
+  //     },
+  //   },
+  // ];
 
   return (
     <div>
@@ -215,15 +206,44 @@ export default function ManageProduct() {
 
       <div style={{ marginTop: '2em', overflow: 'auto' }}>
         {isLoading && <Loading />}
-        {isSuccess && data && (
-          <Table
-            loading={isLoading}
-            style={{ marginTop: 10, paddingBottom: 20 }}
-            columns={columns}
-            dataSource={data[0]}
-          />
-        )}
-        {!isLoading && isError && <Error error={error} />}
+        <Row>
+          {isSuccess &&
+            data &&
+            data[0].map((item: any, idx: number) => (
+              <Col
+                xs={24}
+                sm={24}
+                md={12}
+                lg={8}
+                xl={6}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <CardProduct
+                  data={item}
+                  key={idx}
+                  onClickEdit={() => {
+                    setIsModalEdit(true);
+                    setEditData(null);
+                    setEditData(item);
+                  }}
+                  onClickDelete={() => {
+                    mutate(item?.id ?? 0);
+                  }}
+                  onClickAddSubProduct={() => {
+                    setIsModalAddSubProduct(true);
+                    setEditData(null);
+                    setEditData(item);
+                  }}
+                  onClickDetail={() => {}}
+                />
+              </Col>
+            ))}
+          {!isLoading && isError && <Error error={error} />}
+        </Row>
       </div>
       <Modal
         title="Tambah Product"
@@ -231,6 +251,17 @@ export default function ManageProduct() {
         handleCancel={handleCancelCreate}
       >
         <FormProduct handleClose={handleCancelCreate} />
+      </Modal>
+
+      <Modal
+        title="Tambah Sub Product"
+        isModalOpen={IsModalAddSubProduct}
+        handleCancel={handleCancelAddSubProduct}
+      >
+        <FormAddSubProduct
+          handleClose={handleCancelAddSubProduct}
+          data={editData}
+        />
       </Modal>
 
       <Modal

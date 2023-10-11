@@ -41,10 +41,7 @@ export const deleteSubProductChannel = (id: number) =>
       const respon = await http.delete(`/api/v1/subproduct-channel/${id}`);
       if (respon.status === 204 || respon.status === 200) resolve(respon);
     } catch (err: any) {
-      const message: string = err.response
-        ? `${err.response.data.message}`
-        : 'Oops, something wrong with our server, please try again later.';
-      reject(message);
+      reject(err);
     }
   });
 
@@ -56,10 +53,7 @@ export const postSubProductChannel = (payload: any) =>
         resolve(respon.data);
       }
     } catch (err: any) {
-      const message: string = err.response
-        ? `${err.response.data.message}`
-        : 'Oops, something wrong with our server, please try again later.';
-      reject(message);
+      reject(err);
     }
   });
 
@@ -74,10 +68,7 @@ export const updateSubProductChannel = ({ val, id }: any) => {
         resolve(respon.data);
       }
     } catch (err: any) {
-      const message: string = err.response
-        ? `${err.response.data.message}`
-        : 'Oops, something wrong with our server, please try again later.';
-      reject(message);
+      reject(err);
     }
   });
 };

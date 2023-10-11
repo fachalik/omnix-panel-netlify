@@ -6,6 +6,10 @@ const Home = lazy(() => import('@/pages/Admin/Home'));
 const ManageProduct = lazy(
   () => import('@/pages/Admin/ManageProduct/Product/index')
 );
+const DetailProduct = lazy(
+  () => import('@/pages/Admin/ManageProduct/Product/detail')
+);
+
 const SubProduct = lazy(() => import('@/pages/Admin/ManageProduct/SubProduct'));
 const SubProductChannel = lazy(
   () => import('@/pages/Admin/ManageProduct/SubProductChannel')
@@ -29,6 +33,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: ManageProduct,
     path: '/manage-product/product',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.ADMIN],
+  },
+  {
+    comp: DetailProduct,
+    path: '/manage-product/product/detail',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.ADMIN],

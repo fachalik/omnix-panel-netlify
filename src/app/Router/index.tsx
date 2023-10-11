@@ -112,39 +112,40 @@ export default function IndexRoute() {
         );
     }
   };
-
   return (
-    <Routes>
-      {mapRouter().map((val: any, index: number) => {
-        if (val.layout === 'Redirect')
-          return (
-            <Route
-              key={index}
-              path={val.redirectLink}
-              element={<Navigate to={val.path} />}
-            />
-          );
+    <>
+      <Routes>
+        {mapRouter().map((val: any, index: number) => {
+          if (val.layout === 'Redirect')
+            return (
+              <Route
+                key={index}
+                path={val.redirectLink}
+                element={<Navigate to={val.path} />}
+              />
+            );
 
-        if (val.layout === 'Dashboard')
-          return (
-            <Route
-              index={val.index}
-              path={val.path}
-              key={index}
-              element={Layout(val)}
-            />
-          );
+          if (val.layout === 'Dashboard')
+            return (
+              <Route
+                index={val.index}
+                path={val.path}
+                key={index}
+                element={Layout(val)}
+              />
+            );
 
-        if (val.layout === 'Plain')
-          return (
-            <Route
-              index={val.index}
-              path={val.path}
-              key={index}
-              element={Layout(val)}
-            />
-          );
-      })}
-    </Routes>
+          if (val.layout === 'Plain')
+            return (
+              <Route
+                index={val.index}
+                path={val.path}
+                key={index}
+                element={Layout(val)}
+              />
+            );
+        })}
+      </Routes>
+    </>
   );
 }

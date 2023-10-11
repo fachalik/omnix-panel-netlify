@@ -1,5 +1,14 @@
 import React from 'react';
-import { Button, Form, Input, Upload, message, Row, Col } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Upload,
+  message,
+  Row,
+  Col,
+} from 'antd';
 import useFormUser from '../Hooks/useFormUser';
 import type { RcFile, UploadProps } from 'antd/es/upload/interface';
 import { getLogin } from '@/utils/sessions';
@@ -196,11 +205,24 @@ export default function FormProductEdit({ handleClose, data }: IFormUsers) {
               hasFeedback
               rules={[{ required: true, message: 'Product Price is required' }]}
             >
-              <Input
-                type="number"
+              <InputNumber
+                prefix="Rp."
+                style={{ width: '100%' }}
                 autoComplete="false"
                 placeholder="Input your product price"
-                name="productPrice"
+                formatter={(value) =>
+                  ` ${value}`
+                    .replace(/\./, ',')
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                }
+                parser={(x) =>
+                  parseFloat(
+                    `${x}`
+                      .replace(/,/, '#')
+                      .replace(/\./g, '')
+                      .replace(/#/, '.')
+                  )
+                }
               />
             </Form.Item>
           </Col>

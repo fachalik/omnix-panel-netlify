@@ -1,11 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { useNotificatonStore } from '@/store';
+
 import {
   getProduct,
   deleteProduct,
   postProduct,
   updateProduct,
 } from '@/service/adminproduct';
+
+import { postSubProduct } from '@/service/adminsubproduct';
 
 export type GetPackageQueryParams = {
   token: string;
@@ -42,7 +46,7 @@ export const useGetProductAdmin = (params: GetPackageQueryParams) => {
   });
 };
 
-// ** CREATE
+// ** CREATE PRODUCT
 
 const createProduct = async (val: any) => {
   const { data } = await postProduct(val);
@@ -51,15 +55,55 @@ const createProduct = async (val: any) => {
 
 export const useCreateProduct = () => {
   const queryClient = useQueryClient();
+  const { setNotification } = useNotificatonStore((state) => state);
   return useMutation<any, Error, any>(createProduct, {
-    onSuccess: async () =>
-      // data
-      {
-        await queryClient.invalidateQueries(QUERY_KEY);
-        // await Toast('success', `${menu} ${data.branch} has been added`);
-      },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QUERY_KEY);
+      await setNotification({
+        message: 'Produk ditambahkan',
+        description: 'Produk Berhasil Ditambahkan',
+        type: 'success',
+        hit: true,
+      });
+    },
     onError: (error) => {
-      console.error(error);
+      setNotification({
+        message: 'Create produk mengalami kesalahan',
+        description: error.message,
+        type: 'error',
+        hit: true,
+      });
+    },
+  });
+};
+
+// ** CREATE SUB PRODUCT
+
+const createSubProduct = async (val: any) => {
+  const { data } = await postSubProduct(val);
+  return data;
+};
+
+export const useCreateSubProduct = () => {
+  const { setNotification } = useNotificatonStore((state) => state);
+  const queryClient = useQueryClient();
+  return useMutation<any, Error, any>(createSubProduct, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QUERY_KEY);
+      await setNotification({
+        message: 'Sub Produk ditambahkan',
+        description: 'Sub Produk Berhasil Ditambahkan',
+        type: 'success',
+        hit: true,
+      });
+    },
+    onError: (error) => {
+      setNotification({
+        message: 'Create sub produk mengalami kesalahan',
+        description: error.message,
+        type: 'error',
+        hit: true,
+      });
     },
   });
 };
@@ -72,12 +116,24 @@ const destroyProduct = async (id: number) => {
 
 export const useDestroyProduct = () => {
   const queryClient = useQueryClient();
+  const { setNotification } = useNotificatonStore((state) => state);
   return useMutation<any, Error, any>(destroyProduct, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY);
+      await setNotification({
+        message: 'Produk dihapus',
+        description: 'Produk Berhasil Dihapus',
+        type: 'success',
+        hit: true,
+      });
     },
     onError: (error) => {
-      console.error(error);
+      setNotification({
+        message: 'Delete produk mengalami kesalahan',
+        description: error.message,
+        type: 'error',
+        hit: true,
+      });
     },
   });
 };
@@ -90,12 +146,24 @@ const patchProduct = async ({ val, id }: any) => {
 
 export const usePatchProduct = () => {
   const queryClient = useQueryClient();
+  const { setNotification } = useNotificatonStore((state) => state);
   return useMutation<any, Error, any>(patchProduct, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY);
+      await setNotification({
+        message: 'Produk diupdate',
+        description: 'Produk Berhasil Diupdate',
+        type: 'success',
+        hit: true,
+      });
     },
     onError: (error) => {
-      console.error(error);
+      setNotification({
+        message: 'Update produk mengalami kesalahan',
+        description: error.message,
+        type: 'error',
+        hit: true,
+      });
     },
   });
 };

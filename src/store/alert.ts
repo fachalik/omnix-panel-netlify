@@ -1,5 +1,3 @@
-'use client';
-
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { timeout } from '@/utils/utilitys';

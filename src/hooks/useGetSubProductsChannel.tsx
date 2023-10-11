@@ -20,11 +20,11 @@ const useGetSubProductsChannel = () => {
       page: 1,
       limit: 1000,
     });
-    let tempData = temp[0]?.map((item: any): OutSelect => {
+    let tempData: any = await temp[0]?.map((item: any): OutSelect => {
       return { value: item.channelId, label: item.channelName };
     });
 
-    setData(tempData ?? []);
+    setData([{ value: '', label: '-' }, ...tempData] ?? []);
     setIsLoading(false);
   };
 

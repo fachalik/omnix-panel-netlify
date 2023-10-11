@@ -1,5 +1,3 @@
-'use client';
-
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { postLogin, postLoginAdmin } from '@/service/auth';
@@ -9,7 +7,7 @@ import { setLogin, removeLogin, getLogin } from '@/utils/sessions';
 
 import { useAlertStore } from './alert';
 
-import { User, UserType } from '@/models/authModels';
+import { User } from '@/models/authModels';
 
 import { logout } from '@/service/auth';
 
