@@ -206,7 +206,7 @@ export default function ManageProduct() {
 
       <div style={{ marginTop: '2em', overflow: 'auto' }}>
         {isLoading && <Loading />}
-        <Row>
+        <Row gutter={[16, 16]}>
           {isSuccess &&
             data &&
             data[0].map((item: any, idx: number) => (
