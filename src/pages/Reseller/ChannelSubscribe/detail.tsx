@@ -1,18 +1,21 @@
-'use client';
-
 import React from 'react';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Card, Table, Button, Drawer, Modal, Breadcrumb } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import FormAccount from '@/components/FormAccount';
+import FormAccountEdit from '@/components/FormAccountEdit';
 import whatsappIcon from '@/assets/icons/whatsapp.svg';
 
 export default function Detail() {
   const [openAccount, setOpenAccount] = React.useState<any>(false);
+  const onClose = () => {
+    setOpenAccount(false);
+  };
+  const [openEdit, setOpenEdit] = React.useState<any>(false);
+  const onCloseEdit = () => {
+    setOpenEdit(false);
+  };
   const [isModalOpen, setIsModalOpen] = React.useState<any>(false);
-
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -24,12 +27,22 @@ export default function Detail() {
 
   const columns: ColumnsType<any> = [
     {
-      title: 'Phone Broadcast',
+      title: 'Account Name',
+      dataIndex: 'account_name',
+    },
+    {
+      title: 'Phone Number',
       dataIndex: 'phone_broadcast',
     },
     {
-      title: 'Verified Name',
-      dataIndex: 'verified_name',
+      title: 'WA Business ID',
+      dataIndex: 'wa_business_id',
+    },
+    {
+      key: 'subscribe',
+      title: 'Subscribe',
+      dataIndex: 'subscribe',
+      render: (data: any) => <p>{data.subsribe ? 'manual' : 'Embeded'}</p>,
     },
     {
       key: 'val',
@@ -37,18 +50,18 @@ export default function Detail() {
       dataIndex: 'action',
       render: (_) => (
         <div>
-          <Button type="primary">Detail</Button>
-          {/* <Button
+          {/* <Button type="primary">Detail</Button> */}
+          <Button
             type="text"
             icon={<EditOutlined />}
-            onClick={() => setOpenAccount(true)}
+            onClick={() => setOpenEdit(true)}
           ></Button>
           <Button
             type="text"
             icon={<DeleteOutlined />}
             danger
             onClick={() => setIsModalOpen(true)}
-          ></Button> */}
+          ></Button>
         </div>
       ),
     },
@@ -57,15 +70,15 @@ export default function Detail() {
   const data: any[] = [
     {
       key: '1',
+      account_name: 'Whatsapp OMNIX',
       phone_broadcast: '+6212312312312',
+      wa_business_id: 'Whatsapp OMNIX',
       verified_name: 'Telkom Call Center',
+      subscribe: true,
       action: ['1'],
     },
   ];
 
-  const onClose = () => {
-    setOpenAccount(false);
-  };
   return (
     <div>
       <Breadcrumb
@@ -104,9 +117,9 @@ export default function Detail() {
           <div style={{ fontSize: 20, fontWeight: 'bold' }}>Whatsapp</div>
           <div>by Omnix</div>
         </div>
-        {/* <Button type="primary" onClick={() => setOpenAccount(true)}>
+        <Button type="primary" onClick={() => setOpenAccount(true)}>
           Add Account
-        </Button> */}
+        </Button>
       </div>
       <Card>
         <Table
@@ -122,6 +135,15 @@ export default function Detail() {
         open={openAccount}
       >
         <FormAccount />
+      </Drawer>
+
+      <Drawer
+        title="Edit Account Whatsapp"
+        placement="right"
+        onClose={onCloseEdit}
+        open={openEdit}
+      >
+        <FormAccountEdit />
       </Drawer>
       <Modal
         centered
