@@ -1,6 +1,6 @@
 import { Button, Form, Input, Select } from 'antd';
 
-export default function FormAccount() {
+export default function FormAccountEdit() {
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };

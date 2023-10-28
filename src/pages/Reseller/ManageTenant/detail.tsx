@@ -9,10 +9,6 @@ export default function Detail() {
   const [openAccount, setOpenAccount] = React.useState<any>(false);
   const [isModalOpen, setIsModalOpen] = React.useState<any>(false);
 
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
-
   const handleOk = () => {
     setIsModalOpen(false);
   };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Table, Tag, Popconfirm, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useGetUsers } from './Hooks/useGetUsers';
+import { useGetUsers } from '../Hooks/useGetUsers';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
@@ -9,10 +9,10 @@ import { palette } from '@/theme/themeConfig';
 import moment from 'moment';
 import { EditTwoTone, DeleteOutlined } from '@ant-design/icons';
 import Modal from '@/components/Modal';
-import FormUser from './Form/FormUser';
-import FormUserEdit from './Form/FormUserEdit';
+import FormUser from '../Form/FormUser';
+import FormUserEdit from '../Form/FormUserEdit';
 
-export default function UserManagement() {
+export default function UserManagementAdmin() {
   // ** Modal Create
   const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
   const handleCancelCreate = () => setIsModalCreate(false);
@@ -136,9 +136,9 @@ export default function UserManagement() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h3 style={{}}>User Management</h3>
+        <h3 style={{}}>Admin Management </h3>
         <Button type="primary" onClick={() => setIsModalCreate(true)}>
-          Tambah User
+          Tambah Admin
         </Button>
       </div>
       <div style={{ marginTop: '2em', overflow: 'auto' }}>

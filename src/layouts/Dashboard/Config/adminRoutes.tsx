@@ -1,4 +1,4 @@
-import { Home, Planet } from '@/assets/icons';
+import { Home, Planet, UserManagement } from '@/assets/icons';
 
 const adminRoutes: any = [
   {
@@ -17,6 +17,19 @@ const adminRoutes: any = [
         label: 'Sub Product Channel',
       },
       { key: '/manage-product/sub-product', label: 'Sub Product' },
+    ],
+  },
+  {
+    key: `/user-management`,
+    icon: UserManagement,
+    label: 'User Management',
+    children: [
+      { key: '/user-management/admin', label: 'Admin' },
+      { key: '/user-management/user', label: 'User' },
+      {
+        key: '/user-management/reseller',
+        label: 'Reseller',
+      },
     ],
   },
 ];

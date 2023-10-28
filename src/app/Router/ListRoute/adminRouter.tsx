@@ -15,6 +15,18 @@ const SubProductChannel = lazy(
   () => import('@/pages/Admin/ManageProduct/SubProductChannel')
 );
 
+const UserManagementAdmin = lazy(
+  () => import('@/pages/Admin/UserManagement/List/Admin')
+);
+
+const UserManagementReseller = lazy(
+  () => import('@/pages/Admin/UserManagement/List/Reseller')
+);
+
+const UserManagementUser = lazy(
+  () => import('@/pages/Admin/UserManagement/List/User')
+);
+
 const Routers: ListRouteProps[] = [
   {
     redirectLink: '*',
@@ -54,6 +66,27 @@ const Routers: ListRouteProps[] = [
   {
     comp: SubProductChannel,
     path: '/manage-product/sub-product-channel',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.ADMIN],
+  },
+  {
+    comp: UserManagementAdmin,
+    path: '/user-management/admin',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.ADMIN],
+  },
+  {
+    comp: UserManagementUser,
+    path: '/user-management/user',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.ADMIN],
+  },
+  {
+    comp: UserManagementReseller,
+    path: '/user-management/reseller',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.ADMIN],
