@@ -2,11 +2,17 @@ import React from 'react';
 import { Input, Button, Row, Col, Card, Avatar, Badge } from 'antd';
 // import { useRouter, usePathname } from 'next/navigation';
 import { useNavigate } from 'react-router-dom';
+import whatsappIcon from '@/assets/icons/whatsapp.svg';
+import facebookIcon from '@/assets/icons/facebook.svg';
+import telegramIcon from '@/assets/icons/telegram.svg';
+import twitterIcon from '@/assets/icons/twitter.svg';
+import instagramIcon from '@/assets/icons/instagram.svg';
+import lineIcon from '@/assets/icons/line.svg';
+import smsIcon from '@/assets/icons/sms.svg';
+import emailIcon from '@/assets/icons/Email.svg';
 
 export default function ExploreChannel() {
   const navigate = useNavigate();
-  // const location = useLocation();
-  // const { pathname } = location;
   const [search, setSearch] = React.useState<string>('');
 
   // const role = pathname.split('/')[1];
@@ -14,7 +20,7 @@ export default function ExploreChannel() {
   const menu: any = [
     {
       key: 'whatsapp',
-      image: '/icons/whatsapp.svg',
+      image: whatsappIcon,
       name: 'Whatsapp',
       descrption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -22,7 +28,7 @@ export default function ExploreChannel() {
     },
     {
       key: 'facebook',
-      image: '/icons/facebook.svg',
+      image: facebookIcon,
       name: 'Facebook',
       descrption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -30,7 +36,7 @@ export default function ExploreChannel() {
     },
     {
       key: 'telegram',
-      image: '/icons/telegram.svg',
+      image: telegramIcon,
       name: 'Telegram',
       descrption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -38,7 +44,7 @@ export default function ExploreChannel() {
     },
     {
       key: 'twitter',
-      image: '/icons/twitter.svg',
+      image: twitterIcon,
       name: 'Twitter',
       descrption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -46,7 +52,7 @@ export default function ExploreChannel() {
     },
     {
       key: 'instagram',
-      image: '/icons/instagram.svg',
+      image: instagramIcon,
       name: 'Instagram',
       descrption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -54,7 +60,7 @@ export default function ExploreChannel() {
     },
     {
       key: 'line',
-      image: '/icons/line.svg',
+      image: lineIcon,
       name: 'Line',
       descrption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -62,7 +68,7 @@ export default function ExploreChannel() {
     },
     {
       key: 'sms',
-      image: '/icons/sms.svg',
+      image: smsIcon,
       name: 'SMS',
       descrption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -70,7 +76,7 @@ export default function ExploreChannel() {
     },
     {
       key: 'email',
-      image: '/icons/email.svg',
+      image: emailIcon,
       name: 'EMAIL',
       descrption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
