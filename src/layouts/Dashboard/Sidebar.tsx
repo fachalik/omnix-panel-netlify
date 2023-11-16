@@ -41,61 +41,6 @@ export default function Sidebar() {
 
   const isMobile = useIsMobile();
 
-  // const items: MenuProps['items'] = [
-  //   {
-  //     key: '/logout',
-  //     icon: <LogoutOutlined />,
-  //     label: (
-  //       <p
-  //         onClick={() => {
-  //           Modal.confirm({
-  //             title: 'Logout',
-  //             icon: <ExclamationCircleOutlined />,
-  //             content: (
-  //               <div style={{ borderTop: '1px solid #d4d4d4' }}>
-  //                 <div style={{ marginTop: 5 }}>Are you sure want logout?</div>
-  //               </div>
-  //             ),
-  //             okText: 'Yes',
-  //             cancelText: 'No',
-  //             okButtonProps: {
-  //               type: 'primary',
-  //               style: {
-  //                 background: palette.primary.main,
-  //                 color: '#fff',
-  //                 float: 'left',
-  //                 border: '1px solid ' + palette.primary.main,
-  //               },
-  //             },
-  //             cancelButtonProps: {
-  //               type: 'default',
-  //               style: {
-  //                 color: palette.primary.main,
-  //                 float: 'left',
-  //                 marginLeft: '34px',
-  //                 border: '1px solid ' + palette.primary.main,
-  //               },
-  //             },
-  //             onOk: async () => {
-  //               await logoutAuth();
-  //               await resetModalLogout;
-  //               await setIsLogout(false);
-  //             },
-  //           });
-  //         }}
-  //       >
-  //         Logout
-  //       </p>
-  //     ),
-
-  //     title: '',
-  //     style: {
-  //       fontSize: 12,
-  //       borderTop: '1px solid #f0f0f0',
-  //     },
-  //   },
-  // ];
-
   const mapRoute = (role: string): any => {
     switch (role) {
       case 'reguler':
@@ -119,13 +64,13 @@ export default function Sidebar() {
       collapsed={sidebarCollapse}
       collapsedWidth={isMobile ? 0 : '4rem'}
       breakpoint="lg"
+      width={240}
       style={{
         height: '100vh',
         overflow: 'hidden',
         background: palette.primary.dark,
         position: 'sticky',
         left: 0,
-        // position: 'relative',
       }}
       theme="dark"
       className="sidebar"

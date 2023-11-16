@@ -61,6 +61,8 @@ const ActivatedProduct = lazy(
   () => import('@/pages/Reseller/ActivatedProduct')
 );
 
+const Member = lazy(() => import('@/pages/Reseller/Member'));
+
 const Routers: ListRouteProps[] = [
   {
     redirectLink: '*',
@@ -79,6 +81,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: Home,
     path: '/home',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.RESELLER],
+  },
+  {
+    comp: Member,
+    path: '/member',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.RESELLER],

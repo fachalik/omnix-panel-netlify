@@ -1,4 +1,11 @@
-import { Home, Dashboard, Windows, Channel, Planet } from '@/assets/icons';
+import {
+  Home,
+  Dashboard,
+  Windows,
+  Channel,
+  Planet,
+  UserSetting,
+} from '@/assets/icons';
 
 const resellerRoutes: any = [
   {
@@ -12,6 +19,11 @@ const resellerRoutes: any = [
     label: 'Dashboard',
   },
   {
+    key: `/member`,
+    icon: UserSetting,
+    label: 'Member',
+  },
+  {
     key: `/manage-tenant`,
     icon: Windows,
     label: 'Manage Tenant',
@@ -21,6 +33,7 @@ const resellerRoutes: any = [
     icon: Channel,
     label: 'Channel Subscription',
   },
+
   {
     key: `/product-activation`,
     icon: Planet,

@@ -136,7 +136,7 @@ export default function Navbar() {
           }}
         >
           <p style={{ color: '#6e6b7b', fontWeight: 'bold', fontSize: 12 }}>
-            {user?.firstName}
+            {user?.name}
           </p>
           <p
             style={{
@@ -145,7 +145,7 @@ export default function Navbar() {
               fontSize: 10,
             }}
           >
-            {user?.role?.name}
+            {user?.role}
           </p>
         </div>
         <Dropdown menu={{ items }} placement="topRight" trigger={['click']}>
