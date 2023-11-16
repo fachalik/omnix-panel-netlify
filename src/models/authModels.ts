@@ -14,20 +14,28 @@ export interface UserType {
 }
 
 export interface User {
-  id: number;
+  _id: string;
+  name: string;
   email: string;
-  provider: string;
-  socialId: string;
-  firstName: string;
-  lastName: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: null;
-  phoneNumber: string;
-  photo: null;
-  role: Role;
-  status: Role;
-  __entity: string;
+  loginType: string;
+  socialtoken: string;
+  reseller: null;
+  role: string;
+  __v: number;
+  // id: number;
+  // email: string;
+  // provider: string;
+  // socialId: string;
+  // firstName: string;
+  // lastName: string;
+  // createdAt: Date;
+  // updatedAt: Date;
+  // deletedAt: null;
+  // phoneNumber: string;
+  // photo: null;
+  // role: Role;
+  // status: Role;
+  // __entity: string;
 }
 
 export interface Role {

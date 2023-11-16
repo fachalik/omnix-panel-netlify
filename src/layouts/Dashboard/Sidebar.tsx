@@ -168,7 +168,7 @@ export default function Sidebar() {
         defaultSelectedKeys={[pathname]}
         defaultOpenKeys={[pathname]}
         selectedKeys={[pathname]}
-        items={mapRoute(user?.role.name.toLowerCase() ?? '').map(
+        items={mapRoute(user?.role.toLowerCase() ?? '').map(
           (val: any, idx: number) => {
             return {
               key: val.key,
@@ -216,7 +216,7 @@ export default function Sidebar() {
             }}
             size={'large'}
           >
-            {user?.firstName.charAt(0)}
+            {user?.name.charAt(0)}
           </Avatar>
         </div>
       </Dropdown> */}

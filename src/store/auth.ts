@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { postLogin, postLoginAdmin } from '@/service/auth';
+import { postLogin, postLoginAdmin, getMe } from '@/service/auth';
 import { postLoginReseller } from '@/service/authReseller';
 // import { adminRoutes, userRoutes, resellerRoutes } from '@/routes';
 import { setLogin, removeLogin, getLogin } from '@/utils/sessions';
@@ -15,7 +15,6 @@ import { logout } from '@/service/auth';
 
 interface IStoreAuth {
   token: string | null;
-  refreshToken: string | null;
   user: User | null;
   isLogout: boolean;
 
@@ -34,7 +33,6 @@ interface IStoreAuth {
 
 const initialState = {
   token: null,
-  refreshToken: null,
   user: null,
   isLogout: false,
 };
@@ -159,37 +157,60 @@ export const useAuthStore = create<IStoreAuth>()(
             });
 
           if (response?.status != '422') {
-            if (
-              response?.user !== undefined &&
-              response?.user?.status?.name?.toLowerCase() !== 'inactive'
-            ) {
-              const payload = await {
-                status: `welcome back ${response.user.firstName}`,
-                hit: true,
-                type: 'success',
-              };
-              await useAlertStore.getState().setAlert(payload);
-              await set(
-                () => ({
-                  token: response.token,
-                  refreshToken: response.refreshToken,
-                  user: response.user,
-                }),
-                false
-              );
-              await setLogin({
-                token: response.token,
-                refreshToken: response.refreshToken,
-                user: response.user,
-              });
-            } else {
-              const payload = await {
-                status: 'your account is inactive',
-                hit: true,
-                type: 'error',
-              };
-              await useAlertStore.getState().setAlert(payload);
-            }
+            // console.log('response', response);
+
+            const getProfile = await getMe(response?.data?.accessToken ?? '');
+
+            // console.log('getProfile', getProfile);
+
+            const payload = await {
+              status: `welcome back ${getProfile.name}`,
+              hit: true,
+              type: 'success',
+            };
+            await useAlertStore.getState().setAlert(payload);
+
+            await setLogin({
+              token: response?.data?.accessToken,
+              user: getProfile,
+            });
+
+            await set({
+              token: response?.data?.accessToken,
+              user: getProfile,
+            });
+
+            // if (
+            //   response?.user !== undefined &&
+            //   response?.user?.status?.name?.toLowerCase() !== 'inactive'
+            // ) {
+            //   const payload = await {
+            //     status: `welcome back ${response.user.firstName}`,
+            //     hit: true,
+            //     type: 'success',
+            //   };
+            //   await useAlertStore.getState().setAlert(payload);
+            //   await set(
+            //     () => ({
+            //       token: response.token,
+            //       refreshToken: response.refreshToken,
+            //       user: response.user,
+            //     }),
+            //     false
+            //   );
+            //   await setLogin({
+            //     token: response.token,
+            //     refreshToken: response.refreshToken,
+            //     user: response.user,
+            //   });
+            // } else {
+            //   const payload = await {
+            //     status: 'your account is inactive',
+            //     hit: true,
+            //     type: 'error',
+            //   };
+            //   await useAlertStore.getState().setAlert(payload);
+            // }
           } else {
             const payload = {
               status: `Email not exists`,
@@ -198,7 +219,7 @@ export const useAuthStore = create<IStoreAuth>()(
             };
             await useAlertStore.getState().setAlert(payload);
           }
-          await window.location.reload();
+          // await window.location.reload();
         },
         setIsLogout(isLogout: boolean) {
           set(

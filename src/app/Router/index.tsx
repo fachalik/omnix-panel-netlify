@@ -14,6 +14,8 @@ import DashLayout from '@/layouts/Dashboard';
 export default function IndexRoute() {
   const { role, isLogin } = useAuth();
 
+  console.log('role', role);
+
   const mapRouter = (): ListRouteProps[] => {
     let routeByAuth: ListRouteProps[] = [];
 

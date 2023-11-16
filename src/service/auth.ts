@@ -33,7 +33,26 @@ export const postLogin = (payload: any) =>
 export const postLoginAdmin = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.post(`/api/v1/auth/admin/email/login`, payload);
+      const respon = await http.post(`/api/auth/email/signin`, payload);
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      // const message: string = err.response
+      //   ? `${err.response.data.message}`
+      //   : 'Oops, something wrong with our server, please try again later.';
+      reject(err);
+    }
+  });
+
+export const getMe = (token: string) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.get(`/api/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (respon.data) {
         resolve(respon.data);
       }

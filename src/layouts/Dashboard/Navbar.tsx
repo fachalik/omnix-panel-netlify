@@ -165,7 +165,7 @@ export default function Navbar() {
               }}
               size={'large'}
             >
-              {user?.firstName.charAt(0)}
+              {user?.name.charAt(0)}
             </Avatar>
           </div>
         </Dropdown>

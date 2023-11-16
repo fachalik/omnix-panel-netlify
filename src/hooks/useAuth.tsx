@@ -10,9 +10,11 @@ export default function UseAuth() {
     setAuth(getLogin());
   }, [user]);
 
+  console.log('auth', auth);
+
   return {
     auth,
-    isLogin: Boolean(auth.access_token),
-    role: auth ? auth?.user?.role?.name : 'no user',
+    isLogin: Boolean(auth.token),
+    role: auth ? auth?.user?.role : 'no user',
   };
 }
