@@ -34,7 +34,7 @@ export default function AuthLayout2({ children }: IAuthLayout2) {
                 <Col xs={0} sm={0} md={0} lg={14} xl={14}>
                   <div
                     style={{
-                      height: '100%',
+                      height: '100vh',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',

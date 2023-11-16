@@ -1,10 +1,17 @@
 export enum RoleEnum {
   ADMIN = 'admin',
   USER = 'user',
+  REGULER = 'reguler',
   RESELLER = 'reseller',
+  NOT_YET_DEFINED = 'not_yet_defined',
 }
 
-export type RoleAuth = 'user' | 'admin' | 'reseller';
+export type RoleAuth =
+  | 'user'
+  | 'reseller'
+  | 'admin'
+  | 'reguler'
+  | 'not_yet_defined';
 
 export interface UserType {
   refreshToken: string;

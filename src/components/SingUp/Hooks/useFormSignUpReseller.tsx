@@ -3,7 +3,7 @@ import React from 'react';
 import { Form } from 'antd';
 import { timeout } from '@/utils/utilitys';
 import { useNavigate } from 'react-router-dom';
-import { registerReseller } from '@/service/authReseller';
+import { register } from '@/service/auth';
 
 export default function useFormSignUpReseller() {
   const navigate = useNavigate();
@@ -19,9 +19,10 @@ export default function useFormSignUpReseller() {
     delete params.password_confirmation;
 
     const payload = { ...params };
-    payload['role'] = await 3;
+    payload['role'] = await 'RESELLER';
+    payload['loginType'] = await 'EMAIL';
     await timeout(1000);
-    await registerReseller(payload)
+    await register(payload)
       .then(() => navigate('/verify'))
       .catch((err) => console.log(err));
 

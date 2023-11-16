@@ -20,7 +20,7 @@ export default function IndexRoute() {
     let routeByAuth: ListRouteProps[] = [];
 
     switch (role.toLowerCase()) {
-      case 'user':
+      case 'reguler':
         routeByAuth = userRouters.filter((val) => {
           switch (val.auth) {
             case 'Public':

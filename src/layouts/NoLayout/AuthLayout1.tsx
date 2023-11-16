@@ -139,7 +139,7 @@ export default function AuthLayout1({ children }: IAuthLayout1) {
                 <Col xs={0} sm={0} md={0} lg={14} xl={14}>
                   <div
                     style={{
-                      height: '75vh',
+                      height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',

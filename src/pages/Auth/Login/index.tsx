@@ -1,10 +1,13 @@
-import React from 'react';
-import { GoogleOutlined, UserOutlined, BankOutlined } from '@ant-design/icons';
+// import React from 'react';
+import {
+  GoogleOutlined,
+  // UserOutlined, BankOutlined
+} from '@ant-design/icons';
 
 import { Row, Col, Card, Button, Divider } from 'antd';
 
 import FormSignIn from '@/components/SingIn/Form/FormSignIn';
-import FormSignInReseller from '@/components/SingIn/Form/FormSignInReseller';
+// import FormSignInReseller from '@/components/SingIn/Form/FormSignInReseller';
 
 import useIsMobile from '@/hooks/useIsMobile';
 import { palette } from '@/theme/themeConfig';
@@ -24,7 +27,7 @@ export default function Login() {
   // const { push } = useRouter();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const [user, setUser] = React.useState<string>('user');
+  // const [user, setUser] = React.useState<string>('user');
 
   const { isLoading, isNotLogin } = useCheckIsNotLogin();
 
@@ -176,7 +179,7 @@ export default function Login() {
                 <Col xs={0} sm={0} md={0} lg={14} xl={14}>
                   <div
                     style={{
-                      height: '75vh',
+                      height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
@@ -300,7 +303,7 @@ export default function Login() {
                     Sign In
                   </p>
 
-                  <Row gutter={[8, 16]}>
+                  {/* <Row gutter={[8, 16]}>
                     <Col span={12}>
                       <Card
                         onClick={() => setUser('user')}
@@ -357,17 +360,17 @@ export default function Login() {
                         </div>
                       </Card>
                     </Col>
-                  </Row>
+                  </Row> */}
 
-                  {user === 'user' && <FormSignIn />}
+                  <FormSignIn />
 
-                  {user === 'reseller' && <FormSignInReseller />}
+                  {/* {user === 'reseller' && <FormSignInReseller />} */}
 
-                  <Divider plain>Or</Divider>
+                  {/* <Divider plain>Or</Divider>
                   <Button onClick={googleLogin} type="primary" block>
                     <GoogleOutlined />
                     Sign in with google
-                  </Button>
+                  </Button> */}
                   <div
                     style={{
                       marginTop: '2em',

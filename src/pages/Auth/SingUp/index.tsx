@@ -116,11 +116,11 @@ export default function SignUp() {
         {user === 'user' && <FormSignUpUser />}
         {user === 'reseller' && <FormSignUpReseller />}
 
-        <Divider plain>Atau melalui</Divider>
+        {/* <Divider plain>Atau melalui</Divider>
         <Button onClick={googleLogin} block>
           <GoogleOutlined />
           Sign up with google
-        </Button>
+        </Button> */}
         <div
           style={{
             marginTop: '1em',
@@ -137,7 +137,6 @@ export default function SignUp() {
               textDecoration: 'underline',
             }}
             onClick={() => navigate('/')}
-            // href="/"
           >
             Sign In
           </Button>

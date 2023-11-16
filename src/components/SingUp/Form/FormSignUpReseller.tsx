@@ -2,13 +2,17 @@ import { Button, Form, Input } from 'antd';
 import useFormSignUpReseller from '../Hooks/useFormSignUpReseller';
 
 type FieldType = {
-  companyName?: string;
   email?: string;
-  phoneNumber?: string;
+  name?: 'string';
   password?: string;
   password_confirmation?: string;
-  firstName?: string;
-  lastName?: string;
+  // companyName?: string;
+  // email?: string;
+  // phoneNumber?: string;
+  // password?: string;
+  // password_confirmation?: string;
+  // firstName?: string;
+  // lastName?: string;
 };
 
 export default function FormSignUpReseller() {
@@ -27,40 +31,18 @@ export default function FormSignUpReseller() {
         onFinishFailed={onFinishFailed}
       >
         <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
-          Company Name
+          Name
         </div>
         <Form.Item<FieldType>
-          name="companyName"
+          name="name"
           hasFeedback
-          rules={[{ required: true, message: 'Company Name is required' }]}
+          rules={[{ required: true, message: 'name is required' }]}
         >
-          <Input placeholder="Input your Company Name" name="companyName" />
+          <Input placeholder="Input your name" name="name" />
         </Form.Item>
 
         <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
-          First Name
-        </div>
-        <Form.Item<FieldType>
-          name="firstName"
-          hasFeedback
-          rules={[{ required: true, message: 'Firstname is required' }]}
-        >
-          <Input placeholder="Input your firstname" name="firstName" />
-        </Form.Item>
-
-        <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
-          Last Name
-        </div>
-        <Form.Item<FieldType>
-          name="lastName"
-          hasFeedback
-          rules={[{ required: true, message: 'Lastname is required' }]}
-        >
-          <Input placeholder="Input your lastname" name="lastName" />
-        </Form.Item>
-
-        <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
-          Work Email
+          Email
         </div>
         <Form.Item<FieldType>
           name="email"
@@ -76,7 +58,7 @@ export default function FormSignUpReseller() {
           <Input placeholder="Ex: yourwork@gmail.com" name="email" />
         </Form.Item>
 
-        <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
+        {/* <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
           Phone Number
         </div>
         <Form.Item<FieldType>
@@ -95,7 +77,7 @@ export default function FormSignUpReseller() {
           ]}
         >
           <Input placeholder="Ex : 628123456789" name="phoneNumber" />
-        </Form.Item>
+        </Form.Item> */}
 
         <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
           Create New Password
@@ -139,6 +121,13 @@ export default function FormSignUpReseller() {
         >
           <Input.Password name="password_confirmation" />
         </Form.Item>
+        {/* 
+        <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
+          Referral Code
+        </div>
+        <Form.Item<FieldType> name="referralCode" hasFeedback>
+          <Input placeholder="Insert your referal code" name="referralCode" />
+        </Form.Item> */}
 
         <Button
           type="primary"

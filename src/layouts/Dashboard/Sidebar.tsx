@@ -98,7 +98,7 @@ export default function Sidebar() {
 
   const mapRoute = (role: string): any => {
     switch (role) {
-      case 'user':
+      case 'reguler':
         return userRoutes;
 
       case 'admin':

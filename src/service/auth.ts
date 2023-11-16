@@ -18,7 +18,7 @@ export const postLoginGoogle = (payload: any) =>
 export const postLogin = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.post(`/api/v1/auth/user/email/login`, payload);
+      const respon = await http.post(`/api/auth/email/signin`, payload);
       if (respon.data) {
         resolve(respon.data);
       }
@@ -33,8 +33,9 @@ export const postLogin = (payload: any) =>
 export const postLoginAdmin = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.post(`/api/auth/email/signin`, payload);
-      if (respon.data) {
+      const respon: any = await http.post(`/api/auth/email/signin`, payload);
+
+      if (respon?.data) {
         resolve(respon.data);
       }
     } catch (err: any) {
@@ -82,10 +83,7 @@ export const logout = (role: string) =>
 export const register = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.post(
-        `/api/v1/auth/user/email/register`,
-        payload
-      );
+      const respon = await http.post(`/api/auth/email/register`, payload);
       if (respon) {
         resolve(respon);
       }
