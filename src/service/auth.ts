@@ -95,13 +95,10 @@ export const register = (payload: any) =>
     }
   });
 
-export const confirmEmail = (payload: any, role: string) =>
+export const confirmEmail = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.post(
-        `/api/v1/auth/${role}/email/confirm`,
-        payload
-      );
+      const respon = await http.post(`/api/auth/email/verify`, payload);
       if (respon) {
         resolve(respon);
       }

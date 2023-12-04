@@ -19,8 +19,9 @@ export default function useFormSignUpReseller() {
     delete params.password_confirmation;
 
     const payload = { ...params };
-    payload['role'] = await 'RESELLER';
-    payload['loginType'] = await 'EMAIL';
+    payload['role'] = 'RESELLER';
+    payload['loginType'] = 'EMAIL';
+    payload['status'] = 1;
     await timeout(1000);
     await register(payload)
       .then(() => navigate('/verify'))

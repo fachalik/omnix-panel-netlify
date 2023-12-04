@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button, Table, Popconfirm, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useGetMember, useDestroyMember } from './Hooks/useGetMember';
+import { useGetProduct, useDestroyProduct } from './Hooks/useGetProduct';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import { DeleteOutlined } from '@ant-design/icons';
 import Modal from '@/components/Modal';
-import FormMember from './Form/FormMember';
+import FormProduct from './Form/FormProduct';
 
 import { useAuthStore } from '@/store';
 import { timeout } from '@/utils/utilitys';
@@ -22,14 +22,14 @@ export default function UserManagement() {
   const handleCancelCreate = () => setIsModalCreate(false);
 
   const { data, isLoading, isSuccess, isError, error, refetch }: any =
-    useGetMember({
+    useGetProduct({
       token: getLogin()?.token ?? '',
       page: 1,
       limit: 100,
       id: user?._id,
     });
 
-  const { mutate } = useDestroyMember();
+  const { mutate } = useDestroyProduct();
 
   const columns: ColumnsType<any> = [
     {
@@ -47,10 +47,10 @@ export default function UserManagement() {
       render: (_, record: any) => {
         return (
           <div>
-            <Tooltip title={'Delete Member'}>
+            <Tooltip title={'Delete user'}>
               <Popconfirm
-                title="Delete member?"
-                description="Are you sure to delete this member?"
+                title="Delete user?"
+                description="Are you sure to delete this user?"
                 onConfirm={async () => {
                   const member: any = await {
                     member: [{ id_member: idDelete }],
@@ -80,9 +80,9 @@ export default function UserManagement() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h3 style={{}}>Member Management</h3>
+        <h3 style={{}}>Tenant Management</h3>
         <Button type="primary" onClick={() => setIsModalCreate(true)}>
-          Tambah Member
+          Tambah Tenant
         </Button>
       </div>
       <div style={{ marginTop: '2em', overflow: 'auto' }}>
@@ -98,11 +98,11 @@ export default function UserManagement() {
         {!isLoading && isError && <Error error={error} />}
       </div>
       <Modal
-        title="Tambah Member"
+        title="Tambah Tenant"
         isModalOpen={IsModalCreate}
         handleCancel={handleCancelCreate}
       >
-        <FormMember handleClose={handleCancelCreate} />
+        <FormProduct handleClose={handleCancelCreate} />
       </Modal>
       {/* 
       <Modal

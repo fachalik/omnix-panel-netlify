@@ -9,6 +9,11 @@ const adminRoutes: any = [
   {
     key: `/manage-product`,
     icon: Planet,
+    label: 'Manage Product',
+  },
+  {
+    key: `/manage-tenant`,
+    icon: UserSetting,
     label: 'Manage Tenant',
   },
   {

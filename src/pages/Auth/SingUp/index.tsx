@@ -1,34 +1,43 @@
-'use client';
 import React from 'react';
 
-import { GoogleOutlined, UserOutlined, BankOutlined } from '@ant-design/icons';
+import {
+  // GoogleOutlined,
+  UserOutlined,
+  BankOutlined,
+} from '@ant-design/icons';
 // import { useRouter } from 'next/navigation';
 import { useNavigate } from 'react-router-dom';
-import { Button, Divider, Card, Row, Col } from 'antd';
+import {
+  Button,
+  //  Divider,
+  Card,
+  Row,
+  Col,
+} from 'antd';
 
 import FormSignUpUser from '@/components/SingUp/Form/FormSignUpUser';
 import FormSignUpReseller from '@/components/SingUp/Form/FormSignUpReseller';
 import { palette } from '@/theme/themeConfig';
-import thirdPartyLogin from '@/lib/third-party-login';
+// import thirdPartyLogin from '@/lib/third-party-login';
 import AuthLayout2 from '@/layouts/NoLayout/AuthLayout2';
 
 export default function SignUp() {
   // const { push } = useRouter();
   const navigate = useNavigate();
   const [user, setUser] = React.useState<string>('user');
-  const googleLogin = async () => {
-    const redirect =
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3000/google'
-        : 'https://omnix-panel.netlify.app/google';
+  // const googleLogin = async () => {
+  //   const redirect =
+  //     process.env.NODE_ENV === 'development'
+  //       ? 'http://localhost:3000/google'
+  //       : 'https://omnix-panel.netlify.app/google';
 
-    thirdPartyLogin(
-      `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&scope=openid%20email%20profile&redirect_uri=${redirect}&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow`
-    );
-    // push(
-    //   `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&scope=openid%20email%20profile&redirect_uri=http://localhost:3000/google&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow`
-    // );
-  };
+  //   thirdPartyLogin(
+  //     `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&scope=openid%20email%20profile&redirect_uri=${redirect}&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow`
+  //   );
+  //   // push(
+  //   //   `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&scope=openid%20email%20profile&redirect_uri=http://localhost:3000/google&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow`
+  //   // );
+  // };
 
   return (
     <AuthLayout2>

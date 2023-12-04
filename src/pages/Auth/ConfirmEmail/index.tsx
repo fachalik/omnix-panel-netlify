@@ -36,7 +36,7 @@ export default function ConfirmEmail() {
     const payload = {
       hash,
     };
-    await confirmEmail(payload, id)
+    await confirmEmail(payload)
       .then(() => {
         setIsSuccess(true);
       })

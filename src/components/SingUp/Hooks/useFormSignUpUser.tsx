@@ -21,8 +21,9 @@ export default function useFormSignUpUser() {
     let clearParams: any = await removeEmptyValues(params);
 
     const payload = { ...clearParams };
-    payload['role'] = await 'REGULER';
-    payload['loginType'] = await 'EMAIL';
+    payload['role'] = 'REGULER';
+    payload['loginType'] = 'EMAIL';
+    payload['status'] = 1;
     await timeout(1000);
     console.log('payload', payload);
     await register(payload)
