@@ -4,8 +4,8 @@ export const palette = {
   primary: {
     lighter: '#722FF2',
     light: '#094378',
-    main: '#19336b',
-    dark: '#091A7A',
+    main: '#094378',
+    dark: '#19336B',
     contrastText: '#fff',
     danger: '#C13647',
   },

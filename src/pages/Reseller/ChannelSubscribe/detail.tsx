@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { Card, Table, Button, Drawer, Modal, Breadcrumb } from 'antd';
 import type { ColumnsType } from 'antd/es/table';

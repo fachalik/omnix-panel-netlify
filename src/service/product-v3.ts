@@ -63,11 +63,13 @@ export const postProduct = (payload: any) =>
     }
   });
 
-export const deleteProduct = (id: any, payload?: any) =>
+export const deleteProduct = (id: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.delete(`/api/products/${id}`, {
-        data: payload,
+      const respon = await http.delete('/api/products', {
+        params: {
+          id,
+        },
       });
       if (respon.status === 204 || respon.status === 200) resolve(respon);
     } catch (err: any) {

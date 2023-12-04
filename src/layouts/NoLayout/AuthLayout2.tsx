@@ -34,14 +34,20 @@ export default function AuthLayout2({ children }: IAuthLayout2) {
                 <Col xs={0} sm={0} md={0} lg={14} xl={14}>
                   <div
                     style={{
-                      height: '100vh',
+                      height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
                       backgroundColor: palette.primary.main,
                     }}
                   >
-                    <div style={{ marginTop: '1.5em' }}>
+                    <div
+                      style={{
+                        marginTop: '1.5em',
+                        paddingLeft: '100px',
+                        paddingRight: '100px',
+                      }}
+                    >
                       <div
                         style={{
                           fontSize: 24,
@@ -69,21 +75,18 @@ export default function AuthLayout2({ children }: IAuthLayout2) {
                     </div>
                     <div
                       style={{
-                        width: '100%',
                         textAlign: 'center',
                       }}
                     >
                       <img
                         src={RegisterImage}
                         alt="omnix-white"
-                        width={300}
-                        height={300}
                         style={{
                           backgroundSize: 'contain',
                           backgroundRepeat: 'no-repeat',
                           backgroundPosition: 'top',
                           height: '100%',
-                          width: '100%',
+                          width: '90%',
                           paddingLeft: 15,
                         }}
                       />
@@ -99,12 +102,7 @@ export default function AuthLayout2({ children }: IAuthLayout2) {
                   style={{
                     width: '100%',
                     height: '100%',
-                    // overflow: 'scroll',
                     padding: '50px 30px',
-                    // display: 'flex',
-                    // flexDirection: 'column',
-                    // justifyContent: 'center',
-                    // width: '100%',
                   }}
                 >
                   <div

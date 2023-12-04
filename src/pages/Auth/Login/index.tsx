@@ -1,10 +1,7 @@
 // import React from 'react';
-import {
-  GoogleOutlined,
-  // UserOutlined, BankOutlined
-} from '@ant-design/icons';
+// import { GoogleOutlined, UserOutlined, BankOutlined } from '@ant-design/icons';
 
-import { Row, Col, Card, Button, Divider } from 'antd';
+import { Row, Col, Card, Button } from 'antd';
 
 import FormSignIn from '@/components/SingIn/Form/FormSignIn';
 // import FormSignInReseller from '@/components/SingIn/Form/FormSignInReseller';
@@ -19,7 +16,7 @@ import Loading from '@/components/Loading';
 
 import { useNavigate } from 'react-router-dom';
 
-import thirdPartyLogin from '@/lib/third-party-login';
+//  import thirdPartyLogin from '@/lib/third-party-login';
 
 import RegisterImage from '@/assets/image/register-image.png';
 
@@ -31,18 +28,18 @@ export default function Login() {
 
   const { isLoading, isNotLogin } = useCheckIsNotLogin();
 
-  const redirect =
-    import.meta.env.MODE === 'development'
-      ? 'http://localhost:3000/google'
-      : 'https://omnix-panel.netlify.app/google';
+  // const redirect =
+  //   import.meta.env.MODE === 'development'
+  //     ? 'http://localhost:3000/google'
+  //     : 'https://omnix-panel.netlify.app/google';
 
-  const googleLogin = async () => {
-    thirdPartyLogin(
-      `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${
-        import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
-      }&scope=openid%20email%20profile&redirect_uri=${redirect}&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow`
-    );
-  };
+  // const googleLogin = async () => {
+  //   thirdPartyLogin(
+  //     `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${
+  //       import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
+  //     }&scope=openid%20email%20profile&redirect_uri=${redirect}&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow`
+  //   );
+  // };
 
   if (isLoading) {
     <Loading />;
@@ -173,7 +170,7 @@ export default function Login() {
         }}
       >
         <Row style={{ width: '100%', zIndex: 5 }} justify="center">
-          <Col xs={24} sm={24} md={24} lg={14} xl={14}>
+          <Col xs={24} sm={24} md={24} lg={15} xl={15}>
             <Card bodyStyle={{ padding: 0 }} bordered={false}>
               <Row>
                 <Col xs={0} sm={0} md={0} lg={14} xl={14}>
@@ -229,7 +226,13 @@ export default function Login() {
                       </defs>
                     </svg>
 
-                    <div style={{ marginTop: '1.5em' }}>
+                    <div
+                      style={{
+                        marginTop: '1.5em',
+                        paddingLeft: '25px',
+                        paddingRight: '25px',
+                      }}
+                    >
                       <div
                         style={{
                           fontSize: 24,

@@ -6,6 +6,7 @@ type FieldType = {
   name?: 'string';
   password?: string;
   password_confirmation?: string;
+  ReferalCode?: string;
 };
 
 export default function FormSignUpUser() {
@@ -50,27 +51,6 @@ export default function FormSignUpUser() {
           <Input placeholder="Ex: yourwork@gmail.com" name="email" />
         </Form.Item>
 
-        {/* <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
-          Phone Number
-        </div>
-        <Form.Item<FieldType>
-          name="phoneNumber"
-          hasFeedback
-          rules={[
-            {
-              type: 'regexp',
-              pattern: new RegExp('/+?([ -]?d+)+|(d+)([ -]d+)/gm'),
-              message: 'Phone number is not valid',
-            },
-            {
-              required: true,
-              message: 'Enter you phone number',
-            },
-          ]}
-        >
-          <Input placeholder="Ex : 628123456789" name="phoneNumber" />
-        </Form.Item> */}
-
         <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
           Create New Password
         </div>
@@ -113,13 +93,13 @@ export default function FormSignUpUser() {
         >
           <Input.Password name="password_confirmation" />
         </Form.Item>
-        {/* 
+
         <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
           Referral Code
         </div>
-        <Form.Item<FieldType> name="referralCode" hasFeedback>
-          <Input placeholder="Insert your referal code" name="referralCode" />
-        </Form.Item> */}
+        <Form.Item<FieldType> name="ReferalCode" hasFeedback>
+          <Input placeholder="Insert your referal code" name="ReferalCode" />
+        </Form.Item>
 
         <Button
           type="primary"

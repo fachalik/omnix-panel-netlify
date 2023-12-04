@@ -33,49 +33,43 @@ export default function Navbar() {
     {
       key: '/logout',
       icon: <LogoutOutlined />,
-      label: (
-        <p
-          onClick={() => {
-            Modal.confirm({
-              title: 'Logout',
-              icon: <ExclamationCircleOutlined />,
-              content: (
-                <div style={{ borderTop: '1px solid #d4d4d4' }}>
-                  <div style={{ marginTop: 5 }}>Are you sure want logout?</div>
-                </div>
-              ),
-              okText: 'Yes',
-              cancelText: 'No',
-              okButtonProps: {
-                type: 'primary',
-                style: {
-                  background: palette.primary.main,
-                  color: '#fff',
-                  float: 'left',
-                  border: '1px solid ' + palette.primary.main,
-                },
-              },
-              cancelButtonProps: {
-                type: 'default',
-                style: {
-                  color: palette.primary.main,
-                  float: 'left',
-                  marginLeft: '34px',
-                  border: '1px solid ' + palette.primary.main,
-                },
-              },
-              onOk: async () => {
-                await logoutAuth();
-                await resetModalLogout;
-                await setIsLogout(false);
-              },
-            });
-          }}
-        >
-          Logout
-        </p>
-      ),
-
+      onClick: () => {
+        Modal.confirm({
+          title: 'Logout',
+          icon: <ExclamationCircleOutlined />,
+          content: (
+            <div style={{ borderTop: '1px solid #d4d4d4' }}>
+              <div style={{ marginTop: 5 }}>Are you sure want logout?</div>
+            </div>
+          ),
+          okText: 'Yes',
+          cancelText: 'No',
+          okButtonProps: {
+            type: 'primary',
+            style: {
+              background: palette.primary.main,
+              color: '#fff',
+              float: 'left',
+              border: '1px solid ' + palette.primary.main,
+            },
+          },
+          cancelButtonProps: {
+            type: 'default',
+            style: {
+              color: palette.primary.main,
+              float: 'left',
+              marginLeft: '34px',
+              border: '1px solid ' + palette.primary.main,
+            },
+          },
+          onOk: async () => {
+            await logoutAuth();
+            await resetModalLogout;
+            await setIsLogout(false);
+          },
+        });
+      },
+      label: <p>Logout</p>,
       title: '',
       style: {
         fontSize: 12,

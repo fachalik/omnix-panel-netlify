@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { Input, Button, Row, Col, Card, Avatar, Badge } from 'antd';
 // import { useRouter } from 'next/navigation';

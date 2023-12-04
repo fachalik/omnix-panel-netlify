@@ -1,24 +1,26 @@
-import { Home, Channel, Planet, Dashboard } from '@/assets/icons';
+// import { Home, Channel, Planet, Dashboard } from '@/assets/icons';
+import { FaHome, FaShoppingBasket } from 'react-icons/fa';
+import { FaDisplay } from 'react-icons/fa6';
 
 const userRoutes: any = [
   {
     key: `/home`,
-    icon: Home,
+    icon: <FaHome />,
     label: 'Home',
   },
   {
     key: `/dashboard`,
-    icon: Dashboard,
+    icon: <FaDisplay />,
     label: 'Dashboard',
   },
   {
     key: `/channel-subscription`,
-    icon: Channel,
+    icon: <FaShoppingBasket />,
     label: 'Channel Subscription',
   },
   {
     key: `/product-activation`,
-    icon: Planet,
+    icon: <FaShoppingBasket />,
     label: 'Product Activation',
   },
 ];

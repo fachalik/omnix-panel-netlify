@@ -5,9 +5,10 @@ import { useGetProduct, useDestroyProduct } from './Hooks/useGetProduct';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditTwoTone } from '@ant-design/icons';
 import Modal from '@/components/Modal';
 import FormProduct from './Form/FormProduct';
+import FormProductEdit from './Form/FormProductEdit';
 
 import { useAuthStore } from '@/store';
 import { timeout } from '@/utils/utilitys';
@@ -16,10 +17,14 @@ export default function ManageProduct() {
   const { user } = useAuthStore((state) => state);
 
   const [idDelete, setIdDelete] = React.useState<string>('');
+  const [editData, setEditData] = React.useState<any>(null);
 
   // ** Modal Create
   const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
   const handleCancelCreate = () => setIsModalCreate(false);
+
+  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
+  const handleCancelEdit = () => setIsModalEdit(false);
 
   const { data, isLoading, isSuccess, isError, error, refetch }: any =
     useGetProduct({
@@ -59,6 +64,17 @@ export default function ManageProduct() {
       render: (_, record: any) => {
         return (
           <div>
+            <Tooltip title={'Edit product'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setEditData(null);
+                  setEditData(record);
+                }}
+                style={{ marginRight: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
             <Tooltip title={'Delete Product'}>
               <Popconfirm
                 title="Delete Product?"
@@ -115,11 +131,11 @@ export default function ManageProduct() {
       </Modal>
 
       <Modal
-        title="Edit User"
+        title="Edit Product"
         isModalOpen={IsModalEdit}
         handleCancel={handleCancelEdit}
       >
-        <FormMemberEdit handleClose={handleCancelEdit} data={editData} />
+        <FormProductEdit handleClose={handleCancelEdit} data={editData} />
       </Modal>
     </div>
   );

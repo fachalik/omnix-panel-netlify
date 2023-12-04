@@ -217,15 +217,24 @@ export default function FormProduct({ handleClose }: IFormUsers) {
               hasFeedback
               rules={[{ required: true, message: 'Product Type is required' }]}
             >
-              <Input
-                autoComplete="false"
-                placeholder="Input your product type"
-                name="productType"
+              <Select
+                style={{ width: '100%' }}
+                onChange={handleChange}
+                options={[
+                  {
+                    value: 'PLATFORM',
+                    label: 'PLATFORM',
+                  },
+                  {
+                    value: 'CHANNEL',
+                    label: 'CHANNEL',
+                  },
+                ]}
               />
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
               Product Category
             </div>

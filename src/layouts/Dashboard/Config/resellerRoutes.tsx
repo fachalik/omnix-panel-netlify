@@ -1,42 +1,44 @@
-import {
-  Home,
-  Dashboard,
-  Windows,
-  Channel,
-  Planet,
-  UserSetting,
-} from '@/assets/icons';
+// import {
+//   Home,
+//   Dashboard,
+//   Windows,
+//   Channel,
+//   Planet,
+//   UserSetting,
+// } from '@/assets/icons';
+import { FaHome, FaShoppingBasket, FaUserCog, FaCog } from 'react-icons/fa';
+import { FaDisplay } from 'react-icons/fa6';
 
 const resellerRoutes: any = [
   {
     key: `/home`,
-    icon: Home,
+    icon: <FaHome />,
     label: 'Home',
   },
   {
     key: `/dashboard`,
-    icon: Dashboard,
+    icon: <FaDisplay />,
     label: 'Dashboard',
   },
   {
     key: `/member`,
-    icon: UserSetting,
+    icon: <FaUserCog />,
     label: 'Member',
   },
   {
     key: `/manage-tenant`,
-    icon: Windows,
+    icon: <FaCog />,
     label: 'Manage Tenant',
   },
   {
     key: `/channel-subscription`,
-    icon: Channel,
+    icon: <FaShoppingBasket />,
     label: 'Channel Subscription',
   },
 
   {
     key: `/product-activation`,
-    icon: Planet,
+    icon: <FaShoppingBasket />,
     label: 'Product Activation',
   },
 ];

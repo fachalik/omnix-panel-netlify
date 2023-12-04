@@ -5,9 +5,13 @@ import { useGetProduct, useDestroyProduct } from './Hooks/useGetProduct';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import { DeleteOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  // EditTwoTone
+} from '@ant-design/icons';
 import Modal from '@/components/Modal';
 import FormProduct from './Form/FormProduct';
+// import FormMemberEdit from './Form/FormProductEdit';
 
 import { useAuthStore } from '@/store';
 import { timeout } from '@/utils/utilitys';
@@ -16,10 +20,14 @@ export default function UserManagement() {
   const { user } = useAuthStore((state) => state);
 
   const [idDelete, setIdDelete] = React.useState<string>('');
+  // const [editData, setEditData] = React.useState<any>(null);
 
   // ** Modal Create
   const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
   const handleCancelCreate = () => setIsModalCreate(false);
+
+  // const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
+  // const handleCancelEdit = () => setIsModalEdit(false);
 
   const { data, isLoading, isSuccess, isError, error, refetch }: any =
     useGetProduct({
@@ -47,6 +55,17 @@ export default function UserManagement() {
       render: (_, record: any) => {
         return (
           <div>
+            {/* <Tooltip title={'Edit user'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setEditData(null);
+                  setEditData(record);
+                }}
+                style={{ marginRight: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip> */}
             <Tooltip title={'Delete user'}>
               <Popconfirm
                 title="Delete user?"

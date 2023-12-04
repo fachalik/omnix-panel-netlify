@@ -89,7 +89,6 @@ export default function Sidebar() {
             height: '100%',
             objectFit: 'contain',
             margin: 'auto',
-            borderRadius: 10,
             backgroundColor: palette.primary.light,
             padding: 5,
           }}
@@ -104,8 +103,9 @@ export default function Sidebar() {
           height: height - 150,
           position: 'relative',
           backgroundColor: palette.primary.dark,
+          color: 'white',
         }}
-        theme="dark"
+        theme="light"
         mode="inline"
         onClick={(e) => {
           navigate(e.key);
@@ -120,6 +120,7 @@ export default function Sidebar() {
               icon: (
                 <Tooltip placement="left">
                   <div
+                    key={idx}
                     style={{
                       display: 'flex',
                       justifyContent: 'center',
@@ -127,44 +128,16 @@ export default function Sidebar() {
                       height: '100%',
                     }}
                   >
-                    <img
-                      src={val.icon}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        backgroundColor: val[idx] ? '#eeeeee' : '',
-                      }}
-                      alt={`${val.key}-${idx}`}
-                    />
+                    {val.icon}
                   </div>
                 </Tooltip>
               ),
               label: val.label,
+              children: val?.children ?? null,
             };
           }
         )}
       />
-      {/* <Dropdown menu={{ items }} placement="topRight" trigger={['click']}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar
-            style={{
-              background: palette.primary.main,
-              color: '#fff',
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-            }}
-            size={'large'}
-          >
-            {user?.name.charAt(0)}
-          </Avatar>
-        </div>
-      </Dropdown> */}
     </Layout.Sider>
   );
 }

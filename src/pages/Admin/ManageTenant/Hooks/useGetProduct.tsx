@@ -56,13 +56,7 @@ export const useCreateProduct = () => {
 
 // ** DELETE
 const destroyProduct = async (id: any) => {
-  const { data } = await deleteProduct(id, {
-    id: [
-      {
-        id,
-      },
-    ],
-  });
+  const { data } = await deleteProduct(id);
   return data;
 };
 
