@@ -250,15 +250,15 @@ export default function FormProduct({ handleClose }: IFormUsers) {
                 onChange={handleChange}
                 options={[
                   {
-                    value: 'PLATFORM_OMNIX_SERVICE',
+                    value: ' PLATFORM_OMNIX_SERVICE',
                     label: 'PLATFORM_OMNIX_SERVICE',
                   },
                   {
-                    value: 'PLATFORM_OMNIX_SALES',
+                    value: ' PLATFORM_OMNIX_SALES',
                     label: 'PLATFORM_OMNIX_SALES',
                   },
                   {
-                    value: 'PLATFORM_OMNIX_MARKETING',
+                    value: ' PLATFORM_OMNIX_MARKETING',
                     label: 'PLATFORM_OMNIX_MARKETING',
                   },
                   {

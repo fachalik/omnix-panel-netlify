@@ -1,5 +1,10 @@
 // import { Home, Planet, UserSetting } from '@/assets/icons';
-import { FaHome, FaShoppingBasket, FaUserCog, FaCog } from 'react-icons/fa';
+import {
+  FaHome,
+  //  FaShoppingBasket,
+  FaUserCog,
+  FaCog,
+} from 'react-icons/fa';
 
 const adminRoutes: any = [
   {
@@ -7,11 +12,11 @@ const adminRoutes: any = [
     icon: <FaHome />,
     label: 'Home',
   },
-  {
-    key: `/manage-product`,
-    icon: <FaShoppingBasket />,
-    label: 'Manage Product',
-  },
+  // {
+  //   key: `/manage-product`,
+  //   icon: <FaShoppingBasket />,
+  //   label: 'Manage Product',
+  // },
   {
     key: `/business-schema`,
     icon: <FaCog />,

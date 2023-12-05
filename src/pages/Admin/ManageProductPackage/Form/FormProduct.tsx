@@ -1,6 +1,6 @@
 import { Button, Form } from 'antd';
-import { useCreateMember } from '../Hooks/useGetMember';
-import useFormMember from '../Hooks/useFormMember';
+import { useCreateMember } from '@/hooks/ReactQuery/reseller/useGetMember';
+import useFormProduct from '../Hooks/useFormProduct';
 // import { getLogin } from '@/utils/sessions';
 import { useAuthStore } from '@/store';
 
@@ -12,11 +12,11 @@ export default function FormProduct({ handleClose }: IFormUsers) {
   const { user } = useAuthStore((state) => state);
   const { mutate } = useCreateMember();
 
-  type FieldType = {
-    member?: string[];
-  };
+  // type FieldType = {
+  //   member?: string[];
+  // };
 
-  const { form, isLoading, onFinish, onFinishFailed } = useFormMember({
+  const { form, isLoading, onFinish, onFinishFailed } = useFormProduct({
     handleCloseForm: handleClose,
     mutate,
     id: user?._id,
@@ -24,9 +24,9 @@ export default function FormProduct({ handleClose }: IFormUsers) {
 
   // const formik: any = useFormMember({ handleClose, mutate });
 
-  const handleChange = (value: string[]) => {
-    console.log(`selected ${value}`);
-  };
+  // const handleChange = (value: string[]) => {
+  //   console.log(`selected ${value}`);
+  // };
 
   return (
     <main style={{ width: '100%', height: '100%', overflow: 'scroll' }}>

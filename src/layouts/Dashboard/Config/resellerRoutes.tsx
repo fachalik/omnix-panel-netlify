@@ -26,6 +26,11 @@ const resellerRoutes: any = [
     label: 'Member',
   },
   {
+    key: `/business-schema`,
+    icon: <FaCog />,
+    label: 'Business Schema',
+  },
+  {
     key: `/manage-tenant`,
     icon: <FaCog />,
     label: 'Manage Tenant',

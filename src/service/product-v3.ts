@@ -3,8 +3,7 @@ import http from '../utils/request';
 export const getProductPaginate = (
   token: string,
   page: number = 1,
-  limit: number = 10,
-  id: string = ''
+  limit: number = 10
 ) =>
   new Promise<any>(async (resolve, reject) => {
     try {
@@ -13,7 +12,6 @@ export const getProductPaginate = (
           Authorization: `Bearer ${token}`,
         },
         params: {
-          id,
           page,
           limit,
         },
@@ -33,6 +31,44 @@ export const getProduct = (token: string) =>
   new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.get(`/api/products`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
+
+export const getProductPlatform = (token: string) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.get(`/api/products/PLATFORM`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
+
+export const getProductNonPlatform = (token: string) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.get(`/api/products/CHANNEL`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -80,11 +116,11 @@ export const deleteProduct = (id: any) =>
     }
   });
 
-export const updateProduct = ({ payload, id }: any) => {
+export const updateProduct = ({ val, id }: any) => {
   return new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.patch(`/api/products/${id}`, {
-        payload,
+        ...val,
       });
       if (respon.data) {
         resolve(respon.data);

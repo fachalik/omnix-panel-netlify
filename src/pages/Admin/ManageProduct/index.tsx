@@ -10,11 +10,11 @@ import Modal from '@/components/Modal';
 import FormProduct from './Form/FormProduct';
 import FormProductEdit from './Form/FormProductEdit';
 
-import { useAuthStore } from '@/store';
+// import { useAuthStore } from '@/store';
 import { timeout } from '@/utils/utilitys';
 
 export default function ManageProduct() {
-  const { user } = useAuthStore((state) => state);
+  // const { user } = useAuthStore((state) => state);
 
   const [idDelete, setIdDelete] = React.useState<string>('');
   const [editData, setEditData] = React.useState<any>(null);
@@ -31,7 +31,6 @@ export default function ManageProduct() {
       token: getLogin()?.token ?? '',
       page: 1,
       limit: 100,
-      id: user?._id,
     });
 
   const { mutate } = useDestroyProduct();

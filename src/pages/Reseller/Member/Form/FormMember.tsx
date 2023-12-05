@@ -1,5 +1,5 @@
 import { Button, Form, Select } from 'antd';
-import { useCreateMember } from '../Hooks/useGetMember';
+import { useCreateMember } from '@/hooks/ReactQuery/reseller/useGetMember';
 import useFormMember from '../Hooks/useFormMember';
 import { useGetUserOptions } from '@/hooks/useGetUserOptions';
 import { getLogin } from '@/utils/sessions';

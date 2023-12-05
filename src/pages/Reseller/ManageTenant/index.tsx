@@ -23,7 +23,7 @@ export default function ManageTenant() {
             marginLeft: 10,
             marginRight: 10,
           }}
-        ></Tabs>
+        />
       </Card>
     </div>
   );

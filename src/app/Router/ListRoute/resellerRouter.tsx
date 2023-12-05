@@ -61,6 +61,8 @@ const ActivatedProduct = lazy(
   () => import('@/pages/Reseller/ActivatedProduct')
 );
 
+const BusinessSchema = lazy(() => import('@/pages/Reseller/BusinessSchema'));
+
 const Member = lazy(() => import('@/pages/Reseller/Member'));
 
 const Routers: ListRouteProps[] = [
@@ -95,6 +97,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: ManageTenant,
     path: '/manage-tenant',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.RESELLER],
+  },
+  {
+    comp: BusinessSchema,
+    path: '/business-schema',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.RESELLER],

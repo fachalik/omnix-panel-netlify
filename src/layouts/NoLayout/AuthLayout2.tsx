@@ -86,7 +86,7 @@ export default function AuthLayout2({ children }: IAuthLayout2) {
                           backgroundRepeat: 'no-repeat',
                           backgroundPosition: 'top',
                           height: '100%',
-                          width: '90%',
+                          width: '100%',
                           paddingLeft: 15,
                         }}
                       />
