@@ -9,7 +9,7 @@ interface IFormUsers {
   changeKey: string;
 }
 
-export default function FormEditBusinessSchema({
+export default function FormEditBusinessSchemaProduct({
   handleClose,
   data,
   changeKey,
@@ -32,8 +32,6 @@ export default function FormEditBusinessSchema({
   };
 
   form.setFieldsValue(init);
-
-  // console.log('form', form.getFieldsValue());
 
   return (
     <main style={{ width: '100%', height: '100%', overflow: 'scroll' }}>

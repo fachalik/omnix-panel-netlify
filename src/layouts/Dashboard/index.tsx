@@ -5,6 +5,7 @@ import Navbar from '@/layouts/Dashboard/Navbar';
 import Content from '@/layouts/Dashboard/Content';
 
 import { Layout } from 'antd';
+import NotificationContext from '@/hooks/NotificationContext';
 
 interface IDashboardLayout {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ interface IDashboardLayout {
 export default function DashboardLayout({ children }: IDashboardLayout) {
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
+      <NotificationContext />
       <Layout hasSider>
         <Sidebar />
         <Layout>

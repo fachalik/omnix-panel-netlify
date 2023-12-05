@@ -7,7 +7,7 @@ import Modal from '@/components/Modal';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 
-import FormEditBusinessSchema from '../Form/FormEditBusinessSchema';
+import FormEditBusinessSchemaProduct from '../Form/FormEditBusinessSchemaProduct';
 
 import { getLogin } from '@/utils/sessions';
 
@@ -684,15 +684,6 @@ export default function Product() {
                       </p>
                     </div>
                   }
-                  // extra={
-                  //   <Tooltip title={'Edit Schema'}>
-                  //     <Button
-                  //       onClick={() => {}}
-                  //       style={{ marginRight: '0.5em' }}
-                  //       icon={<EditTwoTone />}
-                  //     />
-                  //   </Tooltip>
-                  // }
                   style={{ minWidth: 300, width: 'auto' }}
                 >
                   {item.data.map((item2: any, idx2: number) => (
@@ -717,7 +708,7 @@ export default function Product() {
           isModalOpen={IsModalEdit}
           handleCancel={handleCancelEdit}
         >
-          <FormEditBusinessSchema
+          <FormEditBusinessSchemaProduct
             handleClose={handleCancelEdit}
             data={dataEdit}
             changeKey={changeDataKey}
