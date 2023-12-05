@@ -674,9 +674,8 @@ export default function Product() {
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
             return (
-              <Col span={8}>
+              <Col span={8} key={idx}>
                 <Card
-                  key={idx}
                   title={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <p style={{ marginLeft: 5 }}>
@@ -687,11 +686,9 @@ export default function Product() {
                   style={{ minWidth: 300, width: 'auto' }}
                 >
                   {item.data.map((item2: any, idx2: number) => (
-                    <div>
+                    <div key={idx2}>
                       <Divider />
-                      <p style={{ fontWeight: 700 }} key={idx2}>
-                        {item2.productName}
-                      </p>
+                      <p style={{ fontWeight: 700 }}>{item2.productName}</p>
                       {mapVariable(item2)}
                     </div>
                   ))}
