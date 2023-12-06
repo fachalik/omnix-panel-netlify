@@ -12,7 +12,7 @@ type FieldType = {
 export default function FormSignUpUser() {
   const { form, isLoading, onFinish, onFinishFailed } = useFormSignUpUser();
   return (
-    <main style={{ width: '100%', height: '100%', overflow: 'scroll' }}>
+    <main style={{ width: '100%', height: '100%' }}>
       <Form
         style={{ marginTop: 20 }}
         autoComplete="off"

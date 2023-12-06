@@ -246,7 +246,7 @@ export default function AuthLayout1({ children }: IAuthLayout1) {
                   lg={10}
                   xl={10}
                   style={{
-                    padding: '50px 30px',
+                    padding: '30px 30px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',

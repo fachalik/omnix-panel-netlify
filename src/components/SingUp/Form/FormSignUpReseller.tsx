@@ -6,20 +6,13 @@ type FieldType = {
   name?: 'string';
   password?: string;
   password_confirmation?: string;
-  // companyName?: string;
-  // email?: string;
-  // phoneNumber?: string;
-  // password?: string;
-  // password_confirmation?: string;
-  // firstName?: string;
-  // lastName?: string;
 };
 
 export default function FormSignUpReseller() {
   const { form, isLoading, onFinish, onFinishFailed } = useFormSignUpReseller();
 
   return (
-    <main style={{ width: '100%', height: '100%', overflow: 'scroll' }}>
+    <main style={{ width: '100%', height: '100%' }}>
       <Form
         style={{ marginTop: 20 }}
         autoComplete="off"

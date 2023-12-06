@@ -19,7 +19,7 @@ import FormSignUpUser from '@/components/SingUp/Form/FormSignUpUser';
 import FormSignUpReseller from '@/components/SingUp/Form/FormSignUpReseller';
 import { palette } from '@/theme/themeConfig';
 // import thirdPartyLogin from '@/lib/third-party-login';
-import AuthLayout2 from '@/layouts/NoLayout/AuthLayout2';
+import AuthLayout1 from '@/layouts/NoLayout/AuthLayout1';
 
 export default function SignUp() {
   // const { push } = useRouter();
@@ -40,13 +40,16 @@ export default function SignUp() {
   // };
 
   return (
-    <AuthLayout2>
+    <AuthLayout1>
       <div
         style={{
           width: '100%',
+          height: '100%',
           display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column',
+          overflowX: 'hidden',
+          overflowY: 'auto',
         }}
       >
         <p
@@ -151,6 +154,6 @@ export default function SignUp() {
           </Button>
         </div>
       </div>
-    </AuthLayout2>
+    </AuthLayout1>
   );
 }
