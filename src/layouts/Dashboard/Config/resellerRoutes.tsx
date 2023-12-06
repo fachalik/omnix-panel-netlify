@@ -1,17 +1,4 @@
-// import {
-//   Home,
-//   Dashboard,
-//   Windows,
-//   Channel,
-//   Planet,
-//   UserSetting,
-// } from '@/assets/icons';
-import {
-  FaHome,
-  FaShoppingBasket,
-  // FaUserCog,
-  FaCog,
-} from 'react-icons/fa';
+import { FaHome, FaShoppingBasket, FaUserCog, FaCog } from 'react-icons/fa';
 import { FaDisplay } from 'react-icons/fa6';
 
 const resellerRoutes: any = [
@@ -25,11 +12,11 @@ const resellerRoutes: any = [
     icon: <FaDisplay />,
     label: 'Dashboard',
   },
-  // {
-  //   key: `/member`,
-  //   icon: <FaUserCog />,
-  //   label: 'Member',
-  // },
+  {
+    key: `/member`,
+    icon: <FaUserCog />,
+    label: 'Member',
+  },
   {
     key: `/business-schema`,
     icon: <FaCog />,

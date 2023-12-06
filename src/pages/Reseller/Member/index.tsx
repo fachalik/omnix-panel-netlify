@@ -56,7 +56,7 @@ export default function UserManagement() {
                 description="Are you sure to delete this member?"
                 onConfirm={async () => {
                   const member: any = await {
-                    member: [{ id_member: idDelete }],
+                    member: [{ id: idDelete }],
                   };
                   await mutate({ val: member, id: user?._id });
                   await setIdDelete('');
@@ -105,7 +105,7 @@ export default function UserManagement() {
         isModalOpen={IsModalCreate}
         handleCancel={handleCancelCreate}
       >
-        <FormMember handleClose={handleCancelCreate} />
+        <FormMember handleClose={handleCancelCreate} refetch={refetch} />
       </Modal>
       {/* 
       <Modal

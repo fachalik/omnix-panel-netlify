@@ -1,16 +1,17 @@
 import React from 'react';
 
 import { Form } from 'antd';
-import { timeout } from '@/utils/utilitys';
+import { timeout, removeEmptyValues } from '@/utils/utilitys';
 
 interface IUserFormUSer {
   handleCloseForm: () => void;
   mutate: any;
-  id: string | undefined;
+  refetch?: any;
+  id?: any;
 }
 
 export default function useFormMember(props: IUserFormUSer) {
-  const { handleCloseForm, mutate, id } = props;
+  const { handleCloseForm, mutate } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
@@ -19,15 +20,22 @@ export default function useFormMember(props: IUserFormUSer) {
   };
 
   const onFinish = async (params: any) => {
-    const newData = params.member.map((item: any) => {
-      return { id_member: item };
-    });
-    const member: any = { member: newData };
-    const payload = await {
-      val: member,
-      id,
-    };
+    // const newData = params.member.map((item: any) => {
+    //   return { id_member: item };
+    // });
+    // const member: any = { member: newData };
+    // const payload = await {
+    //   val: member,
+    //   id,
+    // };
     setIsLoading(true);
+    delete params.password_confirmation;
+
+    let clearParams: any = await removeEmptyValues(params);
+    const payload = { ...clearParams };
+    payload['role'] = 'REGULER';
+    payload['loginType'] = 'EMAIL';
+    payload['status'] = 1;
 
     await timeout(1000);
     await mutate(payload);

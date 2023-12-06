@@ -26,6 +26,7 @@ export interface User {
   email: string;
   loginType: string;
   socialtoken: string;
+  ReferalCode?: string;
   reseller: null;
   role: string;
   __v: number;

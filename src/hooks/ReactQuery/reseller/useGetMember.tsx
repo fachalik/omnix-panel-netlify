@@ -1,11 +1,14 @@
 import React from 'react';
+import { message } from 'antd';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getMember,
   getMemberNoReferralCode,
-  postMember,
+  // postMember,
   deleteMember,
 } from '@/service/member';
+import { register } from '@/service/auth';
+import { timeout } from '@/utils/utilitys';
 
 export type GetPackageQueryParams = {
   id?: string | undefined;
@@ -90,8 +93,12 @@ export const useGetMemberNotPaginateNoReferralCode = (
 
 // ** CREATE
 
-const createMember = async ({ val, id }: any) => {
-  const { data } = await postMember({ payload: val, id });
+const createMember = async (
+  // { val, id }: any
+  payload: any
+) => {
+  // const { data } = await postMember({ payload: val, id });
+  const { data } = await register(payload);
   return data;
 };
 
@@ -100,9 +107,13 @@ export const useCreateMember = () => {
   return useMutation<any, Error, any>(createMember, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY);
+      message.success('member successfully added');
+      await timeout(500);
+      window.location.reload();
     },
     onError: (error) => {
       console.error(error);
+      message.error('Failed to add member');
     },
   });
 };
