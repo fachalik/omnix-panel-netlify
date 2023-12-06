@@ -110,6 +110,24 @@ export const confirmEmail = (payload: any) =>
     }
   });
 
+export const resendVerification = (payload: any) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.post(
+        `/api/auth/email/resend-verification`,
+        payload
+      );
+      if (respon) {
+        resolve(respon);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
+
 export const forgotPassword = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
@@ -139,5 +157,3 @@ export const resetPassword = (payload: any) =>
       reject(message);
     }
   });
-
-//

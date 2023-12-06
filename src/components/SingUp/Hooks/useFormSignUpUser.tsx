@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Form } from 'antd';
 import { timeout, removeEmptyValues } from '@/utils/utilitys';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import { register } from '@/service/auth';
 
 export default function useFormSignUpUser() {
@@ -27,7 +27,13 @@ export default function useFormSignUpUser() {
     await timeout(1000);
     console.log('payload', payload);
     await register(payload)
-      .then(() => navigate('/verify'))
+      .then(() => {
+        const paramsData: any = [['email', payload.email]];
+        navigate({
+          pathname: '/verify',
+          search: `?${createSearchParams(paramsData)}`,
+        });
+      })
       .catch((err) => console.log(err));
 
     setIsLoading(false);
