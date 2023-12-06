@@ -7,16 +7,20 @@ import {
   Tooltip,
   Button,
   Divider,
+  Popconfirm,
   DatePicker,
 } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductPlatform } from '../Hooks/useGetProductDefaultReseller';
+import {
+  useGetProductPlatform,
+  usePatchProductPlatformStatus,
+} from '../Hooks/useGetProduct';
 import { useGetHistoryCost } from '@/hooks/ReactQuery/useGetHistoryCost';
 import Modal from '@/components/Modal';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import HistoryCost from '../components/HistoryCost';
+import HistoryCost from './HistoryCost';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 
@@ -29,14 +33,16 @@ import { useAuthStore } from '@/store';
 
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
-export default function Product() {
+export default function DefaultSchemaProduct() {
   const { user } = useAuthStore((state) => state);
   const [dataEdit, setdataEdit] = React.useState<any>(null);
   const [changeDataKey, setChangeDataKey] = React.useState('');
-  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
-  const handleCancelEdit = () => setIsModalEdit(false);
+  const [selectProduct, setSelectProduct] = React.useState('');
 
   const [dates, setDates] = React.useState<RangeValue>(null);
+
+  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
+  const handleCancelEdit = () => setIsModalEdit(false);
 
   const [IsModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const handleCancelOpen = () => setIsModalOpen(false);
@@ -47,10 +53,10 @@ export default function Product() {
     error: errorPlatform,
     isError: isErrorPlatform,
     isSuccess: isSuccessPlatform,
-  }: any = useGetProductPlatform({
-    token: getLogin()?.token ?? '',
-    id_reseller: user?._id,
-  });
+  }: any = useGetProductPlatform({ token: getLogin()?.token ?? '' });
+
+  const { mutate, isLoading: isLoadingChangeStatus } =
+    usePatchProductPlatformStatus();
 
   const {
     data: dataHistoryCost,
@@ -62,8 +68,8 @@ export default function Product() {
     productType: 'PLATFORM',
     token: getLogin()?.token ?? '',
     updatedBy: user?._id,
-    user_id: user?._id,
-    query_key: 'RESELLER_PLATFORM_HISTORY_COST',
+    user_id: '',
+    query_key: 'ADMIN_PLATFORM_HISTORY_COST',
     start_date: dates ? dayjs(dates[0]).format('YYYY-MM-DD') : '',
     end_date: dates ? dayjs(dates[1]).format('YYYY-MM-DD') : '',
   });
@@ -728,10 +734,42 @@ export default function Product() {
               <Col span={8} key={idx}>
                 <Card
                   title={
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
                       <p style={{ marginLeft: 5 }}>
-                        {item.name.replaceAll('_', ' ')}
+                        {item.name.productCategory.replaceAll('_', ' ')}
                       </p>
+                      <Popconfirm
+                        title="Change Status"
+                        description="Are you sure to change this status"
+                        onConfirm={async () => {
+                          await setSelectProduct(item.name.productCategory);
+                          await mutate({
+                            productCategory: item.name.productCategory,
+                            status: item.data[0].status == 1 ? 0 : 1,
+                          });
+                        }}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button
+                          loading={
+                            item.name.productCategory === selectProduct &&
+                            isLoadingChangeStatus
+                          }
+                          style={{
+                            backgroundColor:
+                              item.data[0].status === 1 ? '#b7eb8f' : '#ffd591',
+                          }}
+                        >
+                          {item.data[0].status === 1 ? 'ACTIVE' : 'IN ACTIVE'}
+                        </Button>
+                      </Popconfirm>
                     </div>
                   }
                   style={{ minWidth: 300, width: 'auto' }}
@@ -739,7 +777,16 @@ export default function Product() {
                   {item.data.map((item2: any, idx2: number) => (
                     <div key={idx2}>
                       <Divider />
-                      <p style={{ fontWeight: 700 }}>{item2.productName}</p>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <p style={{ fontWeight: 700 }}>{item2.productName}</p>
+                      </div>
                       {mapVariable(item2)}
                     </div>
                   ))}
@@ -765,7 +812,7 @@ export default function Product() {
       )}
 
       <Modal
-        title={'History Cost Reseller'}
+        title={'History Cost Admin'}
         isModalOpen={IsModalOpen}
         handleCancel={handleCancelOpen}
       >

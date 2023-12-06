@@ -1,11 +1,18 @@
+import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getMember, postMember, deleteMember } from '@/service/member';
+import {
+  getMember,
+  getMemberNoReferralCode,
+  postMember,
+  deleteMember,
+} from '@/service/member';
 
 export type GetPackageQueryParams = {
-  id: string | undefined;
+  id?: string | undefined;
   token: string;
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
+  is_not_paginate?: string;
 };
 
 const QUERY_KEY = ['LIST_MEMBER'];
@@ -27,6 +34,57 @@ export const useGetMember = (params: GetPackageQueryParams) => {
     queryKey: [...QUERY_KEY, params],
     queryFn: () => fetchMember(params),
     keepPreviousData: true,
+  });
+};
+
+// ** GET
+
+const transformData = (data: any) => {
+  const arr = Array.from(data, function (item: any) {
+    return { value: item['_id'], label: item.email };
+  });
+  return [{ value: '', label: '--select member--' }, ...arr];
+};
+
+const fetchMemberNotPaginate = async (
+  params: GetPackageQueryParams
+): Promise<any> => {
+  const data = await getMember(
+    params.token,
+    params.page,
+    params.limit,
+    params.id,
+    params.is_not_paginate
+  );
+  return data;
+};
+
+export const useGetMemberNotPaginate = (params: GetPackageQueryParams) => {
+  return useQuery<any, Error>({
+    queryKey: ['LIST_MEMBER_CODE_NOT_PAGINATE', params],
+    queryFn: () => fetchMemberNotPaginate(params),
+    keepPreviousData: true,
+    select: React.useCallback((data: any) => transformData(data), []),
+  });
+};
+
+// ** GET
+
+const fetchMemberNotPaginateNoReferallCode = async (
+  params: GetPackageQueryParams
+): Promise<any> => {
+  const data = await getMemberNoReferralCode(params.token);
+  return data;
+};
+
+export const useGetMemberNotPaginateNoReferralCode = (
+  params: GetPackageQueryParams
+) => {
+  return useQuery<any, Error>({
+    queryKey: ['LIST_MEMBER_NO_REFERRAL_CODE_NOT_PAGINATE', params],
+    queryFn: () => fetchMemberNotPaginateNoReferallCode(params),
+    keepPreviousData: true,
+    select: React.useCallback((data: any) => transformData(data), []),
   });
 };
 

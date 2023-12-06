@@ -1,35 +1,31 @@
 import React from 'react';
-import {
-  Card,
-  Row,
-  Col,
-  Typography,
-  Tooltip,
-  Button,
-  Divider,
-  DatePicker,
-} from 'antd';
+import { Card, Row, Col, Typography, Tooltip, Button, DatePicker } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductPlatform } from '../Hooks/useGetProductDefaultReseller';
+import { useGetProductNonPlatform } from '../Hooks/useGetProductDefaultUser';
 import { useGetHistoryCost } from '@/hooks/ReactQuery/useGetHistoryCost';
 import Modal from '@/components/Modal';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import HistoryCost from '../components/HistoryCost';
+import HistoryCost from './HistoryCost';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 
 import { FaHistory } from 'react-icons/fa';
 
-import FormEditBusinessSchemaProduct from '../Form/FormEditBusinessSchemaProduct';
+import FormEditBusinessSchemaNonProductUser from '../Form/FormEditBusinessSchemaNonProductUser';
 
 import { getLogin } from '@/utils/sessions';
 import { useAuthStore } from '@/store';
 
+interface IProps {
+  id_user: string;
+}
+
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
-export default function Product() {
+export default function NonProductMember(props: IProps) {
+  const { id_user } = props;
   const { user } = useAuthStore((state) => state);
   const [dataEdit, setdataEdit] = React.useState<any>(null);
   const [changeDataKey, setChangeDataKey] = React.useState('');
@@ -47,9 +43,10 @@ export default function Product() {
     error: errorPlatform,
     isError: isErrorPlatform,
     isSuccess: isSuccessPlatform,
-  }: any = useGetProductPlatform({
+  }: any = useGetProductNonPlatform({
     token: getLogin()?.token ?? '',
-    id_reseller: user?._id,
+    id_reseller: 'admin',
+    id_user,
   });
 
   const {
@@ -59,11 +56,11 @@ export default function Product() {
     isError: isErrorHistoryCost,
     isSuccess: isSuccessHistoryCost,
   }: any = useGetHistoryCost({
-    productType: 'PLATFORM',
+    productType: 'CHANNEL',
     token: getLogin()?.token ?? '',
     updatedBy: user?._id,
-    user_id: user?._id,
-    query_key: 'RESELLER_PLATFORM_HISTORY_COST',
+    user_id: id_user,
+    query_key: 'USER_CHANNEL_HISTORY_COST',
     start_date: dates ? dayjs(dates[0]).format('YYYY-MM-DD') : '',
     end_date: dates ? dayjs(dates[1]).format('YYYY-MM-DD') : '',
   });
@@ -710,7 +707,7 @@ export default function Product() {
           marginBottom: 20,
         }}
       >
-        <h3>Business Schema Product</h3>
+        <h3>Business Schema Member Non Product</h3>
         <Button
           type="primary"
           style={{ marginLeft: '1em' }}
@@ -738,7 +735,6 @@ export default function Product() {
                 >
                   {item.data.map((item2: any, idx2: number) => (
                     <div key={idx2}>
-                      <Divider />
                       <p style={{ fontWeight: 700 }}>{item2.productName}</p>
                       {mapVariable(item2)}
                     </div>
@@ -756,16 +752,17 @@ export default function Product() {
           isModalOpen={IsModalEdit}
           handleCancel={handleCancelEdit}
         >
-          <FormEditBusinessSchemaProduct
+          <FormEditBusinessSchemaNonProductUser
             handleClose={handleCancelEdit}
             data={dataEdit}
             changeKey={changeDataKey}
+            id_user={id_user}
           />
         </Modal>
       )}
 
       <Modal
-        title={'History Cost Reseller'}
+        title={'History Cost Member'}
         isModalOpen={IsModalOpen}
         handleCancel={handleCancelOpen}
       >

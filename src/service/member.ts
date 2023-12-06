@@ -4,7 +4,8 @@ export const getMember = (
   token: string,
   page: number = 1,
   limit: number = 10,
-  id: string = ''
+  id: string = '',
+  is_not_paginate: string = '0'
 ) =>
   new Promise<any>(async (resolve, reject) => {
     try {
@@ -16,6 +17,7 @@ export const getMember = (
           id,
           page,
           limit,
+          is_not_paginate,
         },
       });
       if (respon.data) {
@@ -29,34 +31,24 @@ export const getMember = (
     }
   });
 
-// export const getUserDetail = (
-//   token: string,
-//   id: string | number,
-//   page: number = 1,
-//   limit: number = 100
-// ) =>
-//   new Promise<any>(async (resolve, reject) => {
-//     try {
-//       const respon = await http.get(`/api/reseller/cari-member`, {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//         params: {
-//           id,
-//           page,
-//           limit,
-//         },
-//       });
-//       if (respon.data) {
-//         resolve(respon.data);
-//       }
-//     } catch (err: any) {
-//       const message: string = err.response
-//         ? `${err.response.data.message}`
-//         : 'Oops, something wrong with our server, please try again later.';
-//       reject(message);
-//     }
-//   });
+export const getMemberNoReferralCode = (token: string) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.get(`/api/users/no-pagination`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
 
 export const postMember = ({ payload, id }: any) =>
   new Promise<any>(async (resolve, reject) => {

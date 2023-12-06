@@ -1,61 +1,696 @@
-import { Card, Row, Col, List, Typography, Tooltip, Button } from 'antd';
+import React from 'react';
+import { Card, Row, Col, Typography, Tooltip, Button, DatePicker } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { formatRupiah } from '@/utils/utilitys';
-import whatsappIcon from '@/assets/icons/whatsapp.svg';
-import VoiceDashboard from '@/assets/icons/VoiceDashboard.svg';
-import smsIcon from '@/assets/icons/sms.svg';
+import { useGetProductNonPlatform } from '../Hooks/useGetProductDefaultReseller';
+import { useGetHistoryCost } from '@/hooks/ReactQuery/useGetHistoryCost';
+import Modal from '@/components/Modal';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
+import HistoryCost from '../components/HistoryCost';
+import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
+
+import FormEditBusinessSchemaProduct from '../Form/FormEditBusinessSchemaProduct';
+
+import { FaHistory } from 'react-icons/fa';
+
+import { getLogin } from '@/utils/sessions';
+import { useAuthStore } from '@/store';
+
+type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
 export default function NonProduct() {
-  const data: any = [
-    {
-      name: 'Whatsapp',
-      img: whatsappIcon,
-      schema: [
-        {
-          label: 'Per Outgoing Utility Message',
-          value: 0,
-        },
-        {
-          label: 'Per Outgoing Auth Message',
-          value: 0,
-        },
-        {
-          label: 'Per Outgoing Marketing Message',
-          value: 0,
-        },
-      ],
-    },
-    {
-      name: 'SMS',
-      img: smsIcon,
-      schema: [
-        {
-          label: 'Per Outgoing Message',
-          value: 0,
-        },
-      ],
-    },
-    {
-      name: 'Voice',
-      img: VoiceDashboard,
-      schema: [
-        {
-          label: 'Per Phone Duration in minutes',
-          value: 0,
-        },
-      ],
-    },
-    {
-      name: 'Video Call',
-      img: VoiceDashboard,
-      schema: [
-        {
-          label: 'Per video call duration in minutes',
-          value: 0,
-        },
-      ],
-    },
-  ];
+  const { user } = useAuthStore((state) => state);
+  const [dataEdit, setdataEdit] = React.useState<any>(null);
+  const [changeDataKey, setChangeDataKey] = React.useState('');
+  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
+  const handleCancelEdit = () => setIsModalEdit(false);
+
+  const [dates, setDates] = React.useState<RangeValue>(null);
+
+  const [IsModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const handleCancelOpen = () => setIsModalOpen(false);
+
+  const {
+    data: dataPlatform,
+    isLoading: isLoadingPlatform,
+    error: errorPlatform,
+    isError: isErrorPlatform,
+    isSuccess: isSuccessPlatform,
+  }: any = useGetProductNonPlatform({
+    token: getLogin()?.token ?? '',
+    id_reseller: user?._id,
+  });
+
+  const {
+    data: dataHistoryCost,
+    isLoading: isLoadingHistoryCost,
+    error: errorHistoryCost,
+    isError: isErrorHistoryCost,
+    isSuccess: isSuccessHistoryCost,
+  }: any = useGetHistoryCost({
+    productType: 'CHANNEL',
+    token: getLogin()?.token ?? '',
+    updatedBy: user?._id,
+    user_id: user?._id,
+    query_key: 'RESELLER_CHANNEL_HISTORY_COST',
+    start_date: dates ? dayjs(dates[0]).format('YYYY-MM-DD') : '',
+    end_date: dates ? dayjs(dates[1]).format('YYYY-MM-DD') : '',
+  });
+
+  const mapVariable = (data: any) => {
+    switch (data.productName) {
+      case 'User License':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>per license</Typography>
+              <Typography>
+                {formatRupiah(data.License.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('License');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Whatsapp':
+        return (
+          <div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '1em',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <Typography>Per Outgoing Utility Message</Typography>
+                <Typography>
+                  {formatRupiah(data.Outgoing_Utility.toString(), 'Rp.')}
+                </Typography>
+              </div>
+              <Tooltip title={'Edit Schema'}>
+                <Button
+                  onClick={() => {
+                    setIsModalEdit(true);
+                    setdataEdit(null);
+                    setdataEdit(data);
+                    setChangeDataKey('Outgoing_Utility');
+                  }}
+                  style={{ marginLeft: '0.5em' }}
+                  icon={<EditTwoTone />}
+                />
+              </Tooltip>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '1em',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <Typography>Per Outgoing Auth Message</Typography>
+                <Typography>
+                  {formatRupiah(data.Outgoing_Auth.toString(), 'Rp.')}
+                </Typography>
+              </div>
+              <Tooltip title={'Edit Schema'}>
+                <Button
+                  onClick={() => {
+                    setIsModalEdit(true);
+                    setdataEdit(null);
+                    setdataEdit(data);
+                    setChangeDataKey('Outgoing_Auth');
+                  }}
+                  style={{ marginLeft: '0.5em' }}
+                  icon={<EditTwoTone />}
+                />
+              </Tooltip>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '1em',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <Typography>Per Outgoing Marketing Message</Typography>
+                <Typography>
+                  {formatRupiah(data.Outgoing_Marketing.toString(), 'Rp.')}
+                </Typography>
+              </div>
+              <Tooltip title={'Edit Schema'}>
+                <Button
+                  onClick={() => {
+                    setIsModalEdit(true);
+                    setdataEdit(null);
+                    setdataEdit(data);
+                    setChangeDataKey('Outgoing_Marketing');
+                  }}
+                  style={{ marginLeft: '0.5em' }}
+                  icon={<EditTwoTone />}
+                />
+              </Tooltip>
+            </div>
+          </div>
+        );
+
+      case 'SMS':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>per Outgoing Message</Typography>
+              <Typography>
+                {formatRupiah(data.Outgoing_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Outgoing_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Telegram':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per incoming message</Typography>
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Voice':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per phone duration in minutes</Typography>
+              <Typography>
+                {formatRupiah(data.Phone_Duration.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Phone_Duration');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Email':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per incoming email</Typography>
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Livechat':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per session livechat</Typography>
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+      case 'Line':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per incoming message</Typography>
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Video Call':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per Videocall Duration in minutes</Typography>
+              <Typography>
+                {formatRupiah(data.Videocall_Duration.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Videocall_Duration');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Facebook Comment':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per incoming message</Typography>
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Facebook Message':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per incoming message</Typography>
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Instagram Comment':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per incoming message</Typography>
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Instagram Message':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per incoming message</Typography>
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Twitter Message':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per incoming message</Typography>
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      case 'Twitter Comment':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography>Per incoming message</Typography>
+
+              <Typography>
+                {formatRupiah(data.Incoming_Message.toString(), 'Rp.')}
+              </Typography>
+            </div>
+            <Tooltip title={'Edit Schema'}>
+              <Button
+                onClick={() => {
+                  setIsModalEdit(true);
+                  setdataEdit(null);
+                  setdataEdit(data);
+                  setChangeDataKey('Incoming_Message');
+                }}
+                style={{ marginLeft: '0.5em' }}
+                icon={<EditTwoTone />}
+              />
+            </Tooltip>
+          </div>
+        );
+
+      default:
+        break;
+    }
+  };
 
   return (
     <div>
@@ -67,53 +702,83 @@ export default function NonProduct() {
         }}
       >
         <h3>Business Schema Non Product</h3>
+        <Button
+          type="primary"
+          style={{ marginLeft: '1em' }}
+          icon={<FaHistory />}
+          onClick={() => setIsModalOpen(true)}
+        >
+          History Cost
+        </Button>
       </div>
-      <Row gutter={[16, 16]}>
-        {data.map((item: any, idx: number) => {
-          return (
-            <Col span={12}>
-              <Card
-                key={idx}
-                title={
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img
-                      src={item.img}
-                      alt="omnix-whatsapp"
-                      width={30}
-                      height={30}
-                    />
-                    <p style={{ marginLeft: 5 }}>{item.name}</p>
-                  </div>
-                }
-                extra={
-                  <Tooltip title={'Edit Schema'}>
-                    <Button
-                      onClick={() => {}}
-                      style={{ marginRight: '0.5em' }}
-                      icon={<EditTwoTone />}
-                    />
-                  </Tooltip>
-                }
-                style={{ minWidth: 300, width: 'auto' }}
-              >
-                <List
-                  dataSource={item.schema}
-                  renderItem={(item2: any) => {
-                    return (
-                      <List.Item key={item2.label}>
-                        <Typography>{item2.label}</Typography>
-                        <Typography>
-                          {formatRupiah(item2.value.toString(), 'Rp.')}
-                        </Typography>
-                      </List.Item>
-                    );
-                  }}
-                />
-              </Card>
-            </Col>
-          );
-        })}
-      </Row>
+      {isLoadingPlatform && <Loading />}
+      {isSuccessPlatform && dataPlatform && (
+        <Row gutter={[16, 16]}>
+          {dataPlatform.map((item: any, idx: number) => {
+            return (
+              <Col span={8} key={idx}>
+                <Card
+                  title={
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <p style={{ marginLeft: 5 }}>
+                        {item.name.replaceAll('_', ' ')}
+                      </p>
+                    </div>
+                  }
+                  style={{ minWidth: 300, width: 'auto' }}
+                >
+                  {item.data.map((item2: any, idx2: number) => (
+                    <div key={idx2}>
+                      <p style={{ fontWeight: 700 }}>{item2.productName}</p>
+                      {mapVariable(item2)}
+                    </div>
+                  ))}
+                </Card>
+              </Col>
+            );
+          })}
+        </Row>
+      )}
+
+      {dataEdit && (
+        <Modal
+          title={`Edit Product ${dataEdit?.productName}`}
+          isModalOpen={IsModalEdit}
+          handleCancel={handleCancelEdit}
+        >
+          <FormEditBusinessSchemaProduct
+            handleClose={handleCancelEdit}
+            data={dataEdit}
+            changeKey={changeDataKey}
+          />
+        </Modal>
+      )}
+
+      <Modal
+        title={'History Cost Reseller'}
+        isModalOpen={IsModalOpen}
+        handleCancel={handleCancelOpen}
+      >
+        <DatePicker.RangePicker
+          style={{ width: '100%' }}
+          onCalendarChange={(val) => {
+            setDates(val);
+          }}
+          onChange={(val) => {
+            setDates(val);
+          }}
+        />
+        {/* {isLoadingHistoryCost && <Loading />} */}
+        {isSuccessHistoryCost && dataHistoryCost && (
+          <Row gutter={[16, 16]} style={{ marginTop: 15 }}>
+            <HistoryCost data={dataHistoryCost} />
+          </Row>
+        )}
+        {!isLoadingHistoryCost && isErrorHistoryCost && (
+          <Error error={errorHistoryCost} />
+        )}
+      </Modal>
+      {!isLoadingPlatform && isErrorPlatform && <Error error={errorPlatform} />}
     </div>
   );
 }

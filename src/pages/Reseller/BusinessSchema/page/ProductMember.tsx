@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductPlatform } from '../Hooks/useGetProductDefaultReseller';
+import { useGetProductPlatform } from '../Hooks/useGetProductDefaultUser';
 import { useGetHistoryCost } from '@/hooks/ReactQuery/useGetHistoryCost';
 import Modal from '@/components/Modal';
 import Loading from '@/components/Loading';
@@ -22,21 +22,27 @@ import type { Dayjs } from 'dayjs';
 
 import { FaHistory } from 'react-icons/fa';
 
-import FormEditBusinessSchemaProduct from '../Form/FormEditBusinessSchemaProduct';
+import FormEditBusinessSchemaNonProductUser from '../Form/FormEditBusinessSchemaNonProductUser';
 
 import { getLogin } from '@/utils/sessions';
 import { useAuthStore } from '@/store';
 
+interface IProps {
+  id_user: string;
+}
+
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
-export default function Product() {
+export default function ProductMember(props: IProps) {
+  const { id_user } = props;
   const { user } = useAuthStore((state) => state);
   const [dataEdit, setdataEdit] = React.useState<any>(null);
   const [changeDataKey, setChangeDataKey] = React.useState('');
-  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
-  const handleCancelEdit = () => setIsModalEdit(false);
 
   const [dates, setDates] = React.useState<RangeValue>(null);
+
+  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
+  const handleCancelEdit = () => setIsModalEdit(false);
 
   const [IsModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const handleCancelOpen = () => setIsModalOpen(false);
@@ -50,6 +56,7 @@ export default function Product() {
   }: any = useGetProductPlatform({
     token: getLogin()?.token ?? '',
     id_reseller: user?._id,
+    id_user,
   });
 
   const {
@@ -62,8 +69,8 @@ export default function Product() {
     productType: 'PLATFORM',
     token: getLogin()?.token ?? '',
     updatedBy: user?._id,
-    user_id: user?._id,
-    query_key: 'RESELLER_PLATFORM_HISTORY_COST',
+    user_id: id_user,
+    query_key: 'USER_PLATFORM_HISTORY_COST',
     start_date: dates ? dayjs(dates[0]).format('YYYY-MM-DD') : '',
     end_date: dates ? dayjs(dates[1]).format('YYYY-MM-DD') : '',
   });
@@ -710,7 +717,7 @@ export default function Product() {
           marginBottom: 20,
         }}
       >
-        <h3>Business Schema Product</h3>
+        <h3>Business Schema Member Product</h3>
         <Button
           type="primary"
           style={{ marginLeft: '1em' }}
@@ -756,16 +763,17 @@ export default function Product() {
           isModalOpen={IsModalEdit}
           handleCancel={handleCancelEdit}
         >
-          <FormEditBusinessSchemaProduct
+          <FormEditBusinessSchemaNonProductUser
             handleClose={handleCancelEdit}
             data={dataEdit}
             changeKey={changeDataKey}
+            id_user={id_user}
           />
         </Modal>
       )}
 
       <Modal
-        title={'History Cost Reseller'}
+        title={'History Cost Member'}
         isModalOpen={IsModalOpen}
         handleCancel={handleCancelOpen}
       >

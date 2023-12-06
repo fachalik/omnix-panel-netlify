@@ -6,37 +6,42 @@ import {
   Typography,
   Tooltip,
   Button,
-  Divider,
+  Popconfirm,
   DatePicker,
 } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductPlatform } from '../Hooks/useGetProductDefaultReseller';
+import {
+  useGetProductNonPlatform,
+  usePatchProductNonPlatformStatus,
+} from '../Hooks/useGetProduct';
 import { useGetHistoryCost } from '@/hooks/ReactQuery/useGetHistoryCost';
 import Modal from '@/components/Modal';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import HistoryCost from '../components/HistoryCost';
+import HistoryCost from './HistoryCost';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 
 import { FaHistory } from 'react-icons/fa';
 
-import FormEditBusinessSchemaProduct from '../Form/FormEditBusinessSchemaProduct';
+import FormEditBusinessSchemaNonProduct from '../Form/FormEditBusinessSchemaNonProduct';
 
 import { getLogin } from '@/utils/sessions';
 import { useAuthStore } from '@/store';
 
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
-export default function Product() {
+export default function DefaultSchemaNonProduct() {
   const { user } = useAuthStore((state) => state);
   const [dataEdit, setdataEdit] = React.useState<any>(null);
   const [changeDataKey, setChangeDataKey] = React.useState('');
-  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
-  const handleCancelEdit = () => setIsModalEdit(false);
+  const [selectProduct, setSelectProduct] = React.useState('');
 
   const [dates, setDates] = React.useState<RangeValue>(null);
+
+  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
+  const handleCancelEdit = () => setIsModalEdit(false);
 
   const [IsModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const handleCancelOpen = () => setIsModalOpen(false);
@@ -47,10 +52,10 @@ export default function Product() {
     error: errorPlatform,
     isError: isErrorPlatform,
     isSuccess: isSuccessPlatform,
-  }: any = useGetProductPlatform({
-    token: getLogin()?.token ?? '',
-    id_reseller: user?._id,
-  });
+  }: any = useGetProductNonPlatform({ token: getLogin()?.token ?? '' });
+
+  const { mutate, isLoading: isLoadingChangeStatus } =
+    usePatchProductNonPlatformStatus();
 
   const {
     data: dataHistoryCost,
@@ -59,11 +64,11 @@ export default function Product() {
     isError: isErrorHistoryCost,
     isSuccess: isSuccessHistoryCost,
   }: any = useGetHistoryCost({
-    productType: 'PLATFORM',
+    productType: 'CHANNEL',
     token: getLogin()?.token ?? '',
     updatedBy: user?._id,
-    user_id: user?._id,
-    query_key: 'RESELLER_PLATFORM_HISTORY_COST',
+    user_id: '',
+    query_key: 'ADMIN_NON_PLATFORM_HISTORY_COST',
     start_date: dates ? dayjs(dates[0]).format('YYYY-MM-DD') : '',
     end_date: dates ? dayjs(dates[1]).format('YYYY-MM-DD') : '',
   });
@@ -710,7 +715,7 @@ export default function Product() {
           marginBottom: 20,
         }}
       >
-        <h3>Business Schema Product</h3>
+        <h3>Business Schema Non Product</h3>
         <Button
           type="primary"
           style={{ marginLeft: '1em' }}
@@ -730,7 +735,7 @@ export default function Product() {
                   title={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <p style={{ marginLeft: 5 }}>
-                        {item.name.replaceAll('_', ' ')}
+                        {item.name.productCategory.replaceAll('_', ' ')}
                       </p>
                     </div>
                   }
@@ -738,8 +743,46 @@ export default function Product() {
                 >
                   {item.data.map((item2: any, idx2: number) => (
                     <div key={idx2}>
-                      <Divider />
-                      <p style={{ fontWeight: 700 }}>{item2.productName}</p>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <p style={{ fontWeight: 700, marginRight: 5 }}>
+                          {item2.productName}
+                        </p>
+
+                        <Popconfirm
+                          title="Change Status"
+                          description="Are you sure to change this status"
+                          onConfirm={async () => {
+                            await setSelectProduct(item.name.productCategory);
+                            await mutate({
+                              productCategory: item.name.productCategory,
+                              status: item2.status == 1 ? 0 : 1,
+                            });
+                          }}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <Button
+                            loading={
+                              item.name.productCategory === selectProduct &&
+                              isLoadingChangeStatus
+                            }
+                            style={{
+                              backgroundColor:
+                                item2.status === 1 ? '#b7eb8f' : '#ffd591',
+                            }}
+                          >
+                            {item2.status === 1 ? 'ACTIVE' : 'IN ACTIVE'}
+                          </Button>
+                        </Popconfirm>
+                      </div>
+
                       {mapVariable(item2)}
                     </div>
                   ))}
@@ -756,16 +799,15 @@ export default function Product() {
           isModalOpen={IsModalEdit}
           handleCancel={handleCancelEdit}
         >
-          <FormEditBusinessSchemaProduct
+          <FormEditBusinessSchemaNonProduct
             handleClose={handleCancelEdit}
             data={dataEdit}
             changeKey={changeDataKey}
           />
         </Modal>
       )}
-
       <Modal
-        title={'History Cost Reseller'}
+        title={'History Cost Admin'}
         isModalOpen={IsModalOpen}
         handleCancel={handleCancelOpen}
       >
