@@ -730,11 +730,11 @@ export default function DefaultSchemaNonProduct() {
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
             return (
-              <Col span={8} key={idx}>
+              <Col xs={24} sm={24} md={12} lg={8} key={idx}>
                 <Card
                   title={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <p style={{ marginLeft: 5 }}>
+                      <p style={{ fontSize: '12px', fontWeight: 700 }}>
                         {item.name.productCategory.replaceAll('_', ' ')}
                       </p>
                     </div>
@@ -751,9 +751,7 @@ export default function DefaultSchemaNonProduct() {
                           marginBottom: 10,
                         }}
                       >
-                        <p style={{ fontWeight: 700, marginRight: 5 }}>
-                          {item2.productName}
-                        </p>
+                        <p style={{ fontWeight: 700 }}>{item2.productName}</p>
 
                         <Popconfirm
                           title="Change Status"

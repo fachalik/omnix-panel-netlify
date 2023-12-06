@@ -225,8 +225,8 @@ export default function AuthLayout1({ children }: IAuthLayout1) {
                       <img
                         src={RegisterImage}
                         alt="omnix-white"
-                        width={300}
-                        height={300}
+                        // width={300}
+                        // height={300}
                         style={{
                           backgroundSize: 'contain',
                           backgroundRepeat: 'no-repeat',

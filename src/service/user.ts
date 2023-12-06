@@ -20,6 +20,44 @@ export const getUserNoPagination = (token: string) => {
   });
 };
 
+export const getUserDetail = ({ token, id }: { token: string; id: string }) => {
+  return new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.get(`/api/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
+};
+
+export const updateUsers = ({ val, id }: any) => {
+  return new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.patch(`/api/users/${id}`, {
+        ...val,
+      });
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
+};
+
 // export const getUserDetail = (
 //   token: string,
 //   id: string | number,
@@ -79,21 +117,3 @@ export const getUserNoPagination = (token: string) => {
 //       reject(message);
 //     }
 //   });
-
-// export const updateUsers = ({ users, id }: any) => {
-//   return new Promise<any>(async (resolve, reject) => {
-//     try {
-//       const respon = await http.patch(`/api/v1/users/${id}`, {
-//         users,
-//       });
-//       if (respon.data) {
-//         resolve(respon.data);
-//       }
-//     } catch (err: any) {
-//       const message: string = err.response
-//         ? `${err.response.data.message}`
-//         : 'Oops, something wrong with our server, please try again later.';
-//       reject(message);
-//     }
-//   });
-// };

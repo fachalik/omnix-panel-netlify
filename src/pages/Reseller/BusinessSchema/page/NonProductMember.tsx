@@ -1,9 +1,23 @@
 import React from 'react';
-import { Card, Row, Col, Typography, Tooltip, Button, DatePicker } from 'antd';
+import {
+  Card,
+  Row,
+  Col,
+  Typography,
+  Tooltip,
+  Button,
+  DatePicker,
+  Descriptions,
+  Popconfirm,
+} from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductNonPlatform } from '../Hooks/useGetProductDefaultUser';
+import { useGetProductNonPlatform } from '@/hooks/ReactQuery/reseller/business/useGetProductDefaultUser';
 import { useGetHistoryCost } from '@/hooks/ReactQuery/useGetHistoryCost';
+import {
+  useGetUserDetail,
+  usePatchUser,
+} from '@/hooks/ReactQuery/useGetChangeStatusPayment';
 import Modal from '@/components/Modal';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
@@ -19,13 +33,13 @@ import { getLogin } from '@/utils/sessions';
 import { useAuthStore } from '@/store';
 
 interface IProps {
-  id_user: string;
+  data_user: any;
 }
 
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
 export default function NonProductMember(props: IProps) {
-  const { id_user } = props;
+  const { data_user } = props;
   const { user } = useAuthStore((state) => state);
   const [dataEdit, setdataEdit] = React.useState<any>(null);
   const [changeDataKey, setChangeDataKey] = React.useState('');
@@ -46,7 +60,7 @@ export default function NonProductMember(props: IProps) {
   }: any = useGetProductNonPlatform({
     token: getLogin()?.token ?? '',
     id_reseller: user?._id,
-    id_user,
+    id_user: data_user?._id,
   });
 
   const {
@@ -59,10 +73,28 @@ export default function NonProductMember(props: IProps) {
     productType: 'CHANNEL',
     token: getLogin()?.token ?? '',
     updatedBy: user?._id,
-    user_id: id_user,
+    user_id: data_user?._id,
     query_key: 'USER_CHANNEL_HISTORY_COST',
     start_date: dates ? dayjs(dates[0]).format('YYYY-MM-DD') : '',
     end_date: dates ? dayjs(dates[1]).format('YYYY-MM-DD') : '',
+  });
+
+  const {
+    data: dataMember,
+    isLoading: isLoadingMember,
+    error: errorMember,
+    isError: isErrorMember,
+    isSuccess: isSuccessMember,
+  }: any = useGetUserDetail({
+    token: getLogin()?.token ?? '',
+    id: data_user?._id,
+    query_key: 'PRODUCT_MEMBER_DETAIL',
+  });
+
+  const { mutate, isLoading: isLoadingChangeStatus } = usePatchUser({
+    token: getLogin()?.token ?? '',
+    id: data_user?._id,
+    query_key: 'PRODUCT_MEMBER_DETAIL',
   });
 
   const mapVariable = (data: any) => {
@@ -700,29 +732,88 @@ export default function NonProductMember(props: IProps) {
 
   return (
     <div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginBottom: 20,
-        }}
-      >
-        <h3>Business Schema Member Non Product</h3>
-        <Button
-          type="primary"
-          style={{ marginLeft: '1em' }}
-          icon={<FaHistory />}
-          onClick={() => setIsModalOpen(true)}
-        >
-          History Cost
-        </Button>
-      </div>
+      {isLoadingMember && <Loading height="5rem" />}
+      {isSuccessMember && dataMember && (
+        <>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 20,
+            }}
+          >
+            <h3>Business Schema Member Product</h3>
+            <Button
+              type="primary"
+              style={{ marginLeft: '1em' }}
+              icon={<FaHistory />}
+              onClick={() => setIsModalOpen(true)}
+            >
+              History Cost
+            </Button>
+          </div>
+
+          <div>
+            <Descriptions
+              title="User Info"
+              items={[
+                {
+                  key: '1',
+                  label: 'Name',
+                  children: dataMember?.name,
+                  span: 3,
+                },
+                {
+                  key: '2',
+                  label: 'Email',
+                  children: dataMember?.email,
+                  span: 3,
+                },
+
+                {
+                  key: '3',
+                  label: 'Payment Method',
+                  children: (
+                    <Popconfirm
+                      title={`Change Payment Status to ${
+                        dataMember?.paymentMethod === 'PREPAID'
+                          ? 'Postpaid'
+                          : 'Prepaid'
+                      }`}
+                      description="Are you sure to change this status"
+                      onConfirm={async () => {
+                        await mutate({
+                          val: {
+                            paymentMethod:
+                              dataMember?.paymentMethod === 'PREPAID'
+                                ? 'POSTPAID'
+                                : 'PREPAID',
+                          },
+                          id: dataMember?._id,
+                        });
+                      }}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Button loading={isLoadingChangeStatus} type="primary">
+                        {dataMember?.paymentMethod}
+                      </Button>
+                    </Popconfirm>
+                  ),
+                  span: 3,
+                },
+              ]}
+            />
+          </div>
+        </>
+      )}
+      {!isLoadingMember && isErrorMember && <Error error={errorMember} />}
       {isLoadingPlatform && <Loading />}
       {isSuccessPlatform && dataPlatform && (
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
             return (
-              <Col span={8} key={idx}>
+              <Col xs={24} sm={24} md={12} lg={8} key={idx}>
                 <Card
                   title={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -756,7 +847,7 @@ export default function NonProductMember(props: IProps) {
             handleClose={handleCancelEdit}
             data={dataEdit}
             changeKey={changeDataKey}
-            id_user={id_user}
+            id_user={data_user?.id}
           />
         </Modal>
       )}

@@ -8,11 +8,17 @@ import {
   Button,
   Divider,
   DatePicker,
+  Popconfirm,
+  Descriptions,
 } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductPlatform } from '../Hooks/useGetProductDefaultUser';
+import { useGetProductPlatform } from '@/hooks/ReactQuery/reseller/business/useGetProductDefaultUser';
 import { useGetHistoryCost } from '@/hooks/ReactQuery/useGetHistoryCost';
+import {
+  useGetUserDetail,
+  usePatchUser,
+} from '@/hooks/ReactQuery/useGetChangeStatusPayment';
 import Modal from '@/components/Modal';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
@@ -22,22 +28,25 @@ import type { Dayjs } from 'dayjs';
 
 import { FaHistory } from 'react-icons/fa';
 
-import FormEditBusinessSchemaNonProductUser from '../Form/FormEditBusinessSchemaNonProductUser';
+import FormEditBusinessSchemaProductUser from '../Form/FormEditBusinessSchemaProductUser';
 
 import { getLogin } from '@/utils/sessions';
 import { useAuthStore } from '@/store';
 
 interface IProps {
-  id_user: string;
+  user_data: any;
 }
 
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
 export default function MemberProduct(props: IProps) {
-  const { id_user } = props;
+  const { user_data } = props;
+  console.log('user_data', user_data);
+
   const { user } = useAuthStore((state) => state);
   const [dataEdit, setdataEdit] = React.useState<any>(null);
   const [changeDataKey, setChangeDataKey] = React.useState('');
+  const [selectProduct, setSelectProduct] = React.useState('');
 
   const [dates, setDates] = React.useState<RangeValue>(null);
 
@@ -56,7 +65,7 @@ export default function MemberProduct(props: IProps) {
   }: any = useGetProductPlatform({
     token: getLogin()?.token ?? '',
     id_reseller: 'admin',
-    id_user,
+    id_user: user_data._id ?? '',
   });
 
   const {
@@ -69,10 +78,28 @@ export default function MemberProduct(props: IProps) {
     productType: 'PLATFORM',
     token: getLogin()?.token ?? '',
     updatedBy: user?._id,
-    user_id: id_user,
+    user_id: user_data._id,
     query_key: 'USER_PLATFORM_HISTORY_COST',
     start_date: dates ? dayjs(dates[0]).format('YYYY-MM-DD') : '',
     end_date: dates ? dayjs(dates[1]).format('YYYY-MM-DD') : '',
+  });
+
+  const {
+    data: dataMember,
+    isLoading: isLoadingMember,
+    error: errorMember,
+    isError: isErrorMember,
+    isSuccess: isSuccessMember,
+  }: any = useGetUserDetail({
+    token: getLogin()?.token ?? '',
+    id: user_data?._id,
+    query_key: 'PRODUCT_MEMBER_DETAIL',
+  });
+
+  const { mutate, isLoading: isLoadingChangeStatus } = usePatchUser({
+    token: getLogin()?.token ?? '',
+    id: user_data?._id,
+    query_key: 'PRODUCT_MEMBER_DETAIL',
   });
 
   const mapVariable = (data: any) => {
@@ -710,35 +737,127 @@ export default function MemberProduct(props: IProps) {
 
   return (
     <div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginBottom: 20,
-        }}
-      >
-        <h3>Business Schema Member Product</h3>
-        <Button
-          type="primary"
-          style={{ marginLeft: '1em' }}
-          icon={<FaHistory />}
-          onClick={() => setIsModalOpen(true)}
-        >
-          History Cost
-        </Button>
-      </div>
+      {isLoadingMember && <Loading height="5rem" />}
+      {isSuccessMember && dataMember && (
+        <>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 20,
+            }}
+          >
+            <h3>Business Schema Member Product</h3>
+            <Button
+              type="primary"
+              style={{ marginLeft: '1em' }}
+              icon={<FaHistory />}
+              onClick={() => setIsModalOpen(true)}
+            >
+              History Cost
+            </Button>
+          </div>
+
+          <div>
+            <Descriptions
+              title="User Info"
+              items={[
+                {
+                  key: '1',
+                  label: 'Name',
+                  children: dataMember?.name,
+                  span: 3,
+                },
+                {
+                  key: '2',
+                  label: 'Email',
+                  children: dataMember?.email,
+                  span: 3,
+                },
+
+                {
+                  key: '3',
+                  label: 'Payment Method',
+                  children: (
+                    <Popconfirm
+                      title={`Change Payment Status to ${
+                        dataMember?.paymentMethod === 'PREPAID'
+                          ? 'Postpaid'
+                          : 'Prepaid'
+                      }`}
+                      description="Are you sure to change this status"
+                      onConfirm={async () => {
+                        await mutate({
+                          val: {
+                            paymentMethod:
+                              dataMember?.paymentMethod === 'PREPAID'
+                                ? 'POSTPAID'
+                                : 'PREPAID',
+                          },
+                          id: dataMember?._id,
+                        });
+                      }}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Button loading={isLoadingChangeStatus} type="primary">
+                        {dataMember?.paymentMethod}
+                      </Button>
+                    </Popconfirm>
+                  ),
+                  span: 3,
+                },
+              ]}
+            />
+          </div>
+        </>
+      )}
+      {!isLoadingMember && isErrorMember && <Error error={errorMember} />}
+
       {isLoadingPlatform && <Loading />}
       {isSuccessPlatform && dataPlatform && (
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
             return (
-              <Col span={8} key={idx}>
+              <Col xs={24} sm={24} md={12} lg={8} key={idx}>
                 <Card
                   title={
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <p style={{ marginLeft: 5 }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <p style={{ fontSize: '12px', fontWeight: 700 }}>
                         {item.name.replaceAll('_', ' ')}
                       </p>
+                      <Popconfirm
+                        title="Change Status"
+                        description="Are you sure to change this status"
+                        onConfirm={async () => {
+                          // await setSelectProduct(item.name.productCategory);
+                          // await mutate({
+                          //   productCategory: item.name.productCategory,
+                          //   status: item.data[0].status == 1 ? 0 : 1,
+                          // });
+                        }}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button
+                          // loading={
+                          //   item.name.productCategory === selectProduct &&
+                          //   isLoadingChangeStatus
+                          // }
+                          style={{
+                            backgroundColor:
+                              item.data[0].status === 1 ? '#b7eb8f' : '#ffd591',
+                          }}
+                        >
+                          {item.data[0].status === 1 ? 'ACTIVE' : 'IN ACTIVE'}
+                        </Button>
+                      </Popconfirm>
                     </div>
                   }
                   style={{ minWidth: 300, width: 'auto' }}
@@ -746,7 +865,16 @@ export default function MemberProduct(props: IProps) {
                   {item.data.map((item2: any, idx2: number) => (
                     <div key={idx2}>
                       <Divider />
-                      <p style={{ fontWeight: 700 }}>{item2.productName}</p>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <p style={{ fontWeight: 700 }}>{item2.productName}</p>
+                      </div>
                       {mapVariable(item2)}
                     </div>
                   ))}
@@ -763,11 +891,11 @@ export default function MemberProduct(props: IProps) {
           isModalOpen={IsModalEdit}
           handleCancel={handleCancelEdit}
         >
-          <FormEditBusinessSchemaNonProductUser
+          <FormEditBusinessSchemaProductUser
             handleClose={handleCancelEdit}
             data={dataEdit}
             changeKey={changeDataKey}
-            id_user={id_user}
+            id_user={user_data?._id}
           />
         </Modal>
       )}

@@ -10,11 +10,14 @@ import { useAuthStore } from '@/store';
 
 export default function TabMember() {
   const { user } = useAuthStore((state) => state);
-  const [selectedMember, setSelectedMember] = React.useState('');
+  const [selectedMember, setSelectedMember] = React.useState({
+    label: '',
+    value: '',
+  });
   const [schema, setSchema] = React.useState('platform');
 
-  const handleChange = (value: string) => {
-    setSelectedMember(value);
+  const handleChangeMember = (_: string, option: any) => {
+    setSelectedMember(option);
   };
 
   const { data: dataMember, isLoading: isLoadingMember } =
@@ -35,7 +38,7 @@ export default function TabMember() {
         loading={isLoadingMember}
         showSearch
         style={{ width: '100%' }}
-        onChange={handleChange}
+        onChange={handleChangeMember}
         defaultValue={''}
         optionFilterProp="children"
         filterOption={(input: any, option: any) =>
@@ -48,7 +51,7 @@ export default function TabMember() {
         }
         options={dataMember}
       />
-      {selectedMember ? (
+      {selectedMember.value !== '' && (
         <Space
           direction="vertical"
           size="middle"
@@ -88,18 +91,21 @@ export default function TabMember() {
             </div>
           </div>
 
-          {schema === 'platform' && <ProductMember id_user={selectedMember} />}
+          {schema === 'platform' && (
+            <ProductMember data_user={selectedMember} />
+          )}
           {schema === 'non-platform' && (
-            <NoProductPageMember id_user={selectedMember} />
+            <NoProductPageMember data_user={selectedMember} />
           )}
         </Space>
-      ) : (
+      )}
+
+      {selectedMember?.value == '' && (
         <Empty
           style={{ marginTop: 20 }}
           description={<span>Please Select Member</span>}
         ></Empty>
       )}
-
     </div>
   );
 }

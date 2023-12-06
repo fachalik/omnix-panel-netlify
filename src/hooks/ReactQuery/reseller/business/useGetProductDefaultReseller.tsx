@@ -1,10 +1,11 @@
+import { message } from 'antd';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getProductNonPlatformResellerDefault,
   getProductPlatformResellerDefault,
   updateProductResellerDefault,
 } from '@/service/product-v3';
-import { useNotificatonStore } from '@/store';
+// import { useNotificatonStore } from '@/store';
 
 export type GetPackageQueryParams = {
   token: string;
@@ -41,25 +42,14 @@ const patchProductPlatform = async ({ val, id, id_reseller }: any) => {
 
 export const usePatchProductPlatform = () => {
   const queryClient = useQueryClient();
-  const { setNotification } = useNotificatonStore((state) => state);
   return useMutation<any, Error, any>(patchProductPlatform, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY_PLATFORM);
-      await setNotification({
-        message: 'Business Schema',
-        description: 'Business Schema Berhasil diedit',
-        type: 'success',
-        hit: true,
-      });
+      message.success('Business Schema Berhasil diedit');
     },
     onError: async (error) => {
       await console.error(error);
-      setNotification({
-        message: 'Business schema product mengalami kesalahan',
-        description: error.message,
-        type: 'error',
-        hit: true,
-      });
+      message.error(error.message);
     },
   });
 };
@@ -91,25 +81,12 @@ const patchProductNonPlatform = async ({ val, id, id_reseller }: any) => {
 
 export const usePatchProductNonPlatform = () => {
   const queryClient = useQueryClient();
-  const { setNotification } = useNotificatonStore((state) => state);
   return useMutation<any, Error, any>(patchProductNonPlatform, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY_NON_PLATFORM);
-      await setNotification({
-        message: 'Business Schema',
-        description: 'Business Schema Berhasil diedit',
-        type: 'success',
-        hit: true,
-      });
     },
     onError: async (error) => {
       await console.error(error);
-      setNotification({
-        message: 'Business schema product mengalami kesalahan',
-        description: error.message,
-        type: 'error',
-        hit: true,
-      });
     },
   });
 };

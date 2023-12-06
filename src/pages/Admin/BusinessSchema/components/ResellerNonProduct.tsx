@@ -12,12 +12,8 @@ import {
 } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductNonPlatform } from '@/hooks/ReactQuery/reseller/business/useGetProductDefaultUser';
+import { useGetProductNonPlatform } from '@/hooks/ReactQuery/reseller/business/useGetProductDefaultReseller';
 import { useGetHistoryCost } from '@/hooks/ReactQuery/useGetHistoryCost';
-import {
-  useGetUserDetail,
-  usePatchUser,
-} from '@/hooks/ReactQuery/useGetChangeStatusPayment';
 import Modal from '@/components/Modal';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
@@ -27,7 +23,7 @@ import type { Dayjs } from 'dayjs';
 
 import { FaHistory } from 'react-icons/fa';
 
-import FormEditBusinessSchemaNonProductUser from '../Form/FormEditBusinessSchemaNonProductUser';
+import FormEditBusinessSchemaNonProductReseller from '../Form/FormEditBusinessSchemaNonProductReseller';
 
 import { getLogin } from '@/utils/sessions';
 import { useAuthStore } from '@/store';
@@ -40,7 +36,6 @@ type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
 export default function NonProductMember(props: IProps) {
   const { user_data } = props;
-
   const { user } = useAuthStore((state) => state);
   const [dataEdit, setdataEdit] = React.useState<any>(null);
   const [changeDataKey, setChangeDataKey] = React.useState('');
@@ -62,8 +57,7 @@ export default function NonProductMember(props: IProps) {
     isSuccess: isSuccessPlatform,
   }: any = useGetProductNonPlatform({
     token: getLogin()?.token ?? '',
-    id_reseller: 'admin',
-    id_user: user_data._id,
+    id_reseller: user_data?._id,
   });
 
   const {
@@ -75,29 +69,11 @@ export default function NonProductMember(props: IProps) {
   }: any = useGetHistoryCost({
     productType: 'CHANNEL',
     token: getLogin()?.token ?? '',
-    updatedBy: user?._id,
+    updatedBy: user_data._id,
     user_id: user_data._id,
     query_key: 'USER_CHANNEL_HISTORY_COST',
     start_date: dates ? dayjs(dates[0]).format('YYYY-MM-DD') : '',
     end_date: dates ? dayjs(dates[1]).format('YYYY-MM-DD') : '',
-  });
-
-  const {
-    data: dataMember,
-    isLoading: isLoadingMember,
-    error: errorMember,
-    isError: isErrorMember,
-    isSuccess: isSuccessMember,
-  }: any = useGetUserDetail({
-    token: getLogin()?.token ?? '',
-    id: user_data?._id,
-    query_key: 'NON_PRODUCT_MEMBER_DETAIL',
-  });
-
-  const { mutate, isLoading: isLoadingChangeStatus } = usePatchUser({
-    token: getLogin()?.token ?? '',
-    id: user_data?._id,
-    query_key: 'NON_PRODUCT_MEMBER_DETAIL',
   });
 
   const mapVariable = (data: any) => {
@@ -735,8 +711,7 @@ export default function NonProductMember(props: IProps) {
 
   return (
     <div>
-      {isLoadingMember && <Loading height="5rem" />}
-      {isSuccessMember && dataMember && (
+      {user_data.value && (
         <>
           <div
             style={{
@@ -745,7 +720,7 @@ export default function NonProductMember(props: IProps) {
               marginBottom: 20,
             }}
           >
-            <h3>Business Schema Member Non Product</h3>
+            <h3>Business Schema Reseller Non Product</h3>
             <Button
               type="primary"
               style={{ marginLeft: '1em' }}
@@ -763,44 +738,49 @@ export default function NonProductMember(props: IProps) {
                 {
                   key: '1',
                   label: 'Name',
-                  children: dataMember?.name,
+                  children: user_data?.name,
                   span: 3,
                 },
                 {
                   key: '2',
                   label: 'Email',
-                  children: dataMember?.email,
+                  children: user_data?.email,
                   span: 3,
                 },
                 {
                   key: '3',
                   label: 'Payment Method',
                   children: (
-                    <Popconfirm
-                      title={`Change Payment Status to ${
-                        dataMember?.paymentMethod === 'PREPAID'
-                          ? 'Postpaid'
-                          : 'Prepaid'
-                      }`}
-                      description="Are you sure to change this status"
-                      onConfirm={async () => {
-                        await mutate({
-                          val: {
-                            paymentMethod:
-                              dataMember?.paymentMethod === 'PREPAID'
-                                ? 'POSTPAID'
-                                : 'PREPAID',
-                          },
-                          id: dataMember?._id,
-                        });
-                      }}
-                      okText="Yes"
-                      cancelText="No"
-                    >
-                      <Button loading={isLoadingChangeStatus} type="primary">
-                        {dataMember?.paymentMethod}
-                      </Button>
-                    </Popconfirm>
+                    <>
+                      {user_data?.paymentMethod ? (
+                        <Popconfirm
+                          title={`Change Payment Status to ${
+                            user_data?.paymentMethod === 'PREPAID'
+                              ? 'Postpaid'
+                              : 'Prepaid'
+                          }`}
+                          description="Are you sure to change this status"
+                          onConfirm={async () => {
+                            // await setSelectProduct(item.name.productCategory);
+                            // await mutate({
+                            //   productCategory: item.name.productCategory,
+                            //   status: item.data[0].status == 1 ? 0 : 1,
+                            // });
+                          }}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <Button
+                            type="primary"
+                            style={{ textTransform: 'uppercase' }}
+                          >
+                            {user_data?.paymentMethod}
+                          </Button>
+                        </Popconfirm>
+                      ) : (
+                        '-'
+                      )}
+                    </>
                   ),
                   span: 3,
                 },
@@ -809,9 +789,7 @@ export default function NonProductMember(props: IProps) {
           </div>
         </>
       )}
-      {!isLoadingMember && isErrorMember && <Error error={errorMember} />}
-
-      {isLoadingMember && <Loading />}
+      {isLoadingPlatform && <Loading />}
       {isSuccessPlatform && dataPlatform && (
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
@@ -877,7 +855,6 @@ export default function NonProductMember(props: IProps) {
           })}
         </Row>
       )}
-      {!isLoadingPlatform && isErrorPlatform && <Error error={errorPlatform} />}
 
       {dataEdit && (
         <Modal
@@ -885,7 +862,7 @@ export default function NonProductMember(props: IProps) {
           isModalOpen={IsModalEdit}
           handleCancel={handleCancelEdit}
         >
-          <FormEditBusinessSchemaNonProductUser
+          <FormEditBusinessSchemaNonProductReseller
             handleClose={handleCancelEdit}
             data={dataEdit}
             changeKey={changeDataKey}
@@ -918,6 +895,7 @@ export default function NonProductMember(props: IProps) {
           <Error error={errorHistoryCost} />
         )}
       </Modal>
+      {!isLoadingPlatform && isErrorPlatform && <Error error={errorPlatform} />}
     </div>
   );
 }

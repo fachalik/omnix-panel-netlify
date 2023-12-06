@@ -1,7 +1,7 @@
 import { Button, Form, InputNumber, Row, Col } from 'antd';
 import useFormEditBusinessSchemaUser from '../Hooks/useFormBusinessSchemaUser';
 
-import { usePatchProductNonPlatform } from '@/hooks/ReactQuery/reseller/business/useGetProductDefaultUser';
+import { usePatchProductNonPlatform } from '@/hooks/ReactQuery/reseller/business/useGetProductDefaultReseller';
 
 // import { useAuthStore } from '@/store';
 
@@ -12,7 +12,7 @@ interface IFormUsers {
   id_user: any;
 }
 
-export default function FormEditBusinessSchemaNonProductUser({
+export default function FormEditBusinessSchemaNonProductReseller({
   handleClose,
   data,
   changeKey,

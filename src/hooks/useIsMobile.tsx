@@ -1,7 +1,7 @@
 import React from 'react';
 
 const useIsMobile = () => {
-  const [isMobile, setIsMobile] = React.useState<any>(0);
+  const [isMobile, setIsMobile] = React.useState<any>(window.innerWidth <= 768);
 
   React.useEffect(() => {
     const onResize = () => {

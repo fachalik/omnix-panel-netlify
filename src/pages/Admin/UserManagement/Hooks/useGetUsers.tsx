@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getUser,
@@ -39,12 +40,9 @@ const createUser = async (val: any) => {
 export const useCreateUser = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, any>(createUser, {
-    onSuccess: async () =>
-      // data
-      {
-        await queryClient.invalidateQueries(QUERY_KEY);
-        // await Toast('success', `${menu} ${data.branch} has been added`);
-      },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QUERY_KEY);
+    },
     onError: (error) => {
       console.error(error);
     },
@@ -60,14 +58,10 @@ const destroyUser = async (id: number) => {
 export const useDestroyUser = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, any>(destroyUser, {
-    onSuccess: async () =>
-      // data
-      {
-        // console.log('data', data);
-        console.log(QUERY_KEY);
-        await queryClient.invalidateQueries(QUERY_KEY);
-        // await Toast('success', `${menu} has been deleted`);
-      },
+    onSuccess: async () => {
+      console.log(QUERY_KEY);
+      await queryClient.invalidateQueries(QUERY_KEY);
+    },
     onError: (error) => {
       console.error(error);
     },
@@ -83,14 +77,13 @@ const patchUser = async ({ val, id }: any) => {
 export const usePatchUser = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, any>(patchUser, {
-    onSuccess: async () =>
-      // data
-      {
-        await queryClient.invalidateQueries(QUERY_KEY);
-        // await Toast('success', `${menu} ${data.name} has been updated`);
-      },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QUERY_KEY);
+      message.success('user successfully updated');
+    },
     onError: (error) => {
       console.error(error);
+      message.error('failed updated user');
     },
   });
 };

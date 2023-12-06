@@ -1,6 +1,12 @@
 import { Spin, theme } from 'antd';
 
-function Loading() {
+interface IProps {
+  height?: string;
+}
+
+function Loading(props: IProps) {
+  const { height = '100vh' } = props;
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -10,7 +16,7 @@ function Loading() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        height,
         background: colorBgContainer,
       }}
     >

@@ -1,5 +1,43 @@
 import http from '../utils/request';
 
+export const getUser = ({
+  token,
+  page = 1,
+  limit = 10,
+  role = '',
+  is_not_paginate = '0',
+}: {
+  token: string;
+  page?: number;
+  limit?: number;
+  role: string;
+  is_not_paginate?: string;
+}) => {
+  return new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.get(`/api/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          limit,
+          page,
+          role,
+          is_not_paginate,
+        },
+      });
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
+};
+
 export const getMember = (
   token: string,
   page: number = 1,

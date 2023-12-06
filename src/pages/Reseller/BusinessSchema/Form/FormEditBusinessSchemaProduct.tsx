@@ -1,7 +1,7 @@
 import { Button, Form, InputNumber, Row, Col } from 'antd';
 import useFormBusinessSchema from '../Hooks/useFormBusinessSchema';
 
-import { usePatchProductPlatform } from '../Hooks/useGetProductDefaultReseller';
+import { usePatchProductPlatform } from '@/hooks/ReactQuery/reseller/business/useGetProductDefaultReseller';
 
 import { useAuthStore } from '@/store';
 

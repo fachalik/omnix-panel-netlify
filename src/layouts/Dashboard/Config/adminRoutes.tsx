@@ -13,6 +13,11 @@ const adminRoutes: any = [
     label: 'Manage Product',
   },
   {
+    key: `/user-management`,
+    icon: <FaUserCog />,
+    label: 'User Management',
+  },
+  {
     key: `/business-schema`,
     icon: <FaCog />,
     label: 'Business Schema',
@@ -25,11 +30,6 @@ const adminRoutes: any = [
     key: `/manage-tenant`,
     icon: <FaUserCog />,
     label: 'Manage Tenant',
-  },
-  {
-    key: `/user-management`,
-    icon: <FaUserCog />,
-    label: 'User Management',
   },
 ];
 

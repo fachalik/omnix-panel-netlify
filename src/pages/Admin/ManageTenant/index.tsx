@@ -111,7 +111,7 @@ export default function UserManagement() {
             loading={isLoading}
             style={{ marginTop: 10, paddingBottom: 20 }}
             columns={columns}
-            dataSource={data.data}
+            dataSource={[]}
           />
         )}
         {!isLoading && isError && <Error error={error} />}

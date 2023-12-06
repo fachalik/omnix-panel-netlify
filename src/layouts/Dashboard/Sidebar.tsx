@@ -57,6 +57,8 @@ export default function Sidebar() {
     }
   };
 
+  console.log('isMobile', isMobile);
+
   return (
     <Layout.Sider
       trigger={null}

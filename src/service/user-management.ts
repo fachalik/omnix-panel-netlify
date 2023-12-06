@@ -3,14 +3,15 @@ import http from '../utils/request';
 export const getUser = (token: string, page: number = 1, limit: number = 100) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.get(
-        `/api/v1/users?page=${page}&limit=${limit}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const respon = await http.get(`/api/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          page,
+          limit,
+        },
+      });
       if (respon.data) {
         resolve(respon.data);
       }
@@ -77,11 +78,11 @@ export const deleteUser = (id: number) =>
     }
   });
 
-export const updateUsers = ({ users, id }: any) => {
+export const updateUsers = ({ val, id }: any) => {
   return new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.patch(`/api/v1/users/${id}`, {
-        users,
+      const respon = await http.patch(`/api/users/${id}`, {
+        ...val,
       });
       if (respon.data) {
         resolve(respon.data);

@@ -35,11 +35,16 @@ export default function useFormEditBusinessSchema(
     delete payload['productId'];
     delete payload['updatedBy'];
 
-    payload['images'] = [
-      {
-        _id: data['images'][0],
-      },
-    ];
+    if (data['images'].length !== 0) {
+      payload['images'] = [
+        {
+          _id: data['images'][0],
+        },
+      ];
+    } else {
+      payload['images'] = [];
+    }
+
     payload[changeKey] = params.productPrice;
     payload['productPrice'] = params.productPrice;
 

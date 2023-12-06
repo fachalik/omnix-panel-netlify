@@ -731,7 +731,7 @@ export default function DefaultSchemaProduct() {
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
             return (
-              <Col span={8} key={idx}>
+              <Col xs={24} sm={24} md={12} lg={8} key={idx}>
                 <Card
                   title={
                     <div
@@ -741,7 +741,7 @@ export default function DefaultSchemaProduct() {
                         justifyContent: 'space-between',
                       }}
                     >
-                      <p style={{ marginLeft: 5 }}>
+                      <p style={{ fontSize: '12px', fontWeight: 700 }}>
                         {item.name.productCategory.replaceAll('_', ' ')}
                       </p>
                       <Popconfirm

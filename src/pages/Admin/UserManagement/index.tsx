@@ -1,13 +1,13 @@
 import React from 'react';
-import { Button, Table, Tag, Popconfirm, Tooltip } from 'antd';
+import { Button, Table, Tag, Tooltip, Dropdown, Menu, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useGetUsers } from './Hooks/useGetUsers';
+import { useGetUsers, usePatchUser } from './Hooks/useGetUsers';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import { palette } from '@/theme/themeConfig';
 import moment from 'moment';
-import { EditTwoTone, DeleteOutlined } from '@ant-design/icons';
+import { EditTwoTone } from '@ant-design/icons';
 import Modal from '@/components/Modal';
 import FormUser from './Form/FormUser';
 import FormUserEdit from './Form/FormUserEdit';
@@ -31,6 +31,39 @@ export default function UserManagement() {
     page: 1,
   });
 
+  const { mutate } = usePatchUser();
+
+  const switchRoleMap = (val: number) => {
+    switch (val) {
+      case 0:
+        return 'IN ACTIVE';
+
+      case 1:
+        return 'ACTIVE';
+
+      case 2:
+        return 'BLOCKED';
+
+      default:
+        return '-';
+    }
+  };
+  const switchRoleMapColor = (val: number) => {
+    switch (val) {
+      case 0:
+        return 'yellow';
+
+      case 1:
+        return palette.primary.main;
+
+      case 2:
+        return 'red';
+
+      default:
+        return '';
+    }
+  };
+
   const columns: ColumnsType<any> = [
     {
       title: 'Email',
@@ -41,15 +74,7 @@ export default function UserManagement() {
       title: 'Name',
       dataIndex: 'name',
       render: (_, record: any) => {
-        return <p>{`${record?.firstName} ${record?.lastName}`}</p>;
-      },
-    },
-    {
-      key: 'phoneNumber',
-      title: 'Phone Number',
-      dataIndex: 'phoneNumber',
-      render: (_, record: any) => {
-        return <p>{`${record?.phoneNumber ?? '-'}`}</p>;
+        return <p>{record?.name}</p>;
       },
     },
     {
@@ -57,7 +82,7 @@ export default function UserManagement() {
       title: 'Role',
       dataIndex: 'role',
       render: (_, record: any) => {
-        return <p>{`${record?.role?.name}`}</p>;
+        return <Tag>{`${record?.role}`}</Tag>;
       },
     },
     {
@@ -65,7 +90,11 @@ export default function UserManagement() {
       title: 'Status',
       dataIndex: 'status',
       render: (_, record: any) => {
-        return <p>{`${record?.status?.name}`}</p>;
+        return (
+          <Tag color={switchRoleMapColor(record?.status)}>{`${switchRoleMap(
+            record?.status
+          )}`}</Tag>
+        );
       },
     },
     {
@@ -98,36 +127,53 @@ export default function UserManagement() {
       dataIndex: 'action',
       render: (_, record: any) => {
         return (
-          <div>
-            <Tooltip title={'Edit user'}>
+          <Tooltip title={'Edit user'}>
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Popconfirm
+                    title="Change Status"
+                    description={`Are you sure to change ${record.name} to active?`}
+                    onConfirm={() => {
+                      mutate({
+                        val: { status: 1 },
+                        id: record._id,
+                      });
+                    }}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Menu.Item style={{ color: palette.primary.main }} key="1">
+                      Active
+                    </Menu.Item>
+                  </Popconfirm>
+                  <Popconfirm
+                    title="Change Status"
+                    description={`Are you sure to change ${record.name} to block?`}
+                    onConfirm={() => {
+                      mutate({
+                        val: { status: 2 },
+                        id: record._id,
+                      });
+                    }}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Menu.Item style={{ color: 'red' }} key="2">
+                      Block
+                    </Menu.Item>
+                  </Popconfirm>
+                </Menu>
+              }
+            >
               <Button
-                onClick={() => {
-                  setIsModalEdit(true);
-                  setEditData(null);
-                  setEditData(record);
-                }}
-                style={{ marginRight: '0.5em' }}
-                color={palette.primary.main}
+                onClick={() => console.log(record?.id)}
                 icon={<EditTwoTone />}
-              />
-            </Tooltip>
-            <Tooltip title={'Delete user'}>
-              <Popconfirm
-                title="Delete user?"
-                description="Are you sure to delete this user?"
-                onConfirm={() => {}}
-                onCancel={() => {}}
-                okText="Yes"
-                cancelText="No"
               >
-                <Button
-                  onClick={() => console.log(record?.id)}
-                  color={'red'}
-                  icon={<DeleteOutlined style={{ color: 'red' }} />}
-                />
-              </Popconfirm>
-            </Tooltip>
-          </div>
+                Change Status
+              </Button>
+            </Dropdown>
+          </Tooltip>
         );
       },
     },
@@ -137,9 +183,9 @@ export default function UserManagement() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>User Management</h3>
-        <Button type="primary" onClick={() => setIsModalCreate(true)}>
+        {/* <Button type="primary" onClick={() => setIsModalCreate(true)}>
           Tambah User
-        </Button>
+        </Button> */}
       </div>
       <div style={{ marginTop: '2em', overflow: 'auto' }}>
         {isLoading && <Loading />}

@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductPlatform } from '../Hooks/useGetProductDefaultReseller';
+import { useGetProductPlatform } from '@/hooks/ReactQuery/reseller/business/useGetProductDefaultReseller';
 import { useGetHistoryCost } from '@/hooks/ReactQuery/useGetHistoryCost';
 import Modal from '@/components/Modal';
 import Loading from '@/components/Loading';
@@ -725,7 +725,7 @@ export default function Product() {
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
             return (
-              <Col span={8} key={idx}>
+              <Col xs={24} sm={24} md={12} lg={8} key={idx}>
                 <Card
                   title={
                     <div style={{ display: 'flex', alignItems: 'center' }}>

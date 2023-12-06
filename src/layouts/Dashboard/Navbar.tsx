@@ -4,7 +4,15 @@ import {
   LogoutOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
-import { Layout, Button, Dropdown, Avatar, Modal } from 'antd';
+import {
+  Layout,
+  Button,
+  Dropdown,
+  Avatar,
+  Modal,
+  Tooltip,
+  message,
+} from 'antd';
 import type { MenuProps } from 'antd';
 
 import { palette } from '@/theme/themeConfig';
@@ -108,7 +116,7 @@ export default function Navbar() {
           icon={sidebarCollapse ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={() => setSidebarCollapse()}
         />
-        <p style={{ marginLeft: '1em', fontSize: 16, fontWeight: 600 }}>
+        <p style={{ marginLeft: '1em', fontSize: 12, fontWeight: 800 }}>
           {actulPathname}
         </p>
       </div>
@@ -120,6 +128,22 @@ export default function Navbar() {
           height: '100%',
         }}
       >
+        {user?.role.toLowerCase() == 'reseller' && (
+          <Tooltip placement="bottom" title={'Copy Referall Code'}>
+            <Button
+              onClick={() => {
+                navigator.clipboard.writeText(user?.ReferalCode ?? '');
+                message.success(
+                  `Referall Code ${user?.ReferalCode} has been copy`
+                );
+              }}
+              style={{ marginRight: 15 }}
+            >
+              {user?.ReferalCode}
+            </Button>
+          </Tooltip>
+        )}
+
         <div
           style={{
             display: 'flex',
