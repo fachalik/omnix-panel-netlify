@@ -1,6 +1,13 @@
 import http from '../utils/request';
 
-export const getUser = (token: string, page: number = 1, limit: number = 100) =>
+export const getUser = (
+  token: string,
+  page: number = 1,
+  limit: number = 100,
+  role?: string,
+  term?: string,
+  status?: string
+) =>
   new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.get(`/api/users`, {
@@ -10,6 +17,9 @@ export const getUser = (token: string, page: number = 1, limit: number = 100) =>
         params: {
           page,
           limit,
+          role,
+          term,
+          status,
         },
       });
       if (respon.data) {
@@ -81,7 +91,7 @@ export const deleteUser = (id: number) =>
 export const updateUsers = ({ val, id }: any) => {
   return new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.patch(`/api/users/${id}`, {
+      const respon = await http.patch(`/api/admin/update_user/${id}`, {
         ...val,
       });
       if (respon.data) {

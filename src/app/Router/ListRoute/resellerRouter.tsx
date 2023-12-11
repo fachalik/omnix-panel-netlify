@@ -65,6 +65,10 @@ const BusinessSchema = lazy(() => import('@/pages/Reseller/BusinessSchema'));
 
 const Member = lazy(() => import('@/pages/Reseller/Member'));
 
+const TeamManagement = lazy(() => import('@/pages/Reseller/TeamManagement'));
+
+const GroupManagement = lazy(() => import('@/pages/Reseller/GroupManagement'));
+
 const Routers: ListRouteProps[] = [
   {
     redirectLink: '*',
@@ -90,6 +94,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: Member,
     path: '/member',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.RESELLER],
+  },
+  {
+    comp: TeamManagement,
+    path: '/manage-team',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.RESELLER],
@@ -216,6 +227,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: ActivatedProduct,
     path: '/active-product',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.RESELLER],
+  },
+  {
+    comp: GroupManagement,
+    path: '/manage-group',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.RESELLER],

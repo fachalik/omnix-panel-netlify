@@ -1,25 +1,35 @@
 // import { Home, Planet, UserSetting } from '@/assets/icons';
-import { FaHome, FaShoppingBasket, FaUserCog, FaCog } from 'react-icons/fa';
+// import { FaHome, FaShoppingBasket, FaUserCog, FaCog } from 'react-icons/fa';
 
 const adminRoutes: any = [
   {
     key: `/home`,
-    icon: <FaHome />,
+    icon: 'ri-home-fill',
     label: 'Home',
   },
   {
     key: `/manage-product`,
-    icon: <FaShoppingBasket />,
+    icon: 'ri-home-fill',
     label: 'Manage Product',
   },
   {
+    key: `/manage-role`,
+    icon: 'ri-home-fill',
+    label: 'Role Management',
+  },
+  {
+    key: `/manage-team`,
+    icon: 'ri-home-fill',
+    label: 'Team Management',
+  },
+  {
     key: `/user-management`,
-    icon: <FaUserCog />,
+    icon: 'ri-home-fill',
     label: 'User Management',
   },
   {
     key: `/business-schema`,
-    icon: <FaCog />,
+    icon: 'ri-home-fill',
     label: 'Business Schema',
     children: [
       { key: '/schema-product', label: 'Product' },
@@ -28,7 +38,7 @@ const adminRoutes: any = [
   },
   {
     key: `/manage-tenant`,
-    icon: <FaUserCog />,
+    icon: 'ri-home-fill',
     label: 'Manage Tenant',
   },
 ];

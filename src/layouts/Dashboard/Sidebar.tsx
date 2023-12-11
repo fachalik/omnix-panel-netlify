@@ -1,17 +1,14 @@
 // import React from 'react';
 
-import { adminRoutes, userRoutes, resellerRoutes } from './Config';
+// import { adminRoutes, userRoutes, resellerRoutes } from './Config';
 
 import { Layout, Menu, Tooltip } from 'antd';
 // import type { MenuProps } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { Menu as MenuType } from '@/models/authModels';
 import { palette } from '@/theme/themeConfig';
-import {
-  useOtherStore,
-  useAuthStore,
-  //  useModalLogoutstore
-} from '@/store';
+import { useOtherStore, useAuthStore } from '@/store';
 import useIsMobile from '@/hooks/useIsMobile';
 import useWindowSize from '@/hooks/useWindowSize';
 import OmnixSmall from '@/assets/omnix-icon-white.png';
@@ -27,7 +24,8 @@ export default function Sidebar() {
   const { height } = useWindowSize();
 
   const {
-    user,
+    // user,
+    menu,
     //  logoutAuth, setIsLogout
   } = useAuthStore((state) => state);
 
@@ -41,23 +39,21 @@ export default function Sidebar() {
 
   const isMobile = useIsMobile();
 
-  const mapRoute = (role: string): any => {
-    switch (role) {
-      case 'reguler':
-        return userRoutes;
+  // const mapRoute = (role: string): any => {
+  //   switch (role) {
+  //     case 'reguler':
+  //       return userRoutes;
 
-      case 'admin':
-        return adminRoutes;
+  //     case 'admin':
+  //       return adminRoutes;
 
-      case 'reseller':
-        return resellerRoutes;
+  //     case 'reseller':
+  //       return resellerRoutes;
 
-      default:
-        return [];
-    }
-  };
-
-  console.log('isMobile', isMobile);
+  //     default:
+  //       return [];
+  //   }
+  // };
 
   return (
     <Layout.Sider
@@ -110,35 +106,56 @@ export default function Sidebar() {
         theme="light"
         mode="inline"
         onClick={(e) => {
-          navigate(e.key);
+          navigate(`/${e.key}`);
+          // alert(e.key);
         }}
         defaultSelectedKeys={[pathname]}
         defaultOpenKeys={[pathname]}
         selectedKeys={[pathname]}
-        items={mapRoute(user?.role.toLowerCase() ?? '').map(
-          (val: any, idx: number) => {
-            return {
-              key: val.key,
-              icon: (
-                <Tooltip placement="left">
-                  <div
-                    key={idx}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: '100%',
-                    }}
-                  >
-                    {val.icon}
-                  </div>
-                </Tooltip>
-              ),
-              label: val.label,
-              children: val?.children ?? null,
-            };
-          }
-        )}
+        items={menu?.map((val: MenuType, idx: number) => {
+          return {
+            key: val.menu_id[0].accessor,
+            icon: (
+              <Tooltip placement="left">
+                <div
+                  key={idx}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                  }}
+                  className={`${val.menu_id[0].icon}`}
+                />
+              </Tooltip>
+            ),
+            label: val.menu_id[0].label,
+            // children: val?.children ?? null,
+          };
+        })}
+        // items={mapRoute(user?.role.toLowerCase() ?? '').map(
+        //   (val: any, idx: number) => {
+        //     return {
+        //       key: val.key,
+        //       icon: (
+        //         <Tooltip placement="left">
+        //           <div
+        //             key={idx}
+        //             style={{
+        //               display: 'flex',
+        //               justifyContent: 'center',
+        //               alignItems: 'center',
+        //               height: '100%',
+        //             }}
+        //             className={`${val.icon}`}
+        //           />
+        //         </Tooltip>
+        //       ),
+        //       label: val.label,
+        //       children: val?.children ?? null,
+        //     };
+        //   }
+        // )}
       />
     </Layout.Sider>
   );

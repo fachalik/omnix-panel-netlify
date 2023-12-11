@@ -57,7 +57,8 @@ const ChannelWhatsappSubscribe = lazy(
 );
 
 const ActivatedProduct = lazy(() => import('@/pages/User/ActivatedProduct'));
-
+const TeamManagement = lazy(() => import('@/pages/User/TeamManagement'));
+const GroupManagement = lazy(() => import('@/pages/User/GroupManagement'));
 const Routers: ListRouteProps[] = [
   {
     redirectLink: '*',
@@ -144,6 +145,13 @@ const Routers: ListRouteProps[] = [
     auth: [RoleEnum.REGULER],
   },
   {
+    comp: TeamManagement,
+    path: '/manage-team',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.REGULER],
+  },
+  {
     comp: ChannelWhatsapp,
     path: '/channel-subscription/whatsapp',
     layout: 'Dashboard',
@@ -188,6 +196,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: ActivatedProduct,
     path: '/active-product',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.REGULER],
+  },
+  {
+    comp: GroupManagement,
+    path: '/manage-group',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.REGULER],

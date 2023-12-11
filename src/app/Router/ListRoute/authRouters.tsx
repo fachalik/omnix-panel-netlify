@@ -8,7 +8,8 @@ const LoginAdmin = lazy(() => import('@/pages/Auth/LoginAdmin'));
 const SignUp = lazy(() => import('@/pages/Auth/SingUp'));
 const Google = lazy(() => import('@/pages/Auth/Google'));
 const ForgetPassword = lazy(() => import('@/pages/Auth/ForgetPassword'));
-const Verif = lazy(() => import('@/pages/Auth/Verif'));
+const VerifUser = lazy(() => import('@/pages/Auth/Verif/VerifUser'));
+const VerifReseller = lazy(() => import('@/pages/Auth/Verif/VerifReseller'));
 const ConfirmEmail = lazy(() => import('@/pages/Auth/ConfirmEmail'));
 
 const ListRoute: ListRouteProps[] = [
@@ -55,8 +56,15 @@ const ListRoute: ListRouteProps[] = [
     auth: 'Public',
   },
   {
-    comp: Verif,
-    path: '/verify',
+    comp: VerifUser,
+    path: '/verify-user',
+    index: true,
+    layout: 'Plain',
+    auth: 'Public',
+  },
+  {
+    comp: VerifReseller,
+    path: '/verify-reseller',
     index: true,
     layout: 'Plain',
     auth: 'Public',

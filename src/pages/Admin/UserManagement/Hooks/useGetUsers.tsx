@@ -11,6 +11,9 @@ export type GetPackageQueryParams = {
   token: string;
   page: number;
   limit: number;
+  role?: string;
+  term?: string;
+  status?: string;
 };
 
 const QUERY_KEY = ['LIST_USERS_ADMIN'];
@@ -18,7 +21,14 @@ const QUERY_KEY = ['LIST_USERS_ADMIN'];
 // ** GET
 
 const fetchUsers = async (params: GetPackageQueryParams): Promise<any> => {
-  const data = await getUser(params.token, params.page, params.limit);
+  const data = await getUser(
+    params.token,
+    params.page,
+    params.limit,
+    params.role,
+    params.term,
+    params.status
+  );
   return data;
 };
 

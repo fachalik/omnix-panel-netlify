@@ -24,7 +24,7 @@ export default function NotFound() {
             <br />
             Something went wrong
           </h1>
-          <h1 style={{ fontSize: '15px', fontWeight: 500, lineHeight: '40px' }}>
+          <h1 style={{ fontSize: '15pxf', fontWeight: 500, lineHeight: '40px' }}>
             page not found
           </h1>
 

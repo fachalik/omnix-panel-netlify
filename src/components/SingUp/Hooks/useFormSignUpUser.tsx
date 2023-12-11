@@ -25,12 +25,12 @@ export default function useFormSignUpUser() {
     payload['loginType'] = 'EMAIL';
     payload['status'] = 1;
     await timeout(1000);
-    console.log('payload', payload);
+    // console.log('payload', payload);
     await register(payload)
       .then(() => {
         const paramsData: any = [['email', payload.email]];
         navigate({
-          pathname: '/verify',
+          pathname: '/verify-user',
           search: `?${createSearchParams(paramsData)}`,
         });
       })

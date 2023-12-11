@@ -1,5 +1,16 @@
 import React from 'react';
-import { Button, Table, Tag, Tooltip, Dropdown, Menu, Popconfirm } from 'antd';
+import {
+  Button,
+  Table,
+  Tag,
+  Tooltip,
+  Dropdown,
+  Menu,
+  Popconfirm,
+  Badge,
+  Typography,
+  Input,
+} from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useGetUsers, usePatchUser } from './Hooks/useGetUsers';
 import { getLogin } from '@/utils/sessions';
@@ -7,28 +18,39 @@ import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import { palette } from '@/theme/themeConfig';
 import moment from 'moment';
-import { EditTwoTone } from '@ant-design/icons';
-import Modal from '@/components/Modal';
-import FormUser from './Form/FormUser';
-import FormUserEdit from './Form/FormUserEdit';
+import { EditTwoTone, DeleteOutlined } from '@ant-design/icons';
+import type { SearchProps } from 'antd/es/input';
+import debounce from 'lodash.debounce';
+import lodash from 'lodash';
+// import Modal from '@/components/Modal';
+// import FormUser from './Form/FormUser';
+// import FormUserEdit from './Form/FormUserEdit';
+import { ControlOutlined } from '@ant-design/icons';
 
 export default function UserManagement() {
-  // ** Modal Create
-  const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
-  const handleCancelCreate = () => setIsModalCreate(false);
+  // // ** Modal Create
+  // const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
+  // const handleCancelCreate = () => setIsModalCreate(false);
 
-  // ** Modal Edit
-  const [editData, setEditData] = React.useState(null);
-  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
-  const handleCancelEdit = () => {
-    setEditData(null);
-    setIsModalEdit(false);
-  };
+  // // ** Modal Edit
+  // const [editData, setEditData] = React.useState(null);
+  // const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
+  // const handleCancelEdit = () => {
+  //   setEditData(null);
+  //   setIsModalEdit(false);
+  // };
+
+  const [role, setRole] = React.useState<string>('');
+  const [search, setSearch] = React.useState<string>('');
+  const [status, setStatus] = React.useState<string>('');
 
   const { data, isLoading, isSuccess, isError, error }: any = useGetUsers({
     token: getLogin()?.token ?? '',
     limit: 100,
     page: 1,
+    role,
+    term: search,
+    status,
   });
 
   const { mutate } = usePatchUser();
@@ -48,19 +70,19 @@ export default function UserManagement() {
         return '-';
     }
   };
-  const switchRoleMapColor = (val: number) => {
+  const switchRoleMapColor = (val: number): any => {
     switch (val) {
       case 0:
-        return 'yellow';
+        return 'warning';
 
       case 1:
-        return palette.primary.main;
+        return 'success';
 
       case 2:
-        return 'red';
+        return 'error';
 
       default:
-        return '';
+        return 'info';
     }
   };
 
@@ -74,7 +96,14 @@ export default function UserManagement() {
       title: 'Name',
       dataIndex: 'name',
       render: (_, record: any) => {
-        return <p>{record?.name}</p>;
+        return (
+          <p style={{ width: '150px' }}>
+            {lodash.truncate(record?.name, {
+              length: 15,
+              omission: '...',
+            })}
+          </p>
+        );
       },
     },
     {
@@ -89,11 +118,25 @@ export default function UserManagement() {
       key: 'status',
       title: 'Status',
       dataIndex: 'status',
+
       render: (_, record: any) => {
         return (
-          <Tag color={switchRoleMapColor(record?.status)}>{`${switchRoleMap(
-            record?.status
-          )}`}</Tag>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'start',
+              alignItems: 'center',
+              width: '80px',
+            }}
+          >
+            <Badge status={switchRoleMapColor(record?.status)} />
+            <Typography.Text
+              type={switchRoleMapColor(record?.status)}
+              style={{ fontSize: 12, marginLeft: 5 }}
+            >
+              {switchRoleMap(record?.status)}
+            </Typography.Text>
+          </div>
         );
       },
     },
@@ -179,14 +222,75 @@ export default function UserManagement() {
     },
   ];
 
+  const onSearch: SearchProps['onSearch'] = (value, _e) => setSearch(value);
+
+  const debounceSearch = debounce(onSearch, 500);
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>User Management</h3>
-        {/* <Button type="primary" onClick={() => setIsModalCreate(true)}>
-          Tambah User
-        </Button> */}
+        <div>
+          <Input.Search
+            placeholder="input search email or name"
+            onSearch={debounceSearch}
+            style={{ width: 250 }}
+          />
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="1" onClick={() => setRole('ADMIN')}>
+                  Admin
+                </Menu.Item>
+                <Menu.Item key="2" onClick={() => setRole('RESELLER')}>
+                  Reseller
+                </Menu.Item>
+                <Menu.Item key="3" onClick={() => setRole('REGULER')}>
+                  Reguler
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <Button style={{ marginLeft: 5 }} icon={<ControlOutlined />}>
+              Filter Role
+            </Button>
+          </Dropdown>
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="1" onClick={() => setStatus('1')}>
+                  ACTIVE
+                </Menu.Item>
+                <Menu.Item key="2" onClick={() => setStatus('0')}>
+                  IN ACTIVE
+                </Menu.Item>
+                <Menu.Item key="3" onClick={() => setStatus('2')}>
+                  BLOCKED
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <Button style={{ marginLeft: 5 }} icon={<ControlOutlined />}>
+              Filter Status
+            </Button>
+          </Dropdown>
+        </div>
       </div>
+      {(role || search || status) && (
+        <>
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              setRole('');
+              setSearch('');
+              setStatus('');
+            }}
+          >
+            Clear Filter
+          </Button>
+        </>
+      )}
       <div style={{ marginTop: '2em', overflow: 'auto' }}>
         {isLoading && <Loading />}
         {isSuccess && data && (
@@ -199,7 +303,7 @@ export default function UserManagement() {
         )}
         {!isLoading && isError && <Error error={error} />}
       </div>
-      <Modal
+      {/* <Modal
         title="Tambah User"
         isModalOpen={IsModalCreate}
         handleCancel={handleCancelCreate}
@@ -213,7 +317,7 @@ export default function UserManagement() {
         handleCancel={handleCancelEdit}
       >
         <FormUserEdit handleClose={handleCancelEdit} data={editData} />
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

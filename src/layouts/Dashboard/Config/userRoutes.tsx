@@ -1,26 +1,36 @@
 // import { Home, Channel, Planet, Dashboard } from '@/assets/icons';
-import { FaHome, FaShoppingBasket } from 'react-icons/fa';
-import { FaDisplay } from 'react-icons/fa6';
+// import { FaHome, FaShoppingBasket, FaCog, FaUserCog } from 'react-icons/fa';
+// import { FaDisplay } from 'react-icons/fa6';
 
 const userRoutes: any = [
   {
     key: `/home`,
-    icon: <FaHome />,
+    icon: 'ri-home-fill',
     label: 'Home',
   },
   {
     key: `/dashboard`,
-    icon: <FaDisplay />,
+    icon: 'ri-home-fill',
     label: 'Dashboard',
   },
   {
+    key: `/manage-role`,
+    icon: 'ri-home-fill',
+    label: 'Role Management',
+  },
+  {
+    key: `/manage-team`,
+    icon: 'ri-home-fill',
+    label: 'Team Management',
+  },
+  {
     key: `/channel-subscription`,
-    icon: <FaShoppingBasket />,
+    icon: 'ri-home-fill',
     label: 'Channel Subscription',
   },
   {
     key: `/product-activation`,
-    icon: <FaShoppingBasket />,
+    icon: 'ri-home-fill',
     label: 'Product Activation',
   },
 ];

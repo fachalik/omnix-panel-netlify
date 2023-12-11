@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { removeLogin, getLogin, setLogin } from '@/utils/sessions';
+import { getLogin } from '@/utils/sessions';
 
 const http = axios.create({
   baseURL: import.meta.env.VITE_APP_APP_API_URL,
 });
 
-const getToken = (): any => {
+const getToken = () => {
   const auth = getLogin();
   if (auth) {
     return auth.token;
@@ -13,16 +13,7 @@ const getToken = (): any => {
   return false;
 };
 
-const getRefreshToken = (): any => {
-  const auth = getLogin();
-  if (auth) {
-    return auth.refreshToken;
-  }
-  return false;
-};
-
-const token = getToken();
-const refreshToken = getRefreshToken();
+let token = getToken();
 
 http.defaults.headers.common.Accept = 'application/json';
 if (token) {
@@ -30,8 +21,22 @@ if (token) {
 }
 
 http.interceptors.response.use(
-  (response) => {
-    return response;
+  (config) => {
+    const getToken = () => {
+      const auth = getLogin();
+      if (auth) {
+        return auth.token;
+      }
+      return false;
+    };
+
+    let token = getToken();
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
   },
   async (error) => {
     // const { response, config } = error;

@@ -65,6 +65,44 @@ export const getMe = (token: string) =>
     }
   });
 
+export const getMenu = (token: string) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.get(`/api/settings-menu/get_m_setting_menu`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      // const message: string = err.response
+      //   ? `${err.response.data.message}`
+      //   : 'Oops, something wrong with our server, please try again later.';
+      reject(err);
+    }
+  });
+
+export const getMenuMember = (token: string) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.get(`/api/settings-menu/get_menu_permissions`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      // const message: string = err.response
+      //   ? `${err.response.data.message}`
+      //   : 'Oops, something wrong with our server, please try again later.';
+      reject(err);
+    }
+  });
+
 export const logout = (role: string) =>
   new Promise<any>(async (resolve, reject) => {
     try {

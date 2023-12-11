@@ -17,7 +17,6 @@ export default function FormForgetPassword() {
       <Form
         style={{ marginTop: 20 }}
         autoComplete="off"
-        // form={form}
         name="basic"
         layout="vertical"
         initialValues={{}}

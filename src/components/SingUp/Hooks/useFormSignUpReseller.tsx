@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Form } from 'antd';
-import { timeout } from '@/utils/utilitys';
-import { useNavigate } from 'react-router-dom';
+import { timeout, removeEmptyValues } from '@/utils/utilitys';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import { register } from '@/service/auth';
 
 export default function useFormSignUpReseller() {
@@ -18,13 +18,22 @@ export default function useFormSignUpReseller() {
     setIsLoading(true);
     delete params.password_confirmation;
 
-    const payload = { ...params };
+    let clearParams: any = await removeEmptyValues(params);
+
+    const payload = { ...clearParams };
     payload['role'] = 'RESELLER';
     payload['loginType'] = 'EMAIL';
     payload['status'] = 1;
     await timeout(1000);
+    // console.log('payload', payload);
     await register(payload)
-      .then(() => navigate('/verify'))
+      .then(() => {
+        const paramsData: any = [['email', payload.email]];
+        navigate({
+          pathname: '/verify-reseller',
+          search: `?${createSearchParams(paramsData)}`,
+        });
+      })
       .catch((err) => console.log(err));
 
     setIsLoading(false);

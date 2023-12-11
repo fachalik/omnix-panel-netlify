@@ -30,26 +30,39 @@ export interface User {
   reseller: null;
   role: string;
   __v: number;
-  // id: number;
-  // email: string;
-  // provider: string;
-  // socialId: string;
-  // firstName: string;
-  // lastName: string;
-  // createdAt: Date;
-  // updatedAt: Date;
-  // deletedAt: null;
-  // phoneNumber: string;
-  // photo: null;
-  // role: Role;
-  // status: Role;
-  // __entity: string;
 }
 
 export interface Role {
   id: number;
   name: string;
   __entity: string;
+}
+
+export interface Menu {
+  _id: string;
+  role: string;
+  menu_id: MenuID[];
+  status: string;
+  createdAt: null;
+  updatedAt: null;
+  createdBy: null;
+  updatedBy: null;
+  __v: number;
+}
+
+export interface MenuID {
+  _id: string;
+  accessor: string;
+  icon: string;
+  parentAccessor: null;
+  status: string;
+  path: string;
+  label: string;
+  createdAt: null;
+  updatedAt: null;
+  createdBy: null;
+  updatedBy: null;
+  __v?: number;
 }
 
 //   {
