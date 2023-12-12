@@ -11,6 +11,8 @@ import { EditTwoTone, DeleteOutlined } from '@ant-design/icons';
 import Modal from '@/components/Modal';
 import FormAddGroup from './Form/FormAddGroup';
 import FormEditGroup from './Form/FormEditGroup';
+import AddMenu from './Modal/AddMenu';
+import Content from '@/layouts/Dashboard/Content';
 
 // import { useAuthStore } from '@/store';
 import lodash from 'lodash';
@@ -27,6 +29,14 @@ export default function GroupManagement() {
   const handleCancelEdit = () => {
     setEditData(null);
     setIsModalEdit(false);
+  };
+
+  // ** Modal Edit
+  const [idMenu, setidMenu] = React.useState<string>('');
+  const [IsMenu, setIsMenu] = React.useState<boolean>(false);
+  const handleCancelManu = () => {
+    setEditData(null);
+    setIsMenu(false);
   };
 
   const { data, isLoading, isSuccess, isError, error }: any = useGetGroup({
@@ -140,14 +150,14 @@ export default function GroupManagement() {
               <Button
                 type="default"
                 onClick={() => {
-                  setIsModalEdit(true);
-                  setEditData(null);
-                  setEditData(record);
+                  setIsMenu(true);
+                  setidMenu('');
+                  setidMenu(record._id);
                 }}
                 style={{ marginLeft: '0.5em' }}
-                // icon={<EditTwoTone />}
+                icon={<EditTwoTone />}
               >
-                Add Menu
+                ADD MENU
               </Button>
             </Tooltip>
           </div>
@@ -157,7 +167,7 @@ export default function GroupManagement() {
   ];
 
   return (
-    <div>
+    <Content>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>Group Management</h3>
         <Button type="primary" onClick={() => setIsModalCreate(true)}>
@@ -191,6 +201,15 @@ export default function GroupManagement() {
       >
         <FormEditGroup handleClose={handleCancelEdit} data={editData} />
       </Modal>
-    </div>
+
+      <Modal
+        title="Add Menu"
+        isModalOpen={IsMenu}
+        handleCancel={handleCancelManu}
+        width={1000}
+      >
+        <AddMenu id={idMenu} />
+      </Modal>
+    </Content>
   );
 }

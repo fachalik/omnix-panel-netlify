@@ -1,47 +1,89 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  getProductPlatform,
-  getProductNonPlatform,
-  updateProduct,
-  updateStatusProduct,
-} from '@/service/product-v3';
+  getProductAdmin,
+  postProductAdmin,
+  updateProductAdmin,
+  deleteProductAdmin,
+} from '@/service/product';
 import { message } from 'antd';
 
 export type GetPackageQueryParams = {
   token: string;
+  limit: number;
+  page: number;
+  query_key: string;
+  typeDetails: string;
+  productType: string;
+  term?: string;
+  status?: string;
+  productCategory?: string;
+  is_not_paginate?: string;
 };
 
-const QUERY_KEY_PLATFORM = ['LIST_PRODUCT_ADMIN_PLATFORM'];
-const QUERY_KEY_NON_PLATFORM = ['LIST_PRODUCT_ADMIN_NON_PLATFORM'];
-
 // ** GET
-const fetchProductPlatform = async (
+const fetchProductAdmin = async (
   params: GetPackageQueryParams
 ): Promise<any> => {
-  const data = await getProductPlatform(params.token);
+  const data = await getProductAdmin({
+    token: params.token,
+    page: params.page,
+    limit: params.limit,
+    typeDetails: params.typeDetails,
+    productType: params.productType,
+    productCategory: params.productCategory,
+    status: params.status,
+    term: params.term,
+    is_not_paginate: params.is_not_paginate,
+  });
   return data;
 };
 
-export const useGetProductPlatform = (params: GetPackageQueryParams) => {
+export const useGetProductAdmin = (params: GetPackageQueryParams) => {
   return useQuery<any, Error>({
-    queryKey: [...QUERY_KEY_PLATFORM, params],
-    queryFn: () => fetchProductPlatform(params),
+    queryKey: [[params.query_key], params],
+    queryFn: () => fetchProductAdmin(params),
     keepPreviousData: true,
   });
 };
 
-// ** UPDATE
-const patchProductPlatform = async ({ val, id }: any) => {
-  const { data } = await updateProduct({ val, id });
+// ** CREATE
+
+const createProductAdmin = async (val: any) => {
+  const { data } = await postProductAdmin(val);
   return data;
 };
 
-export const usePatchProductPlatform = () => {
+export const usecreateProductAdmin = ({ query_key }: { query_key: string }) => {
   const queryClient = useQueryClient();
-  return useMutation<any, Error, any>(patchProductPlatform, {
+  return useMutation<any, Error, any>(createProductAdmin, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries(QUERY_KEY_PLATFORM);
-      message.success('Business Schema Berhasil diedit');
+      console.log('query_key', [query_key]);
+      await queryClient.invalidateQueries([query_key]);
+      message.success('Product has been added');
+    },
+    onError: (error) => {
+      console.error(error);
+      message.error('failed created Product');
+    },
+  });
+};
+
+// ** UPDATE
+const patchProductAdmin = async ({ val, id }: any) => {
+  const { data } = await updateProductAdmin({
+    val,
+    id,
+  });
+  return data;
+};
+
+export const usepatchProductAdmin = ({ query_key }: { query_key: string }) => {
+  const queryClient = useQueryClient();
+
+  return useMutation<any, Error, any>(patchProductAdmin, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries([query_key]);
+      message.success('Product Berhasil diedit');
     },
     onError: async (error) => {
       await console.error(error);
@@ -50,81 +92,21 @@ export const usePatchProductPlatform = () => {
   });
 };
 
-// ** UPDATE
-const patchProductPlatformStatus = async ({ productCategory, status }: any) => {
-  const { data } = await updateStatusProduct({ productCategory, status });
+// ** DELETE
+const destroyGroup = async ({ id }: { id: number }) => {
+  const { data } = await deleteProductAdmin(id);
   return data;
 };
 
-export const usePatchProductPlatformStatus = () => {
+export const usedestroyGroup = ({ query_key }: { query_key: string }) => {
   const queryClient = useQueryClient();
-  return useMutation<any, Error, any>(patchProductPlatformStatus, {
+  return useMutation<any, Error, any>(destroyGroup, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries(QUERY_KEY_PLATFORM);
-      message.success('Business Schema Berhasil diedit');
+      console.log([query_key]);
+      await queryClient.invalidateQueries([query_key]);
     },
-    onError: async (error) => {
-      await console.error(error);
-      message.error(error.message);
-    },
-  });
-};
-
-// ** GET
-const fetchProductNonPlatform = async (
-  params: GetPackageQueryParams
-): Promise<any> => {
-  const data = await getProductNonPlatform(params.token);
-  return data;
-};
-
-export const useGetProductNonPlatform = (params: GetPackageQueryParams) => {
-  return useQuery<any, Error>({
-    queryKey: [...QUERY_KEY_NON_PLATFORM, params],
-    queryFn: () => fetchProductNonPlatform(params),
-    keepPreviousData: true,
-  });
-};
-
-// ** UPDATE
-const patchProductNonPlatform = async ({ val, id }: any) => {
-  const { data } = await updateProduct({ val, id });
-  return data;
-};
-
-export const usePatchProductNonPlatform = () => {
-  const queryClient = useQueryClient();
-  return useMutation<any, Error, any>(patchProductNonPlatform, {
-    onSuccess: async () => {
-      await queryClient.invalidateQueries(QUERY_KEY_NON_PLATFORM);
-      message.success('Business Schema Berhasil diedit');
-    },
-    onError: async (error) => {
-      await console.error(error);
-      message.error(error.message);
-    },
-  });
-};
-
-// ** UPDATE
-const patchProductNonPlatformStatus = async ({
-  productCategory,
-  status,
-}: any) => {
-  const { data } = await updateStatusProduct({ productCategory, status });
-  return data;
-};
-
-export const usePatchProductNonPlatformStatus = () => {
-  const queryClient = useQueryClient();
-  return useMutation<any, Error, any>(patchProductNonPlatformStatus, {
-    onSuccess: async () => {
-      await queryClient.invalidateQueries(QUERY_KEY_NON_PLATFORM);
-      message.success('Business Schema Berhasil diedit');
-    },
-    onError: async (error) => {
-      await console.error(error);
-      message.error(error.message);
+    onError: (error) => {
+      console.error(error);
     },
   });
 };

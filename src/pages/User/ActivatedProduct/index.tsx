@@ -3,13 +3,14 @@ import { useActivatedProduct } from '@/store';
 import Step1 from '@/components/ActivatedProduct/Step1';
 import Step2 from '@/components/ActivatedProduct/Step2';
 import Step3 from '@/components/ActivatedProduct/Step3';
+import Content from '@/layouts/Dashboard/Content';
 // import { useLocation } from 'react-router-dom';
 
 function Page() {
   const { currentState } = useActivatedProduct((state) => state);
- 
+
   return (
-    <div
+    <Content
       style={{
         display: 'flex',
         alignItems: 'start',
@@ -59,7 +60,7 @@ function Page() {
 
         {currentState === 3 && <Step3 />}
       </div>
-    </div>
+    </Content>
   );
 }
 

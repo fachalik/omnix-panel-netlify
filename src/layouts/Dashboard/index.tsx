@@ -2,7 +2,7 @@ import React from 'react';
 
 import Sidebar from '@/layouts/Dashboard/Sidebar';
 import Navbar from '@/layouts/Dashboard/Navbar';
-import Content from '@/layouts/Dashboard/Content';
+// import Content from '@/layouts/Dashboard/Content';
 
 import { Layout } from 'antd';
 import NotificationContext from '@/hooks/NotificationContext';
@@ -28,9 +28,12 @@ export default function DashboardLayout({ children }: IDashboardLayout) {
               top: 60,
               right: 0,
               bottom: 0,
+              width: '100%',
+              height: '100%',
             }}
           >
-            <Content>{children}</Content>
+            {children}
+            {/* <Content>{children}</Content> */}
           </div>
         </Layout>
       </Layout>

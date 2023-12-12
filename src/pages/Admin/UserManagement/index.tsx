@@ -22,6 +22,7 @@ import { EditTwoTone, DeleteOutlined } from '@ant-design/icons';
 import type { SearchProps } from 'antd/es/input';
 import debounce from 'lodash.debounce';
 import lodash from 'lodash';
+import Content from '@/layouts/Dashboard/Content';
 // import Modal from '@/components/Modal';
 // import FormUser from './Form/FormUser';
 // import FormUserEdit from './Form/FormUserEdit';
@@ -227,7 +228,7 @@ export default function UserManagement() {
   const debounceSearch = debounce(onSearch, 500);
 
   return (
-    <div>
+    <Content>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>User Management</h3>
         <div>
@@ -318,6 +319,6 @@ export default function UserManagement() {
       >
         <FormUserEdit handleClose={handleCancelEdit} data={editData} />
       </Modal> */}
-    </div>
+    </Content>
   );
 }

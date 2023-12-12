@@ -15,6 +15,7 @@ import moment from 'moment';
 // import { EditTwoTone } from '@ant-design/icons';
 import Modal from '@/components/Modal';
 import FormAddTeam from './Form/FormAddTeam';
+import Content from '@/layouts/Dashboard/Content';
 // import FormUserEdit from './Form/FormUserEdit';
 
 import { useAuthStore } from '@/store';
@@ -189,7 +190,7 @@ export default function TeamManagement() {
   ];
 
   return (
-    <div>
+    <Content>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>Team Management</h3>
         <Button type="primary" onClick={() => setIsModalCreate(true)}>
@@ -223,6 +224,6 @@ export default function TeamManagement() {
       >
         <FormUserEdit handleClose={handleCancelEdit} data={editData} />
       </Modal> */}
-    </div>
+    </Content>
   );
 }

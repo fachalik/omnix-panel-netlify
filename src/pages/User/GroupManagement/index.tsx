@@ -11,6 +11,7 @@ import { EditTwoTone, DeleteOutlined } from '@ant-design/icons';
 import Modal from '@/components/Modal';
 import FormAddGroup from './Form/FormAddGroup';
 import FormEditGroup from './Form/FormEditGroup';
+import Content from '@/layouts/Dashboard/Content';
 
 // import { useAuthStore } from '@/store';
 import lodash from 'lodash';
@@ -143,7 +144,7 @@ export default function GroupManagement() {
   ];
 
   return (
-    <div>
+    <Content>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>Group Management</h3>
         <Button type="primary" onClick={() => setIsModalCreate(true)}>
@@ -177,6 +178,6 @@ export default function GroupManagement() {
       >
         <FormEditGroup handleClose={handleCancelEdit} data={editData} />
       </Modal>
-    </div>
+    </Content>
   );
 }

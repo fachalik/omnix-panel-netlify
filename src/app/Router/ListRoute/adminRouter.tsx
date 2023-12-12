@@ -7,11 +7,11 @@ const ManageProduct = lazy(() => import('@/pages/Admin/ManageProduct'));
 const ManageTenant = lazy(() => import('@/pages/Admin/ManageTenant'));
 const UserManagement = lazy(() => import('@/pages/Admin/UserManagement'));
 const BusinessManagementProduct = lazy(
-  () => import('@/pages/Admin/BusinessSchema/page/Product')
+  () => import('@/pages/Admin/BusinessSchema/page')
 );
-const BusinessManagementNonProduct = lazy(
-  () => import('@/pages/Admin/BusinessSchema/page/NonProduct')
-);
+// const BusinessManagementNonProduct = lazy(
+//   () => import('@/pages/Admin/BusinessSchema/page/NonProduct')
+// );
 const TeamManagement = lazy(() => import('@/pages/Admin/TeamManagement'));
 
 const GroupManagement = lazy(() => import('@/pages/Admin/GroupManagement'));
@@ -38,13 +38,13 @@ const Routers: ListRouteProps[] = [
     index: true,
     auth: [RoleEnum.ADMIN],
   },
-  {
-    comp: BusinessManagementNonProduct,
-    path: '/schema-non-product',
-    layout: 'Dashboard',
-    index: true,
-    auth: [RoleEnum.ADMIN],
-  },
+  // {
+  //   comp: BusinessManagementNonProduct,
+  //   path: '/schema-non-product',
+  //   layout: 'Dashboard',
+  //   index: true,
+  //   auth: [RoleEnum.ADMIN],
+  // },
   {
     comp: BusinessManagementProduct,
     path: '/schema-product',

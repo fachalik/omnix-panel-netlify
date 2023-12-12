@@ -9,6 +9,7 @@ import { DeleteOutlined, EditTwoTone } from '@ant-design/icons';
 import Modal from '@/components/Modal';
 import FormProduct from './Form/FormProduct';
 import FormProductEdit from './Form/FormProductEdit';
+import Content from '@/layouts/Dashboard/Content';
 
 // import { useAuthStore } from '@/store';
 import { timeout } from '@/utils/utilitys';
@@ -102,7 +103,7 @@ export default function ManageProduct() {
   ];
 
   return (
-    <div>
+    <Content>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>Product Management</h3>
         <Button type="primary" onClick={() => setIsModalCreate(true)}>
@@ -136,6 +137,6 @@ export default function ManageProduct() {
       >
         <FormProductEdit handleClose={handleCancelEdit} data={editData} />
       </Modal>
-    </div>
+    </Content>
   );
 }

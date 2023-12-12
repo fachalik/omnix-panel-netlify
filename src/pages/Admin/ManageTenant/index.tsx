@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import Modal from '@/components/Modal';
 import FormProduct from './Form/FormProduct';
+import Content from '@/layouts/Dashboard/Content';
 // import FormMemberEdit from './Form/FormProductEdit';
 
 import { useAuthStore } from '@/store';
@@ -97,7 +98,7 @@ export default function UserManagement() {
   ];
 
   return (
-    <div>
+    <Content>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>Tenant Management</h3>
         <Button type="primary" onClick={() => setIsModalCreate(true)}>
@@ -131,6 +132,6 @@ export default function UserManagement() {
       >
         <FormMemberEdit handleClose={handleCancelEdit} data={editData} />
       </Modal> */}
-    </div>
+    </Content>
   );
 }

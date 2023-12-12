@@ -14,6 +14,7 @@ import FormMember from './Form/FormMember';
 
 import { useAuthStore } from '@/store';
 import { timeout } from '@/utils/utilitys';
+import Content from '@/layouts/Dashboard/Content';
 
 export default function UserManagement() {
   const { user } = useAuthStore((state) => state);
@@ -81,7 +82,7 @@ export default function UserManagement() {
   ];
 
   return (
-    <div>
+    <Content>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>Member Management</h3>
         <Button type="primary" onClick={() => setIsModalCreate(true)}>
@@ -115,6 +116,6 @@ export default function UserManagement() {
       >
         <FormMemberEdit handleClose={handleCancelEdit} data={editData} />
       </Modal> */}
-    </div>
+    </Content>
   );
 }

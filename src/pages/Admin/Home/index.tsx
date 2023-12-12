@@ -1,3 +1,8 @@
+import Content from '@/layouts/Dashboard/Content';
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <Content>
+      <div>Home</div>
+    </Content>
+  );
 }

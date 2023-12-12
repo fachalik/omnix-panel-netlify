@@ -6,7 +6,7 @@ interface IContent {
   style?: any;
 }
 
-function Content({ children, style }: IContent) {
+function ContentLeft({ children, style }: IContent) {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -15,10 +15,11 @@ function Content({ children, style }: IContent) {
     <Layout.Content
       style={{
         padding: 24,
-        minHeight: '100%',
-        width: '100%',
+        maxHeight: '100%',
+        width: '20%',
         background: colorBgContainer,
         textAlign: 'start',
+        marginRight: 10,
         borderRadius: 8,
         ...style,
       }}
@@ -28,4 +29,4 @@ function Content({ children, style }: IContent) {
   );
 }
 
-export default Content;
+export default ContentLeft;

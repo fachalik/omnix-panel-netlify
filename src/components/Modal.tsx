@@ -7,10 +7,18 @@ interface IModal {
   handleCancel?: () => void;
   children: React.ReactNode;
   title: string;
+  width?: number;
 }
 
 export default function Modal(props: IModal) {
-  const { title, isModalOpen, handleCancel, handleOk, children } = props;
+  const {
+    title,
+    isModalOpen,
+    handleCancel,
+    handleOk,
+    children,
+    width = 600,
+  } = props;
   const [footer, setFooter] = React.useState<any[]>([]);
 
   React.useEffect(() => {
@@ -51,6 +59,7 @@ export default function Modal(props: IModal) {
       onOk={handleOk}
       onCancel={handleCancel}
       footer={footer}
+      width={width}
     >
       {children}
     </ModalANTD>

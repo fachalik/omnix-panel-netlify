@@ -1,6 +1,7 @@
 import { Card, Tabs } from 'antd';
 import CardItemChannel from '@/components/AllCard/CardItemChannel';
 import ExploreChannel from '@/components/ExploreChannel';
+import Content from '@/layouts/Dashboard/Content';
 
 export default function Page() {
   const dataChannel = [
@@ -31,7 +32,7 @@ export default function Page() {
   ];
 
   return (
-    <div>
+    <Content>
       <Card>
         <Tabs
           items={[
@@ -54,6 +55,6 @@ export default function Page() {
           }}
         ></Tabs>
       </Card>
-    </div>
+    </Content>
   );
 }

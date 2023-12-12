@@ -4,6 +4,7 @@ import { ArrowRightOutlined } from '@ant-design/icons';
 
 import { Button, Card, Row, Col } from 'antd';
 import { useAuthStore } from '@/store';
+import Content from '@/layouts/Dashboard/Content';
 
 import Illustration1 from '@/assets/image/home-illustration-1.svg';
 import Illustration2 from '@/assets/image/home-illustration-2.svg';
@@ -12,7 +13,7 @@ export default function HomeComponent() {
   const navigate = useNavigate();
   const { user } = useAuthStore((state) => state);
   return (
-    <div>
+    <Content>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
         <p style={{ fontSize: 20, fontWeight: 'bold' }}>
           {`Welcome to Omnix, ${user?.firstName ?? ''}`}
@@ -93,6 +94,6 @@ export default function HomeComponent() {
           </Col>
         </Row>
       </Card>
-    </div>
+    </Content>
   );
 }

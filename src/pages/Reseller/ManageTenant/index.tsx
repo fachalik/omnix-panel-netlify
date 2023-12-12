@@ -1,10 +1,11 @@
 import { Card, Tabs } from 'antd';
 import ResellerTenant from './ResellerTenant';
 import ResellerProduct from './ResellerProduct';
+import Content from '@/layouts/Dashboard/Content';
 
 export default function ManageTenant() {
   return (
-    <div>
+    <Content>
       <Card>
         <Tabs
           items={[
@@ -25,6 +26,6 @@ export default function ManageTenant() {
           }}
         />
       </Card>
-    </div>
+    </Content>
   );
 }

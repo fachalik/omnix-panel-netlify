@@ -22,6 +22,7 @@ import Modal from '@/components/Modal';
 import FormAddTeam from './Form/FormAddTeam';
 import FormEditTeam from './Form/FormEditTeam';
 import lodash from 'lodash';
+import Content from '@/layouts/Dashboard/Content';
 
 import { useAuthStore } from '@/store';
 
@@ -225,7 +226,7 @@ export default function TeamManagement() {
   ];
 
   return (
-    <div>
+    <Content>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3 style={{}}>Team Management</h3>
         <Button type="primary" onClick={() => setIsModalCreate(true)}>
@@ -259,6 +260,6 @@ export default function TeamManagement() {
       >
         <FormEditTeam handleClose={handleCancelEdit} data={editData} />
       </Modal>
-    </div>
+    </Content>
   );
 }

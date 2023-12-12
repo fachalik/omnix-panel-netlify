@@ -41,6 +41,7 @@ export default function NonProduct() {
       role: 'RESELLER',
       is_not_paginate: '1',
     });
+
   return (
     <Tabs
       style={{ marginTop: 20 }}
@@ -56,7 +57,11 @@ export default function NonProduct() {
           children: (
             <div style={{ marginLeft: 10, marginRight: 10 }}>
               <div
-                style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 10 }}
+                style={{
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  marginBottom: 10,
+                }}
               >
                 Select Member
               </div>
@@ -106,7 +111,11 @@ export default function NonProduct() {
           children: (
             <div style={{ marginLeft: 10, marginRight: 10 }}>
               <div
-                style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 10 }}
+                style={{
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  marginBottom: 10,
+                }}
               >
                 Select Reseller
               </div>
