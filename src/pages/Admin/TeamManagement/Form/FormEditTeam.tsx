@@ -1,11 +1,14 @@
 import React from 'react';
 
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import useFormTeamEdit from '../Hooks/useFormTeamEdit';
 import { usePatchUser } from '../Hooks/useGetTeam';
+import { useGetGroupList } from '@/hooks/ReactQuery/admin/useGetGroup';
+import { getLogin } from '@/utils/sessions';
 
 type FieldType = {
-  name?: 'string';
+  name?: string;
+  groups?: string;
   password?: string;
   password_confirmation?: string;
 };
@@ -22,26 +25,35 @@ export default function FormEditTeam({ handleClose, data }: IFormTeam) {
     mutate,
     data,
   });
-  const init: any = {
-    id: data._id,
-    name: data?.name,
-    password: '',
-    password_confirmation: '',
-  };
+
+  const { data: dataGroup, isLoading: isLoadingGroup } = useGetGroupList({
+    token: getLogin()?.token ?? '',
+    limit: 100,
+    page: 1,
+    is_not_paginate: '1',
+  });
 
   React.useEffect(() => {
     let isMount = true;
 
-    if (isMount) {
+    if (isMount && dataGroup) {
+      const mapData = dataGroup.filter(
+        (item: any) => item.value === data.groups[0]
+      );
+      const init: any = {
+        id: data._id,
+        name: data?.name,
+        groups: mapData[0],
+        password: '',
+        password_confirmation: '',
+      };
       form.setFieldsValue(init);
     }
 
     return () => {
       isMount = false;
     };
-  }, [data]);
-
-  form.setFieldsValue(init);
+  }, [data, dataGroup]);
 
   return (
     <main style={{ width: '100%', height: '100%' }}>
@@ -64,6 +76,36 @@ export default function FormEditTeam({ handleClose, data }: IFormTeam) {
           rules={[{ required: true, message: 'name is required' }]}
         >
           <Input placeholder="Input your name" name="name" />
+        </Form.Item>
+
+        <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
+          Group
+        </div>
+        <Form.Item<FieldType>
+          name="groups"
+          hasFeedback
+          rules={[{ required: true, message: 'group is required' }]}
+        >
+          <Select
+            loading={isLoadingGroup}
+            showSearch
+            style={{ width: '100%' }}
+            onChange={(_: string, option: any) => {
+              console.log(option);
+              form.setFieldValue('groups', option);
+            }}
+            placeholder="Pilih Group"
+            optionFilterProp="children"
+            filterOption={(input: any, option: any) =>
+              (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())
+            }
+            filterSort={(optionA: any, optionB: any) =>
+              (optionA?.label ?? '')
+                .toLowerCase()
+                .localeCompare((optionB?.label ?? '').toLowerCase())
+            }
+            options={dataGroup}
+          />
         </Form.Item>
 
         <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>

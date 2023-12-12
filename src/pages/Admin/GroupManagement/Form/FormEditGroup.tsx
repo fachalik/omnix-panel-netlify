@@ -1,6 +1,6 @@
 import { Button, Form, Input, Switch } from 'antd';
 import useFormGroup from '../Hooks/useFormGroup';
-import { usepatchGroup } from '../Hooks/useGetGroup';
+import { usepatchGroup } from '@/hooks/ReactQuery/admin/useGetGroup';
 
 interface IFormUsers {
   handleClose: () => void;

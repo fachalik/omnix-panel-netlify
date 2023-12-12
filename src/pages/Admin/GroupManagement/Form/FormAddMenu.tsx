@@ -3,7 +3,7 @@ import useFormPermissionMenu from '../Hooks/useFormPermissionMenu';
 import {
   usecreatePermissionMenu,
   useGetListMenu,
-} from '../Hooks/usePermissionMenu';
+} from '@/hooks/ReactQuery/admin/usePermissionMenu';
 import { getLogin } from '@/utils/sessions';
 
 type FieldType = {

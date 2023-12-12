@@ -1,12 +1,15 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import useFormTeam from '../Hooks/useFormTeam';
+import { useGetGroupList } from '@/hooks/ReactQuery/admin/useGetGroup';
 import { usecreateTeam } from '../Hooks/useGetTeam';
+import { getLogin } from '@/utils/sessions';
 
 type FieldType = {
   email?: string;
   name?: 'string';
   password?: string;
   password_confirmation?: string;
+  groups?: string;
 };
 
 interface IFormTeam {
@@ -15,10 +18,19 @@ interface IFormTeam {
 
 export default function FormAddTeam({ handleClose }: IFormTeam) {
   const { mutate } = usecreateTeam();
+
+  const { data: dataGroup, isLoading: isLoadingGroup } = useGetGroupList({
+    token: getLogin()?.token ?? '',
+    limit: 100,
+    page: 1,
+    is_not_paginate: '1',
+  });
+
   const { form, isLoading, onFinish, onFinishFailed } = useFormTeam({
     handleCloseForm: handleClose,
     mutate,
   });
+
   return (
     <main style={{ width: '100%', height: '100%' }}>
       <Form
@@ -40,6 +52,35 @@ export default function FormAddTeam({ handleClose }: IFormTeam) {
           rules={[{ required: true, message: 'name is required' }]}
         >
           <Input placeholder="Input your name" name="name" />
+        </Form.Item>
+
+        <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>
+          Group
+        </div>
+        <Form.Item<FieldType>
+          name="groups"
+          hasFeedback
+          rules={[{ required: true, message: 'group is required' }]}
+        >
+          <Select
+            loading={isLoadingGroup}
+            showSearch
+            style={{ width: '100%' }}
+            onChange={(value: string, _: any) => {
+              form.setFieldValue('groups', value);
+            }}
+            placeholder="Pilih Group"
+            optionFilterProp="children"
+            filterOption={(input: any, option: any) =>
+              (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())
+            }
+            filterSort={(optionA: any, optionB: any) =>
+              (optionA?.label ?? '')
+                .toLowerCase()
+                .localeCompare((optionB?.label ?? '').toLowerCase())
+            }
+            options={dataGroup}
+          />
         </Form.Item>
 
         <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 3 }}>

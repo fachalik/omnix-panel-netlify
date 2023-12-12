@@ -24,11 +24,15 @@ export default function useFormTeamEdit(props: IUserFormTeam) {
     let clearParams: any = await removeEmptyValues(params);
 
     const payload = await {
-      val: { ...clearParams, loginType: 'EMAIL', role: 'ADMIN', status: 1 },
+      val: {
+        ...clearParams,
+        loginType: 'EMAIL',
+        role: 'ADMIN',
+        status: 1,
+        groups: params.groups.value,
+      },
       id: data._id,
     };
-
-    console.log('payload', payload);
 
     setIsLoading(true);
 

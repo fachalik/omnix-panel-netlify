@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useGetPermissionMenu } from '../Hooks/usePermissionMenu';
+import { useGetPermissionMenu } from '@/hooks/ReactQuery/admin/usePermissionMenu';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';

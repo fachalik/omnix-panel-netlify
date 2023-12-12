@@ -1,6 +1,6 @@
 import { Button, Form, Input, Switch } from 'antd';
 import useFormGroup from '../Hooks/useFormGroup';
-import { usecreateGroup } from '../Hooks/useGetGroup';
+import { usecreateGroup } from '@/hooks/ReactQuery/admin/useGetGroup';
 
 type FieldType = {
   name_group?: string;

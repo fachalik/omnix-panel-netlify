@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button, Table, Tag, Tooltip, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useGetGroup, usedestroyGroup } from './Hooks/useGetGroup';
+import {
+  useGetGroup,
+  usedestroyGroup,
+} from '@/hooks/ReactQuery/admin/useGetGroup';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
@@ -65,12 +68,12 @@ export default function GroupManagement() {
       dataIndex: 'description',
       render: (_, record: any) => {
         return (
-          <p style={{ width: 150 }}>
+          <Tooltip title={record?.description} style={{ width: 150 }}>
             {lodash.truncate(record?.description, {
               length: 15,
               omission: '...',
             })}
-          </p>
+          </Tooltip>
         );
       },
     },
@@ -131,7 +134,14 @@ export default function GroupManagement() {
             <Tooltip title={'Delete Group'}>
               <Popconfirm
                 title="Delete Group?"
-                description="Are you sure to delete this group?"
+                description={
+                  <p>
+                    Are you sure?
+                    <br /> All members of this group will lose any permissions
+                    settings
+                    <br /> they have based on this group. This can't be undone.
+                  </p>
+                }
                 onConfirm={async () => {
                   await mutateDestroy(record?._id);
                 }}
@@ -140,7 +150,6 @@ export default function GroupManagement() {
                 cancelText="No"
               >
                 <Button
-                  // onClick={() => setIdDelete(record._id)}
                   color={'red'}
                   icon={<DeleteOutlined style={{ color: 'red' }} />}
                 />

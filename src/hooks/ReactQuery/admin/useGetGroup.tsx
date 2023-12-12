@@ -1,3 +1,4 @@
+import React from 'react';
 import { message } from 'antd';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
@@ -17,6 +18,35 @@ export type GetPackageQueryParams = {
 };
 
 const QUERY_KEY = ['LIST_GROUP_ADMIN'];
+
+// ** GET
+
+const transformData = (data: any) => {
+  const arr = Array.from(data, function (item: any) {
+    return { value: item._id, label: item.name_group };
+  });
+  return [{ value: '', label: '--pilih--' }, ...arr];
+};
+const fetchGroupList = async (params: GetPackageQueryParams): Promise<any> => {
+  const data = await getGroupAll({
+    token: params.token,
+    page: params.page,
+    limit: params.limit,
+    term: params.term,
+    status: params.status,
+    is_not_paginate: params.is_not_paginate,
+  });
+  return data;
+};
+
+export const useGetGroupList = (params: GetPackageQueryParams) => {
+  return useQuery<any, Error>({
+    queryKey: [...QUERY_KEY, params],
+    queryFn: () => fetchGroupList(params),
+    keepPreviousData: true,
+    select: React.useCallback((data: any) => transformData(data), []),
+  });
+};
 
 // ** GET
 

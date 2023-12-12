@@ -166,7 +166,7 @@ export default function TeamManagement() {
       render: (_, record: any) => {
         return (
           <div style={{ display: 'flex' }}>
-            <Tooltip title={'Edit product'}>
+            <Tooltip title={'Edit Team'}>
               <Button
                 onClick={() => {
                   setIsModalEdit(true);
