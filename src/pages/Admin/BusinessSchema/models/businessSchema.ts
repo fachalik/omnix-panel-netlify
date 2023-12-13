@@ -14,7 +14,8 @@ export type FieldType = {
   licenseAgent?: license;
   licenseSVP?: license;
   licenseBackroom?: license;
-  digital?: string[];
-  nondigital?: string[];
+  channel?: string[];
+  // digital?: string[];
+  // nondigital?: string[];
   status?: boolean;
 };

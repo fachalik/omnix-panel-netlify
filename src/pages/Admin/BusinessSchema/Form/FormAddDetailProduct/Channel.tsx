@@ -1,6 +1,12 @@
-import React from 'react';
+// import React from 'react';
 import Content from '@/layouts/Dashboard/Content';
-import { Row, Col, Checkbox, Form, message } from 'antd';
+import {
+  Row,
+  Col,
+  Checkbox,
+  Form,
+  // message
+} from 'antd';
 
 import { FormInstance } from 'antd/lib';
 
@@ -8,53 +14,60 @@ interface IProps {
   form: FormInstance;
 }
 export default function Channel({ form }: IProps) {
-  const digital = [
+  const channel = [
     {
+      channel: 'digital',
       value: 'facebook',
       label: 'Facebook',
     },
     {
+      channel: 'digital',
       value: 'instagram',
       label: 'Instagram',
     },
     {
+      channel: 'digital',
       value: 'email',
       label: 'email',
     },
     {
+      channel: 'digital',
       value: 'livechat',
       label: 'Livechat',
     },
     {
+      channel: 'digital',
       value: 'telegram',
       label: 'Telegram',
     },
     {
+      channel: 'digital',
       value: 'twitter',
       label: 'Twitter',
     },
     {
+      channel: 'digital',
       value: 'line',
       label: 'Line',
     },
     {
+      channel: 'digital',
       value: 'whatsapp',
       label: 'Whatsapp',
     },
-  ];
-
-  const nondigital = [
     {
+      channel: 'nondigital',
       value: 'voice',
       label: 'Voice',
     },
     {
+      channel: 'nondigital',
       value: 'videocall',
       label: 'Video call',
     },
   ];
 
-  const [modalVisible, setModalVisible] = React.useState(false);
+  // const [modalVisible, setModalVisible] = React.useState(false);
 
   const handleCheckboxChange = (key: any, value: any) => {
     const formValues = form.getFieldsValue();
@@ -75,21 +88,21 @@ export default function Channel({ form }: IProps) {
     form.setFieldsValue({ [key]: updatedValues });
   };
 
-  const showConfirmModal = () => {
-    setModalVisible(true);
-  };
+  // const showConfirmModal = () => {
+  //   setModalVisible(true);
+  // };
 
-  const handleModalOk = () => {
-    // Handle confirmation logic
-    message.success('Checkboxes unchecked!');
-    form.setFieldsValue({ checkboxGroup: [] });
-    setModalVisible(false);
-  };
+  // const handleModalOk = () => {
+  //   // Handle confirmation logic
+  //   message.success('Checkboxes unchecked!');
+  //   form.setFieldsValue({ checkboxGroup: [] });
+  //   setModalVisible(false);
+  // };
 
-  const handleModalCancel = () => {
-    // Handle cancel logic
-    setModalVisible(false);
-  };
+  // const handleModalCancel = () => {
+  //   // Handle cancel logic
+  //   setModalVisible(false);
+  // };
 
   return (
     <Content style={{ marginBottom: '1.5em' }}>
@@ -122,16 +135,20 @@ export default function Channel({ form }: IProps) {
             Digital Channel *
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {digital.map((option) => (
-              <Form.Item key={option.value} name="digital">
-                <Checkbox
-                  style={{ marginRight: '1em', textTransform: 'capitalize' }}
-                  onChange={() => handleCheckboxChange('digital', option.value)}
-                >
-                  {option.label}
-                </Checkbox>
-              </Form.Item>
-            ))}
+            {channel
+              .filter((item) => item.channel === 'digital')
+              .map((option) => (
+                <Form.Item key={option.value} name="channel">
+                  <Checkbox
+                    style={{ marginRight: '1em', textTransform: 'capitalize' }}
+                    onChange={() =>
+                      handleCheckboxChange('channel', option.value)
+                    }
+                  >
+                    {option.label}
+                  </Checkbox>
+                </Form.Item>
+              ))}
           </div>
         </Col>
         <Col
@@ -152,34 +169,21 @@ export default function Channel({ form }: IProps) {
             Non Digital *
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {nondigital.map((option) => (
-              <Form.Item key={option.value} name="nondigital">
-                <Checkbox
-                  style={{ marginRight: '1em', textTransform: 'capitalize' }}
-                  onChange={() =>
-                    handleCheckboxChange('nondigital', option.value)
-                  }
-                >
-                  {option.label}
-                </Checkbox>
-              </Form.Item>
-            ))}
+            {channel
+              .filter((item) => item.channel === 'nondigital')
+              .map((option) => (
+                <Form.Item key={option.value} name="channel">
+                  <Checkbox
+                    style={{ marginRight: '1em', textTransform: 'capitalize' }}
+                    onChange={() =>
+                      handleCheckboxChange('channel', option.value)
+                    }
+                  >
+                    {option.label}
+                  </Checkbox>
+                </Form.Item>
+              ))}
           </div>
-          {/* <Form.Item
-            label="Select Social Media Channels"
-            name="nondigital"
-            rules={[
-              {
-                required: true,
-                message: 'Please select at least one social media channel!',
-              },
-            ]}
-          >
-            <Checkbox.Group
-              options={nondigital}
-              style={{ marginRight: '1em', textTransform: 'capitalize' }}
-            />
-          </Form.Item> */}
         </Col>
       </Row>
     </Content>
