@@ -10,6 +10,7 @@ import adminRoutes from './ListRoute/adminRouter';
 
 // Layout
 import DashLayout from '@/layouts/Dashboard';
+import BusinessWrapper from '@/layouts/Dashboard/variants/admin/BusinessSchemaWrapper';
 
 export default function IndexRoute() {
   const { role, isLogin } = useAuth();
@@ -106,6 +107,15 @@ export default function IndexRoute() {
           </DashLayout>
         );
 
+      case 'ADMIN_BUSINESS_SCHEMA':
+        return (
+          <BusinessWrapper>
+            <Suspense>
+              <val.comp />
+            </Suspense>
+          </BusinessWrapper>
+        );
+
       default:
         return (
           <Suspense>
@@ -127,17 +137,7 @@ export default function IndexRoute() {
             />
           );
 
-        if (val.layout === 'Dashboard')
-          return (
-            <Route
-              index={val.index}
-              path={val.path}
-              key={index}
-              element={Layout(val)}
-            />
-          );
-
-        if (val.layout === 'Plain')
+        if (val.layout !== 'Redirect')
           return (
             <Route
               index={val.index}

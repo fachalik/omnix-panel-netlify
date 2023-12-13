@@ -1,9 +1,4 @@
-// import React from 'react';
-
-// import { adminRoutes, userRoutes, resellerRoutes } from './Config';
-
 import { Layout, Menu, Tooltip } from 'antd';
-// import type { MenuProps } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Menu as MenuType } from '@/models/authModels';
@@ -23,13 +18,7 @@ export default function Sidebar() {
 
   const { height } = useWindowSize();
 
-  const {
-    // user,
-    menu,
-    //  logoutAuth, setIsLogout
-  } = useAuthStore((state) => state);
-
-  // const { reset: resetModalLogout } = useModalLogoutstore((state) => state);
+  const { menu } = useAuthStore((state) => state);
 
   const navigate = useNavigate();
 
@@ -38,22 +27,6 @@ export default function Sidebar() {
   const { pathname } = location;
 
   const isMobile = useIsMobile();
-
-  // const mapRoute = (role: string): any => {
-  //   switch (role) {
-  //     case 'reguler':
-  //       return userRoutes;
-
-  //     case 'admin':
-  //       return adminRoutes;
-
-  //     case 'reseller':
-  //       return resellerRoutes;
-
-  //     default:
-  //       return [];
-  //   }
-  // };
 
   return (
     <Layout.Sider
@@ -107,7 +80,6 @@ export default function Sidebar() {
         mode="inline"
         onClick={(e) => {
           navigate(`/${e.key}`);
-          // alert(e.key);
         }}
         defaultSelectedKeys={[pathname]}
         defaultOpenKeys={[pathname]}

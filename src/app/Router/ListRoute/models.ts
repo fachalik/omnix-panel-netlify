@@ -6,6 +6,6 @@ export interface ListRouteProps {
   redirectLink?: string;
   path: string;
   index: boolean;
-  layout: 'Dashboard' | 'Plain' | 'Redirect';
+  layout: 'Dashboard' | 'Plain' | 'Redirect' | 'ADMIN_BUSINESS_SCHEMA';
   auth: 'Public' | 'AllRole' | 'NoAuth' | RoleAuth[] | RoleAuth;
 }

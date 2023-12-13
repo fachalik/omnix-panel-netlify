@@ -61,7 +61,6 @@ export default function GroupManagement() {
         return <p>{`${record?.name_group}`}</p>;
       },
     },
-
     {
       key: 'description',
       title: 'Description',

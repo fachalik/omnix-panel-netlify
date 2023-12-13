@@ -9,9 +9,7 @@ const UserManagement = lazy(() => import('@/pages/Admin/UserManagement'));
 const BusinessManagementProduct = lazy(
   () => import('@/pages/Admin/BusinessSchema/page')
 );
-// const BusinessManagementNonProduct = lazy(
-//   () => import('@/pages/Admin/BusinessSchema/page/NonProduct')
-// );
+
 const TeamManagement = lazy(() => import('@/pages/Admin/TeamManagement'));
 
 const GroupManagement = lazy(() => import('@/pages/Admin/GroupManagement'));
@@ -48,7 +46,7 @@ const Routers: ListRouteProps[] = [
   {
     comp: BusinessManagementProduct,
     path: '/schema-product',
-    layout: 'Dashboard',
+    layout: 'ADMIN_BUSINESS_SCHEMA',
     index: true,
     auth: [RoleEnum.ADMIN],
   },

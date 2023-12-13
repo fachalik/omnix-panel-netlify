@@ -1,4 +1,27 @@
 /* eslint-disable no-nested-ternary */
+export const hexToRgba = (hex: string, opacity: number): string => {
+  // Ensure the hex color is valid
+  const isValidHex = /^#([0-9A-F]{3}){1,2}$/i.test(hex);
+  if (!isValidHex) {
+    throw new Error('Invalid hex color code');
+  }
+
+  // Remove the hash from the hex code
+  const hexWithoutHash = hex.replace('#', '');
+
+  // Parse the hex values for red, green, and blue
+  const bigint = parseInt(hexWithoutHash, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  // Ensure the opacity value is within the valid range [0, 1]
+  const validOpacity = Math.min(1, Math.max(0, opacity));
+
+  // Return the RGBA color
+  return `rgba(${r}, ${g}, ${b}, ${validOpacity})`;
+};
+
 export const formatRupiah = (angka: string, prefix: string) => {
   let separator = '';
   const number_string = angka.replace(/[^,\d]/g, '').toString();
@@ -31,4 +54,10 @@ export const removeEmptyValues = (object: any) => {
     }
   }
   return object;
+};
+
+export const transformStringToKey = (input: string): string => {
+  const transformed = input.replace(/\s/g, '_').toUpperCase();
+
+  return transformed;
 };

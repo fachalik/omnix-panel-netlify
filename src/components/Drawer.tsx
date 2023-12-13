@@ -1,7 +1,7 @@
 import React from 'react';
-import { Drawer } from 'antd';
+import { Drawer as DrawerANTD } from 'antd';
 
-interface IModal {
+interface IDrawer {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
@@ -9,12 +9,12 @@ interface IModal {
   width?: number;
 }
 
-export default function Modal(props: IModal) {
+export default function Drawer(props: IDrawer) {
   const { title, open, onClose, children } = props;
 
   return (
-    <Drawer title={title} open={open} onClose={onClose}>
+    <DrawerANTD title={title} open={open} onClose={onClose}>
       {children}
-    </Drawer>
+    </DrawerANTD>
   );
 }

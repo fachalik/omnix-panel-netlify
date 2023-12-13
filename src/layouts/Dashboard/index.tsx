@@ -33,7 +33,6 @@ export default function DashboardLayout({ children }: IDashboardLayout) {
             }}
           >
             {children}
-            {/* <Content>{children}</Content> */}
           </div>
         </Layout>
       </Layout>
