@@ -49,7 +49,7 @@ function Step1() {
           ?.filter((item: any) => item.package_type === state.channel)
           .map((item: any, idx: number) => (
             <Card
-              key={idx}
+              key={`${idx}_${item.package_name}`}
               bodyStyle={{
                 padding: 20,
                 boxShadow:

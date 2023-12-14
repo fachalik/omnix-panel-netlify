@@ -725,7 +725,7 @@ export default function Product() {
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
             return (
-              <Col xs={24} sm={24} md={12} lg={8} key={idx}>
+              <Col xs={24} sm={24} md={12} lg={8} key={`${idx}_${item.name}`}>
                 <Card
                   title={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -737,7 +737,7 @@ export default function Product() {
                   style={{ minWidth: 300, width: 'auto' }}
                 >
                   {item.data.map((item2: any, idx2: number) => (
-                    <div key={idx2}>
+                    <div key={`${idx2}_${item2.productName}`}>
                       <Divider />
                       <p style={{ fontWeight: 700 }}>{item2.productName}</p>
                       {mapVariable(item2)}

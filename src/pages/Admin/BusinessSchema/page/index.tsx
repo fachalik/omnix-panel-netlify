@@ -1,9 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 
 import ProductSettings from './ProductSettings';
-import DetailProduct from '../components/DetailProduct';
-import DetailDataProduct from '../components/DetailDataProduct';
-import FormAddDetailProduct from '../Form/FormAddDetailProduct';
+import DetailProduct from './DetailProduct';
+import FormEditDetailProduct from '../Form/FormEditDetailProduct';
 
 export default function index() {
   const [searchParams] = useSearchParams();
@@ -29,8 +28,7 @@ export default function index() {
     >
       {menu && <ProductSettings />}
       {product && type && !action && !id && <DetailProduct />}
-      {product && type && action && !id && <FormAddDetailProduct />}
-      {product && id && <DetailDataProduct />}
+      {product && type && id && <FormEditDetailProduct />}
     </div>
   );
 }

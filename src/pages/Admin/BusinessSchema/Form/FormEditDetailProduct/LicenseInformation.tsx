@@ -1,15 +1,19 @@
 import Content from '@/layouts/Dashboard/Content';
 import { Row, Col, Input, Form } from 'antd';
 
-import { FieldType } from '../../models/businessSchema';
+import { FieldTypeUpdateProduct } from '../../models/businessSchema';
 
 import { FormInstance } from 'antd/lib';
 
 interface IProps {
   form: FormInstance;
+  watchData: FieldTypeUpdateProduct | null;
 }
 
-export default function LicenseInformation({ form }: IProps) {
+export default function LicenseInformation({ form, watchData }: IProps) {
+  const getValue = form.getFieldsValue();
+  console.log('getValue', getValue);
+  console.log('watchData', watchData);
   return (
     <Content style={{ marginBottom: '1.5em' }}>
       <Row
@@ -64,7 +68,7 @@ export default function LicenseInformation({ form }: IProps) {
               >
                 Minimum Quantity
               </div>
-              <Form.Item<FieldType>
+              <Form.Item<FieldTypeUpdateProduct>
                 name={['licenseAgent', 'minQuantity']}
                 hasFeedback
                 rules={[
@@ -100,7 +104,7 @@ export default function LicenseInformation({ form }: IProps) {
               >
                 Maximum Quantity
               </div>
-              <Form.Item<FieldType>
+              <Form.Item<FieldTypeUpdateProduct>
                 name={['licenseAgent', 'maxQuantity']}
                 hasFeedback
                 rules={[
@@ -163,7 +167,7 @@ export default function LicenseInformation({ form }: IProps) {
               >
                 Minimum Quantity
               </div>
-              <Form.Item<FieldType>
+              <Form.Item<FieldTypeUpdateProduct>
                 name={['licenseSVP', 'minQuantity']}
                 hasFeedback
                 rules={[
@@ -196,7 +200,7 @@ export default function LicenseInformation({ form }: IProps) {
               >
                 Maximum Quantity
               </div>
-              <Form.Item<FieldType>
+              <Form.Item<FieldTypeUpdateProduct>
                 name={['licenseSVP', 'maxQuantity']}
                 hasFeedback
                 rules={[
@@ -261,7 +265,7 @@ export default function LicenseInformation({ form }: IProps) {
                 Minimum Quantity
               </div>
 
-              <Form.Item<FieldType>
+              <Form.Item<FieldTypeUpdateProduct>
                 name={['licenseBackroom', 'minQuantity']}
                 hasFeedback
                 rules={[
@@ -295,7 +299,7 @@ export default function LicenseInformation({ form }: IProps) {
                 Maximum Quantity
               </div>
 
-              <Form.Item<FieldType>
+              <Form.Item<FieldTypeUpdateProduct>
                 name={['licenseBackroom', 'maxQuantity']}
                 hasFeedback
                 rules={[

@@ -13,7 +13,11 @@ export default function Drawer(props: IDrawer) {
   const { title, open, onClose, children } = props;
 
   return (
-    <DrawerANTD title={title} open={open} onClose={onClose}>
+    <DrawerANTD
+      title={<p style={{ textTransform: 'capitalize' }}>{title}</p>}
+      open={open}
+      onClose={onClose}
+    >
       {children}
     </DrawerANTD>
   );

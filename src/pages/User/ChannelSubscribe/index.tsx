@@ -40,7 +40,12 @@ export default function Page() {
               label: 'Your Channel',
               key: 'channel',
               children: dataChannel.map((item: any, idx: number) => {
-                return <CardItemChannel item={item} key={idx} />;
+                return (
+                  <CardItemChannel
+                    item={item}
+                    key={`${idx}_${item.package_name}`}
+                  />
+                );
               }),
             },
             {

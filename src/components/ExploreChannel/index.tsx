@@ -121,7 +121,7 @@ export default function ExploreChannel() {
               })
             : menu
           ).map((item: any, key: number) => (
-            <Col span={8} key={key}>
+            <Col span={8} key={`${key}_${item.name}`}>
               <Badge.Ribbon text={!item.isActive && 'coming soon'} color="gray">
                 <Card>
                   <div

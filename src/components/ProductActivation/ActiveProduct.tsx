@@ -22,7 +22,10 @@ export default function ActiveProduct() {
     return (
       <div>
         {data.data?.map((item: any, idx: number) => (
-          <CardItemActive item={item.package} key={idx} />
+          <CardItemActive
+            item={item.package}
+            key={`${idx}_${item.package_name}`}
+          />
         ))}
         {data.data.length === 0 && (
           <div

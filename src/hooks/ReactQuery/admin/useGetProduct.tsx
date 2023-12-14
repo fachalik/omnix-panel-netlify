@@ -5,9 +5,10 @@ import {
   getProductAdmin,
   postProductAdmin,
   updateProductAdmin,
+  getDetailProductAdmin,
 } from '@/service/product';
 
-const QUERY_KEY = ['M_PRODUCT'];
+const QUERY_KEY = ['PRODUCT_DETAILS'];
 
 // ** GET
 
@@ -32,7 +33,6 @@ const fetchProduct = async (params: {
     is_not_paginate: params.is_not_paginate,
   });
   return data;
-  return data;
 };
 
 export const useGetProduct = (params: {
@@ -48,6 +48,27 @@ export const useGetProduct = (params: {
   return useQuery<any, Error>({
     queryKey: [...QUERY_KEY, params],
     queryFn: () => fetchProduct(params),
+    keepPreviousData: true,
+  });
+};
+
+// ** GET Detail
+
+const fetchProductGetDetail = async (params: {
+  token: any;
+  id: string;
+}): Promise<any> => {
+  const data = await getDetailProductAdmin({
+    token: params.token,
+    id: params.id,
+  });
+  return data;
+};
+
+export const useGetDetailProduct = (params: { token: any; id: string }) => {
+  return useQuery<any, Error>({
+    queryKey: ['DETAIL_PRODUCT_DETAILS', params],
+    queryFn: () => fetchProductGetDetail(params),
     keepPreviousData: true,
   });
 };

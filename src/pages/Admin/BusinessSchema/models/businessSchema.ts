@@ -3,11 +3,11 @@ type license = {
   maxQuantity?: string;
 };
 
-export type FieldType = {
+export type FieldTypeUpdateProduct = {
   productName?: string;
   description?: string;
+  typeDetails?: string;
   typeSchema?: string;
-  pricingSchema?: string;
   productPrice?: string;
   minQuantity?: string;
   maxQuantity?: string;
@@ -15,7 +15,13 @@ export type FieldType = {
   licenseSVP?: license;
   licenseBackroom?: license;
   channel?: string[];
-  // digital?: string[];
-  // nondigital?: string[];
   status?: boolean;
+};
+
+export type FieldTypeAddProduct = {
+  typeDetails?: string;
+  description?: string;
+  typeSchema?: string;
+  productName?: string;
+  productPrice?: string;
 };

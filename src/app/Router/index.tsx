@@ -131,7 +131,7 @@ export default function IndexRoute() {
         if (val.layout === 'Redirect')
           return (
             <Route
-              key={index}
+              key={`${index}_${val.path}`}
               path={val.redirectLink}
               element={<Navigate to={val.path} />}
             />
@@ -142,7 +142,7 @@ export default function IndexRoute() {
             <Route
               index={val.index}
               path={val.path}
-              key={index}
+              key={`${index}_${val.path}`}
               element={Layout(val)}
             />
           );

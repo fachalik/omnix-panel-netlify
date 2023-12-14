@@ -1,15 +1,13 @@
 import Content from '@/layouts/Dashboard/Content';
 import { Row, Col, Input, Form } from 'antd';
-
-import { FieldType } from '../../models/businessSchema';
-
-import { FormInstance } from 'antd/lib';
+import { FieldTypeUpdateProduct } from '../../models/businessSchema';
 
 interface IProps {
-  form: FormInstance;
+  item: string;
+  watchData: FieldTypeUpdateProduct | null;
 }
 
-export default function ProductInformation({ form }: IProps) {
+export default function AddOn({ item }: IProps) {
   return (
     <Content style={{ marginBottom: '1.5em' }}>
       <Row>
@@ -21,7 +19,15 @@ export default function ProductInformation({ form }: IProps) {
           xl={24}
           style={{ marginBottom: '1em' }}
         >
-          <p style={{ fontSize: 16, fontWeight: 600 }}>Product Information</p>
+          <p
+            style={{
+              fontSize: 16,
+              fontWeight: 600,
+              textTransform: 'capitalize',
+            }}
+          >
+            {item} Channel Add-On
+          </p>
           <p style={{ fontSize: 14, fontWeight: 400 }}>
             Add complete information about your product by filling out each form
             below.
@@ -44,20 +50,13 @@ export default function ProductInformation({ form }: IProps) {
           >
             Pricing Name *
           </div>
-          <Form.Item<FieldType>
+          <Form.Item
             style={{ margin: 0 }}
             name="productName"
             hasFeedback
             rules={[{ required: true, message: 'pricing name is required' }]}
           >
-            <Input
-              placeholder="Input your pricing name"
-              name="productName"
-              value={form.getFieldValue('productName')}
-              onChange={(e) =>
-                form.setFieldValue('productName', e.target.value)
-              }
-            />
+            <Input placeholder="Input your pricing name" name="productName" />
           </Form.Item>
         </Col>
         <Col
@@ -77,7 +76,7 @@ export default function ProductInformation({ form }: IProps) {
           >
             Pricing Description *
           </div>
-          <Form.Item<FieldType>
+          <Form.Item
             style={{ margin: 0 }}
             name="description"
             hasFeedback
@@ -92,10 +91,6 @@ export default function ProductInformation({ form }: IProps) {
               rows={3}
               placeholder="Input your pricing description"
               name="description"
-              value={form.getFieldValue('description')}
-              onChange={(e) =>
-                form.setFieldValue('description', e.target.value)
-              }
             />
           </Form.Item>
         </Col>

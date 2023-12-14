@@ -730,7 +730,13 @@ export default function DefaultSchemaNonProduct() {
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
             return (
-              <Col xs={24} sm={24} md={12} lg={8} key={idx}>
+              <Col
+                xs={24}
+                sm={24}
+                md={12}
+                lg={8}
+                key={`${idx}_${item.name.productCategory}`}
+              >
                 <Card
                   title={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -742,7 +748,7 @@ export default function DefaultSchemaNonProduct() {
                   style={{ minWidth: 300, width: 'auto' }}
                 >
                   {item.data.map((item2: any, idx2: number) => (
-                    <div key={idx2}>
+                    <div key={`${idx2}_${item.productName}`}>
                       <div
                         style={{
                           display: 'flex',

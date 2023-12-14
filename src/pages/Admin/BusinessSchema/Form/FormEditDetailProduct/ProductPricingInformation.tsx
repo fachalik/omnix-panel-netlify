@@ -1,14 +1,36 @@
 import Content from '@/layouts/Dashboard/Content';
 import { Row, Col, Input, Form, Select, InputNumber } from 'antd';
 
-import { FieldType } from '../../models/businessSchema';
+import { FieldTypeUpdateProduct } from '../../models/businessSchema';
 
 import { FormInstance } from 'antd/lib';
 
 interface IProps {
   form: FormInstance;
+  watchData: FieldTypeUpdateProduct | null;
 }
-export default function ProductPricingInformation({ form }: IProps) {
+export default function ProductPricingInformation({ form, watchData }: IProps) {
+  // const getValue = form.getFieldsValue();
+
+  const RenderData = ({ children }: { children: React.ReactNode }) => {
+    const c1 =
+      watchData?.typeDetails === 'ADDON' &&
+      watchData?.typeSchema === 'TRANSACTION';
+    const c2 =
+      form.getFieldValue('typeDetails') === 'ADDON' &&
+      form.getFieldValue('typeSchema') === 'TRANSACTION';
+    const c3 =
+      watchData?.typeDetails === 'ADDON' &&
+      watchData?.typeSchema === 'LICENSE_GENERAL';
+    const c4 =
+      form.getFieldValue('typeDetails') === 'ADDON' &&
+      form.getFieldValue('typeSchema') === 'LICENSE_GENERAL';
+
+    if (c1 || c2 || c3 || c4) {
+      return children;
+    }
+    return;
+  };
   return (
     <Content style={{ marginBottom: '1.5em' }}>
       <Row>
@@ -39,8 +61,8 @@ export default function ProductPricingInformation({ form }: IProps) {
           >
             Pricing Category *
           </div>
-          <Form.Item<FieldType>
-            name="typeSchema"
+          <Form.Item<FieldTypeUpdateProduct>
+            name="typeDetails"
             hasFeedback
             rules={[{ required: true, message: 'Product Price is required' }]}
           >
@@ -49,9 +71,9 @@ export default function ProductPricingInformation({ form }: IProps) {
               showSearch
               style={{ width: '100%' }}
               onChange={(value: any) => {
-                form.setFieldValue('typeSchema', value);
+                form.setFieldValue('typeDetails', value);
               }}
-              defaultValue={form.getFieldValue('typeSchema')}
+              defaultValue={form.getFieldValue('typeDetails')}
               optionFilterProp="children"
               filterOption={(input: any, option: any) =>
                 (option?.label.toLowerCase() ?? '').includes(
@@ -92,8 +114,8 @@ export default function ProductPricingInformation({ form }: IProps) {
           >
             Pricing Schema *
           </div>
-          <Form.Item<FieldType>
-            name="pricingSchema"
+          <Form.Item<FieldTypeUpdateProduct>
+            name="typeSchema"
             hasFeedback
             rules={[{ required: true, message: 'Product Price is required' }]}
           >
@@ -101,9 +123,9 @@ export default function ProductPricingInformation({ form }: IProps) {
               showSearch
               style={{ width: '100%' }}
               onChange={(value: any) => {
-                form.setFieldValue('pricingSchema', value);
+                form.setFieldValue('typeSchema', value);
               }}
-              defaultValue={form.getFieldValue('pricingSchema')}
+              defaultValue={form.getFieldValue('typeSchema')}
               optionFilterProp="children"
               filterOption={(input: any, option: any) =>
                 (option?.label.toLowerCase() ?? '').includes(
@@ -144,7 +166,7 @@ export default function ProductPricingInformation({ form }: IProps) {
           >
             Price *
           </div>
-          <Form.Item<FieldType>
+          <Form.Item<FieldTypeUpdateProduct>
             name="productPrice"
             hasFeedback
             rules={[{ required: true, message: 'Product Price is required' }]}
@@ -167,66 +189,70 @@ export default function ProductPricingInformation({ form }: IProps) {
             />
           </Form.Item>
         </Col>
-        <Col
-          xs={24}
-          sm={12}
-          md={12}
-          lg={12}
-          xl={12}
-          style={{ paddingRight: 5, marginBottom: '1em' }}
-        >
-          <div
-            style={{
-              fontSize: 12,
-              fontWeight: 'bold',
-              marginBottom: 10,
-            }}
+        <RenderData>
+          <Col
+            xs={24}
+            sm={12}
+            md={12}
+            lg={12}
+            xl={12}
+            style={{ paddingRight: 5, marginBottom: '1em' }}
           >
-            Minimum Quantity
-          </div>
-          <Form.Item
-            name="minQuantity"
-            hasFeedback
-            rules={[{ required: true, message: 'Product Price is required' }]}
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 'bold',
+                marginBottom: 10,
+              }}
+            >
+              Minimum Quantity
+            </div>
+            <Form.Item
+              name="minQuantity"
+              hasFeedback
+              rules={[{ required: true, message: 'Product Price is required' }]}
+            >
+              <Input
+                type="number"
+                style={{ width: '100%' }}
+                autoComplete="false"
+                placeholder="Input your product price"
+              />
+            </Form.Item>
+          </Col>
+        </RenderData>
+        <RenderData>
+          <Col
+            xs={24}
+            sm={12}
+            md={12}
+            lg={12}
+            xl={12}
+            style={{ marginBottom: '1em' }}
           >
-            <Input
-              type="number"
-              style={{ width: '100%' }}
-              autoComplete="false"
-              placeholder="Input your product price"
-            />
-          </Form.Item>
-        </Col>
-        <Col
-          xs={24}
-          sm={12}
-          md={12}
-          lg={12}
-          xl={12}
-          style={{ marginBottom: '1em' }}
-        >
-          <div
-            style={{
-              fontSize: 12,
-              fontWeight: 'bold',
-              marginBottom: 10,
-            }}
-          >
-            Maximum Quantity
-          </div>
-          <Form.Item<FieldType>
-            name="maxQuantity"
-            hasFeedback
-            rules={[{ required: true, message: 'Product Price is required' }]}
-          >
-            <Input
-              type="number"
-              style={{ width: '100%' }}
-              autoComplete="false"
-              placeholder="Input your product price"
-            />
-          </Form.Item>
-        </Col>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 'bold',
+                marginBottom: 10,
+              }}
+            >
+              Maximum Quantity
+            </div>
+            <Form.Item<FieldTypeUpdateProduct>
+              name="maxQuantity"
+              hasFeedback
+              rules={[{ required: true, message: 'Product Price is required' }]}
+            >
+              <Input
+                type="number"
+                style={{ width: '100%' }}
+                autoComplete="false"
+                placeholder="Input your product price"
+              />
+            </Form.Item>
+          </Col>
+        </RenderData>
       </Row>
     </Content>
   );

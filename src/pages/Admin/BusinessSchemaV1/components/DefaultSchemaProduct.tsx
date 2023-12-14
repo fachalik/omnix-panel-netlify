@@ -775,7 +775,7 @@ export default function DefaultSchemaProduct() {
                   style={{ minWidth: 300, width: 'auto' }}
                 >
                   {item.data.map((item2: any, idx2: number) => (
-                    <div key={idx2}>
+                    <div key={`${idx2}_${item2.productName}_2`}>
                       <Divider />
                       <div
                         style={{

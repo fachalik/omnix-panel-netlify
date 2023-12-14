@@ -437,7 +437,7 @@ export default function HistoryCost(props: IProps) {
       <>
         {data.map((item: any, idx: number) => {
           return (
-            <Col span={24} key={idx}>
+            <Col span={24} key={`${idx}_${item.name}`}>
               <Card
                 title={
                   <div
@@ -453,7 +453,7 @@ export default function HistoryCost(props: IProps) {
                 style={{ minWidth: 300, width: 'auto' }}
               >
                 {item.data.map((item2: any, idx2: number) => (
-                  <div key={idx2}>
+                  <div key={`${idx2}_${item2.productName}_2`}>
                     <p style={{ fontWeight: 700 }}>{item2.productName}</p>
                     <p
                       style={{

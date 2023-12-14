@@ -9,64 +9,16 @@ import {
 } from 'antd';
 
 import { FormInstance } from 'antd/lib';
+import { channel } from '../../models/listChannel';
+import { FieldTypeUpdateProduct } from '../../models/businessSchema';
 
 interface IProps {
   form: FormInstance;
+  watchData: FieldTypeUpdateProduct | null;
 }
 export default function Channel({ form }: IProps) {
-  const channel = [
-    {
-      channel: 'digital',
-      value: 'facebook',
-      label: 'Facebook',
-    },
-    {
-      channel: 'digital',
-      value: 'instagram',
-      label: 'Instagram',
-    },
-    {
-      channel: 'digital',
-      value: 'email',
-      label: 'email',
-    },
-    {
-      channel: 'digital',
-      value: 'livechat',
-      label: 'Livechat',
-    },
-    {
-      channel: 'digital',
-      value: 'telegram',
-      label: 'Telegram',
-    },
-    {
-      channel: 'digital',
-      value: 'twitter',
-      label: 'Twitter',
-    },
-    {
-      channel: 'digital',
-      value: 'line',
-      label: 'Line',
-    },
-    {
-      channel: 'digital',
-      value: 'whatsapp',
-      label: 'Whatsapp',
-    },
-    {
-      channel: 'nondigital',
-      value: 'voice',
-      label: 'Voice',
-    },
-    {
-      channel: 'nondigital',
-      value: 'videocall',
-      label: 'Video call',
-    },
-  ];
-
+  // console.log('getValue', getValue);
+  // console.log('watchData', watchData);
   // const [modalVisible, setModalVisible] = React.useState(false);
 
   const handleCheckboxChange = (key: any, value: any) => {
@@ -140,6 +92,10 @@ export default function Channel({ form }: IProps) {
               .map((option) => (
                 <Form.Item key={option.value} name="channel">
                   <Checkbox
+                    name="channel"
+                    checked={form
+                      .getFieldValue('channel')
+                      ?.includes(option.value)}
                     style={{ marginRight: '1em', textTransform: 'capitalize' }}
                     onChange={() =>
                       handleCheckboxChange('channel', option.value)
@@ -174,6 +130,10 @@ export default function Channel({ form }: IProps) {
               .map((option) => (
                 <Form.Item key={option.value} name="channel">
                   <Checkbox
+                    name="channel"
+                    checked={form
+                      .getFieldValue('channel')
+                      ?.includes(option.value)}
                     style={{ marginRight: '1em', textTransform: 'capitalize' }}
                     onChange={() =>
                       handleCheckboxChange('channel', option.value)

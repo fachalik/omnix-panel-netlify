@@ -19,7 +19,10 @@ export default function ExploreOrder() {
     return (
       <div>
         {data.data?.map((item: any, idx: number) => (
-          <CardItemOrder item={item.package} key={idx} />
+          <CardItemOrder
+            item={item.package}
+            key={`${idx}_${item.package_name}`}
+          />
         ))}
         {data.data.length === 0 && (
           <div

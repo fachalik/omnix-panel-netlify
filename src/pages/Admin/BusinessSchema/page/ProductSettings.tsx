@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button, Popconfirm } from 'antd';
+import { Table, Button, Popconfirm, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useSearchParams } from 'react-router-dom';
 import { EyeOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
@@ -36,18 +36,21 @@ export default function ProductSettings() {
   const { mutate: mutateDestroy } = usedestroyMProduct();
 
   const columns: ColumnsType<any> = [
+    // {
+    //   key: 'number',
+    //   title: 'No',
+    //   dataIndex: 'number',
+    //   render: (_text, _record, index: number) => index + 1,
+    //   width: 80,
+    //   align: 'center',
+    // },
     {
-      title: 'No',
-      dataIndex: 'number',
-      render: (_text, _record, index: number) => index + 1,
-      width: 80,
-      align: 'center',
-    },
-    {
+      key: 'name',
       title: 'Name',
       dataIndex: 'name',
     },
     {
+      key: 'productType',
       title: 'Categories',
       dataIndex: 'productType',
     },
@@ -57,13 +60,9 @@ export default function ProductSettings() {
       dataIndex: 'status',
       render: (_, record: any) => {
         return (
-          <p
-            style={{
-              color: record.status ? 'green' : 'yellow',
-            }}
-          >
+          <Tag color={record.status ? 'success' : 'warning'}>
             {record.status ? 'Active' : 'In Active'}
-          </p>
+          </Tag>
         );
       },
     },
@@ -172,7 +171,10 @@ export default function ProductSettings() {
             loading={isLoading}
             style={{ marginTop: 10, paddingBottom: 20 }}
             columns={columns}
-            dataSource={data.data}
+            dataSource={data.data.map((item: any, idx: number) => ({
+              ...item,
+              keys: idx.toString(),
+            }))}
           />
         )}
         {!isLoading && isError && <Error error={error} />}
