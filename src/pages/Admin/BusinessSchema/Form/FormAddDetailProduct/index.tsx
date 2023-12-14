@@ -36,17 +36,16 @@ export default function DetailDataProduct() {
     },
     licenseSVP: { minQuantity: '', maxQuantity: '' },
     licenseBackroom: { minQuantity: '', maxQuantity: '' },
+    channel: [],
     digital: [],
     nondigital: [],
   };
 
   console.log('watchData', watchData);
 
-  const concatenatedArray = []
-    .concat(watchData?.digital || []) // Use an empty array if array1 is null or undefined
-    .concat(watchData?.nondigital || []); // Use an empty array if array2 is null or undefined
-
-  // // console.log('form', form.getFieldValue('typeSchema'));
+  // const concatenatedArray = []
+  //   .concat(watchData?.digital || []) // Use an empty array if array1 is null or undefined
+  //   .concat(watchData?.nondigital || []); // Use an empty array if array2 is null or undefined
 
   return (
     <div
@@ -126,7 +125,7 @@ export default function DetailDataProduct() {
             height: '100%',
           }}
         >
-          {concatenatedArray.map((_item, idx: number) => (
+          {(watchData?.channel ?? []).map((_item, idx: number) => (
             <AddOn key={idx} />
           ))}
         </Col>
