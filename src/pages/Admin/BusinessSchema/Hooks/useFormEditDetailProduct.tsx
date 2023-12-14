@@ -27,13 +27,40 @@ export default function useFormDetailProduct(props: IUserFormTeam) {
     let payload = {
       val: {
         ...params,
-        licenseAgent: [params.licenseAgent],
-        licenseBackroom: [params.licenseBackroom],
-        licenseSVP: [params.licenseSVP],
         status: 1,
       },
       id,
     };
+
+    if (params?.licenseAgent) {
+      payload['val']['licenseAgent'] = [params.licenseAgent];
+    } else {
+      payload['val']['licenseAgent'] = [];
+    }
+
+    if (params?.licenseBackroom) {
+      payload['val']['licenseBackroom'] = [params.licenseBackroom];
+    } else {
+      payload['val']['licenseBackroom'] = [];
+    }
+
+    if (params?.licenseSVP) {
+      payload['val']['licenseSVP'] = [params.licenseSVP];
+    } else {
+      payload['val']['licenseSVP'] = [];
+    }
+
+    if (params?.minQuantity) {
+      payload['val']['minQuantity'] = +params.minQuantity;
+    } else {
+      payload['val']['minQuantity'] = 0;
+    }
+
+    if (params?.maxQuantity) {
+      payload['val']['maxQuantity'] = +params.maxQuantity;
+    } else {
+      payload['val']['maxQuantity'] = 0;
+    }
 
     console.log('payload', payload);
     setIsLoading(true);
