@@ -65,11 +65,17 @@ const fetchProductGetDetail = async (params: {
   return data;
 };
 
-export const useGetDetailProduct = (params: { token: any; id: string }) => {
+export const useGetDetailProduct = (params: {
+  token: any;
+  id: string;
+  key: string;
+}) => {
   return useQuery<any, Error>({
-    queryKey: ['DETAIL_PRODUCT_DETAILS', params],
+    queryKey: [params.key, params],
     queryFn: () => fetchProductGetDetail(params),
     keepPreviousData: true,
+    enabled: params.id ? true : false,
+    cacheTime: 0,
   });
 };
 

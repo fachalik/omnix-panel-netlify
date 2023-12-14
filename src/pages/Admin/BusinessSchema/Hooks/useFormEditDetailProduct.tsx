@@ -9,27 +9,14 @@ interface IUserFormTeam {
   mutate: any;
   refetch: any;
   id: string;
-  data: any;
 }
 
 export default function useFormDetailProduct(props: IUserFormTeam) {
   const [watchData, setWatchData] =
     React.useState<FieldTypeUpdateProduct | null>(null);
-  const { mutate, refetch, id, data } = props;
+  const { mutate, refetch, id } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    let isMount = true;
-
-    if (isMount && data) {
-      form.setFieldsValue(data);
-    }
-
-    return () => {
-      isMount = false;
-    };
-  }, [data]);
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
@@ -51,9 +38,9 @@ export default function useFormDetailProduct(props: IUserFormTeam) {
     console.log('payload', payload);
     setIsLoading(true);
     await timeout(1000);
-    await mutate(payload);
+    mutate(payload);
+    refetch();
     setIsLoading(false);
-    await refetch();
   };
 
   const handleValuesChange = (changedValues: any, allValues: any) => {

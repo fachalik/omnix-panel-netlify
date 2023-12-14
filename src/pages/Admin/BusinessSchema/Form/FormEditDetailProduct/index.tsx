@@ -36,6 +36,7 @@ export default function DetailDataProduct() {
   }: any = useGetDetailProduct({
     token: getLogin()?.token ?? '',
     id,
+    key: `PRODUCT_DETAILS_${id}`,
   });
 
   const {
@@ -49,12 +50,13 @@ export default function DetailDataProduct() {
     mutate,
     refetch: refetchDetail,
     id,
-    data: initData,
   });
 
   // const getValue = form?.getFieldsValue();
 
   const funcSetInitData = async (dataDetail: any) => {
+    form.resetFields();
+
     const product = await dataDetail?.data?.product[0];
 
     const init = {
@@ -146,7 +148,7 @@ export default function DetailDataProduct() {
       }}
     >
       {isLoadingDetail && <Loading />}
-      {isSuccessDetail && dataDetail && initData && (
+      {isSuccessDetail && dataDetail && initData && form.getFieldsValue() && (
         <Row
           style={{ width: '100%', margin: 0, padding: 0 }}
           gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}

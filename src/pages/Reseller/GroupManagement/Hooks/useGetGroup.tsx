@@ -71,7 +71,6 @@ export const usedestroyGroup = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, any>(destroyGroup, {
     onSuccess: async () => {
-      console.log(QUERY_KEY);
       await queryClient.invalidateQueries(QUERY_KEY);
     },
     onError: (error) => {
