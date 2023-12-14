@@ -1,7 +1,16 @@
 import Content from '@/layouts/Dashboard/Content';
 import { Row, Col, Input, Form } from 'antd';
 
-export default function AddOn() {
+import { FieldTypeUpdateProduct } from '../../models/businessSchema';
+
+import { FormInstance } from 'antd/lib';
+
+interface IProps {
+  form: FormInstance;
+  watchData: FieldTypeUpdateProduct | null;
+}
+
+export default function ProductInformation({ form }: IProps) {
   return (
     <Content style={{ marginBottom: '1.5em' }}>
       <Row>
@@ -13,7 +22,7 @@ export default function AddOn() {
           xl={24}
           style={{ marginBottom: '1em' }}
         >
-          <p style={{ fontSize: 16, fontWeight: 600 }}>Channel Add-On</p>
+          <p style={{ fontSize: 16, fontWeight: 600 }}>Product Information</p>
           <p style={{ fontSize: 14, fontWeight: 400 }}>
             Add complete information about your product by filling out each form
             below.
@@ -36,13 +45,20 @@ export default function AddOn() {
           >
             Pricing Name *
           </div>
-          <Form.Item
+          <Form.Item<FieldTypeUpdateProduct>
             style={{ margin: 0 }}
             name="productName"
             hasFeedback
             rules={[{ required: true, message: 'pricing name is required' }]}
           >
-            <Input placeholder="Input your pricing name" name="productName" />
+            <Input
+              placeholder="Input your pricing name"
+              name="productName"
+              value={form.getFieldValue('productName')}
+              onChange={(e) =>
+                form.setFieldValue('productName', e.target.value)
+              }
+            />
           </Form.Item>
         </Col>
         <Col
@@ -62,7 +78,7 @@ export default function AddOn() {
           >
             Pricing Description *
           </div>
-          <Form.Item
+          <Form.Item<FieldTypeUpdateProduct>
             style={{ margin: 0 }}
             name="description"
             hasFeedback
@@ -77,6 +93,10 @@ export default function AddOn() {
               rows={3}
               placeholder="Input your pricing description"
               name="description"
+              value={form.getFieldValue('description')}
+              onChange={(e) =>
+                form.setFieldValue('description', e.target.value)
+              }
             />
           </Form.Item>
         </Col>

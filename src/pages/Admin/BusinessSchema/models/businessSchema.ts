@@ -4,10 +4,11 @@ type license = {
 };
 
 export type FieldType = {
+export type FieldTypeUpdateProduct = {
   productName?: string;
   description?: string;
+  typeDetails?: string;
   typeSchema?: string;
-  pricingSchema?: string;
   productPrice?: string;
   minQuantity?: string;
   maxQuantity?: string;
@@ -18,4 +19,9 @@ export type FieldType = {
   // digital?: string[];
   // nondigital?: string[];
   status?: boolean;
+};
+export type FieldTypeAddProduct = {
+  typeDetails?: string;
+  productName?: string;
+  productPrice?: string;
 };

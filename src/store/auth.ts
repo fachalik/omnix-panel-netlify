@@ -12,7 +12,7 @@ import { logout } from '@/service/auth';
 interface IStoreAuth {
   token: string | null;
   user: User | null;
-  menu: Menu | null;
+  menu: Menu[] | null;
   isLogout: boolean;
 
   login: (payload: { email: string; password: string }) => void;

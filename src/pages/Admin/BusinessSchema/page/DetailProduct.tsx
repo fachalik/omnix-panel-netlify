@@ -1,16 +1,19 @@
 import React from 'react';
-import { Table, Button, Tooltip } from 'antd';
+import { Table, Button, Tooltip, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useSearchParams } from 'react-router-dom';
 
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
+import Drawer from '@/components/Drawer';
+
 import { EllipsisOutlined } from '@ant-design/icons';
 
 import lodash from 'lodash';
 import { formatRupiah } from '@/utils/utilitys';
 import { useGetProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
 import { getLogin } from '@/utils/sessions';
+import FormAddDetailProduct from '../Form/FormAddDetailProduct';
 
 export default function DetailProduct() {
   const [searchParams, setSearchParams]: any = useSearchParams();
@@ -19,9 +22,6 @@ export default function DetailProduct() {
   const type = searchParams.get('type');
 
   const [addProduct, setAddProduct] = React.useState<boolean>(false);
-
-  const [editProduct, seteditProduct] = React.useState<boolean>(false);
-  const [editData, setEditData] = React.useState<any>(null);
 
   const { data, isLoading, error, isError, isSuccess }: any = useGetProduct({
     token: getLogin()?.token ?? '',
@@ -32,20 +32,22 @@ export default function DetailProduct() {
   });
 
   const columns: ColumnsType<any> = [
+    // {
+    //   key: 'no',
+    //   title: 'No',
+    //   dataIndex: 'number',
+    //   render: (_text, _record, index: number) => index + 1,
+    //   width: 80,
+    //   align: 'center',
+    // },
     {
-      title: 'No',
-      dataIndex: 'number',
-      render: (_text, _record, index: number) => index + 1,
-      width: 80,
-      align: 'center',
-    },
-    {
+      key: 'productName',
       title: 'Name',
-      dataIndex: 'name',
+      dataIndex: 'productName',
     },
     {
       key: 'description',
-      title: 'Description',
+      title: 'description',
       dataIndex: 'description',
       render: (_, record: any) => {
         return (
@@ -61,52 +63,50 @@ export default function DetailProduct() {
       },
     },
     {
-      key: 'type',
+      key: 'productType',
       title: 'Type',
-      dataIndex: 'type',
+      dataIndex: 'productType',
       render: (_, record: any) => {
         return (
-          <p style={{ fontSize: 14, fontWeight: 600 }}>{record.type ?? '-'}</p>
+          <p style={{ fontSize: 14, fontWeight: 600 }}>
+            {record.productType ?? '-'}
+          </p>
         );
       },
     },
     {
-      key: 'defaultPrice',
+      key: 'productPrice',
       title: 'Default Price',
-      dataIndex: 'defaultPrice',
+      dataIndex: 'productPrice',
       render: (_, record: any) => {
         return (
           <p style={{ fontSize: 14, fontWeight: 600 }}>
-            {formatRupiah(record.defaultPrice.toString(), 'Rp.')}
+            {formatRupiah(record.productPrice.toString(), 'Rp.')}
           </p>
         );
       },
     },
-    {
-      key: 'salesPrice',
-      title: 'Sales Price',
-      dataIndex: 'salesPrice',
-      render: (_, record: any) => {
-        return (
-          <p style={{ fontSize: 14, fontWeight: 600 }}>
-            {formatRupiah(record.salesPrice.toString(), 'Rp.')}
-          </p>
-        );
-      },
-    },
+    // {
+    //   key: 'salesPrice',
+    //   title: 'Sales Price',
+    //   dataIndex: 'salesPrice',
+    //   render: (_, record: any) => {
+    //     return (
+    //       <p style={{ fontSize: 14, fontWeight: 600 }}>
+    //         {formatRupiah(record.salesPrice.toString(), 'Rp.')}
+    //       </p>
+    //     );
+    //   },
+    // },
     {
       key: 'status',
       title: 'Status',
       dataIndex: 'status',
       render: (_, record: any) => {
         return (
-          <p
-            style={{
-              color: record.status ? 'green' : 'yellow',
-            }}
-          >
+          <Tag color={record.status ? 'success' : 'warning'}>
             {record.status ? 'Active' : 'In Active'}
-          </p>
+          </Tag>
         );
       },
     },
@@ -119,10 +119,17 @@ export default function DetailProduct() {
           <div>
             <Button
               onClick={() => {
+                // setSearchParams({
+                //   ...Object.fromEntries(searchParams),
+                //   product,
+                //   id: record?.id,
+                // });
                 setSearchParams({
                   ...Object.fromEntries(searchParams),
-                  product,
-                  id: record?.id,
+                  type,
+                  product: product,
+                  name: record?.productName,
+                  id: record._id,
                 });
               }}
               style={{ marginRight: '0.5em' }}
@@ -147,12 +154,7 @@ export default function DetailProduct() {
       >
         <Button
           onClick={() => {
-            setSearchParams({
-              ...Object.fromEntries(searchParams),
-              type,
-              product: product,
-              action: 'add',
-            });
+            setAddProduct(true);
           }}
           type="primary"
           style={{ marginLeft: '1em' }}
@@ -178,10 +180,25 @@ export default function DetailProduct() {
             loading={isLoading}
             style={{ marginTop: 10, paddingBottom: 20 }}
             columns={columns}
-            dataSource={data.data}
+            dataSource={data.data.map((item: any, idx: number) => ({
+              ...item,
+              key: idx.toString(),
+            }))}
           />
         )}
         {!isLoading && isError && <Error error={error} />}
+
+        <Drawer
+          onClose={() => setAddProduct(false)}
+          open={addProduct}
+          title={`Add product ${product.replaceAll('_', ' ').toLowerCase()}`}
+        >
+          <FormAddDetailProduct
+            handleClose={() => setAddProduct(false)}
+            productCategory={product}
+            productType={type}
+          />
+        </Drawer>
       </div>
     </div>
   );

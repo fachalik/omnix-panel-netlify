@@ -90,7 +90,7 @@ export default function Sidebar() {
             icon: (
               <Tooltip placement="left">
                 <div
-                  key={idx}
+                  key={`${idx}_${val.menu_id[0].accessor}`}
                   style={{
                     display: 'flex',
                     justifyContent: 'center',

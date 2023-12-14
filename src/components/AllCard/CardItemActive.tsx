@@ -42,7 +42,7 @@ export default function CardItemActive(props: IItem) {
   } = item;
 
   const mapIcon = (icon: string) => {
-    console.log('icon', icon);
+    // console.log('icon', icon);
     switch (icon.toLowerCase()) {
       case 'omnix_services':
         return channelService;

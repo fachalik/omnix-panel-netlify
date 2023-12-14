@@ -45,6 +45,30 @@ export const getProductAdmin = ({
       reject(message);
     }
   });
+export const getDetailProductAdmin = ({
+  token,
+  id,
+}: {
+  token: string;
+  id: string;
+}) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.get(`/api/products/product_detail/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (respon.data) {
+        resolve(respon.data);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
 
 export const postProductAdmin = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {

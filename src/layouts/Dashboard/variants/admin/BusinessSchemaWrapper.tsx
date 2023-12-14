@@ -23,7 +23,8 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
 
   const menu: any = searchParams.get('menu');
   const product: any = searchParams.get('product');
-  const id: any = searchParams.get('id');
+  const name: any = searchParams.get('name');
+  // const id: any = searchParams.get('id');
   const action: any = searchParams.get('action');
 
   React.useEffect(() => {
@@ -87,7 +88,7 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
                           return (
                             <>
                               <Button
-                                key={idx}
+                                key={`${idx}_${item.value}`}
                                 type={
                                   menuData === item.value ? 'primary' : 'text'
                                 }
@@ -120,23 +121,6 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
                                 >
                                   {item.label}
                                 </p>
-                                {/* <div
-                                  style={{
-                                    width: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      display: 'flex',
-                                      flexDirection: 'row',
-                                      alignItems: 'center',
-                                      gap: 5,
-                                    }}
-                                  ></div>
-                                </div> */}
                               </Button>
                             </>
                           );
@@ -194,9 +178,9 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
                               {product.replaceAll('_', ' ')}
                             </Breadcrumb.Item>
                           )}
-                          {id && (
+                          {name && (
                             <Breadcrumb.Item>
-                              {id.replaceAll('_', ' ')}
+                              {name.replaceAll('_', ' ')}
                             </Breadcrumb.Item>
                           )}
                           {action && (

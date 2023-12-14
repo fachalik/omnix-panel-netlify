@@ -26,7 +26,7 @@ import { FaHistory } from 'react-icons/fa';
 import FormEditBusinessSchemaNonProductReseller from '../Form/FormEditBusinessSchemaNonProductReseller';
 
 import { getLogin } from '@/utils/sessions';
-import { useAuthStore } from '@/store';
+// import { useAuthStore } from '@/store';
 
 interface IProps {
   user_data: any;
@@ -36,10 +36,10 @@ type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
 export default function NonProductMember(props: IProps) {
   const { user_data } = props;
-  const { user } = useAuthStore((state) => state);
+  // const { user } = useAuthStore((state) => state);
   const [dataEdit, setdataEdit] = React.useState<any>(null);
   const [changeDataKey, setChangeDataKey] = React.useState('');
-  const [selectProduct, setSelectProduct] = React.useState('');
+  const [_selectProduct, setSelectProduct] = React.useState('');
 
   const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
   const handleCancelEdit = () => setIsModalEdit(false);
@@ -794,7 +794,7 @@ export default function NonProductMember(props: IProps) {
         <Row gutter={[16, 16]}>
           {dataPlatform.map((item: any, idx: number) => {
             return (
-              <Col xs={24} sm={24} md={12} lg={8} key={idx}>
+              <Col xs={24} sm={24} md={12} lg={8} key={`${idx}_${item.name}`}>
                 <Card
                   title={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -806,7 +806,7 @@ export default function NonProductMember(props: IProps) {
                   style={{ minWidth: 300, width: 'auto' }}
                 >
                   {item.data.map((item2: any, idx2: number) => (
-                    <div key={idx2}>
+                    <div key={`${idx2}_${item2.productName}`}>
                       <div
                         style={{
                           display: 'flex',

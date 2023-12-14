@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Input, Button, Row, Col, Card, Avatar, Badge } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -75,7 +74,7 @@ export default function ResellerTenant() {
               })
             : menu
           ).map((item: any, key: number) => (
-            <Col span={8} key={key}>
+            <Col span={8} key={`${key}_${item.name}`}>
               <Badge.Ribbon text={!item.isActive && 'coming soon'} color="gray">
                 <Card style={{ alignItems: 'start', textAlign: 'start' }}>
                   <div

@@ -1,17 +1,14 @@
-import React from 'react';
+// import React from 'react';
 import { Button, Table, Tabs, Dropdown, Menu, Tooltip, Popconfirm } from 'antd';
 
-import ContentLeft from '@/layouts/Dashboard/ContentLeft';
+// import ContentLeft from '@/layouts/Dashboard/ContentLeft';
 import Content from '@/layouts/Dashboard/Content';
 
 import type { ColumnsType } from 'antd/es/table';
 
-import Product from './Product';
-import NonProduct from './NonProduct';
-
 export default function index() {
-  const menuList = ['Product', 'Non Product'];
-  const [menu, setMenu] = React.useState('Product');
+  // const menuList = ['Product', 'Non Product'];
+  // const [menu, setMenu] = React.useState('Product');
 
   const columns: ColumnsType<any> = [
     {
@@ -34,7 +31,7 @@ export default function index() {
       key: 'action',
       title: 'Action',
       dataIndex: 'action',
-      render: (_, record: any) => {
+      render: (_, _record: any) => {
         return (
           <div>
             <Tooltip title={'Edit product'}>
@@ -79,7 +76,7 @@ export default function index() {
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>
-      <ContentLeft style={{ height: '30%' }}>
+      {/* <ContentLeft style={{ height: '30%' }}>
         <p style={{ fontSize: 16 }}>Product</p>
         <div
           style={{
@@ -89,7 +86,7 @@ export default function index() {
         >
           {menuList.map((item: string, idx: number) => (
             <Button
-              key={idx}
+              key={`${idx}_${item}`}
               onClick={() => setMenu(item)}
               style={{
                 marginTop: '10px',
@@ -100,7 +97,7 @@ export default function index() {
             </Button>
           ))}
         </div>
-      </ContentLeft>
+      </ContentLeft> */}
       <Content>
         <Dropdown
           overlay={
