@@ -12,12 +12,6 @@ export default function index() {
   const type = searchParams.get('type');
   const action = searchParams.get('action');
 
-  console.log('menu', menu);
-  console.log('product', product);
-  console.log('type', type);
-  console.log('action', action);
-  console.log(product && !id && type && action);
-
   return (
     <div
       style={{

@@ -69,8 +69,8 @@ export const postMProduct = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.post(`/api/m-products`, payload);
-      if (respon.data) {
-        resolve(respon.data);
+      if (respon) {
+        resolve(respon);
       }
     } catch (err: any) {
       const message: string = err.response
@@ -99,8 +99,8 @@ export const updateMProduct = ({ val, id }: any) => {
       const respon = await http.patch(`/api/m-products/${id}`, {
         ...val,
       });
-      if (respon.data) {
-        resolve(respon.data);
+      if (respon) {
+        resolve(respon);
       }
     } catch (err: any) {
       const message: string = err.response

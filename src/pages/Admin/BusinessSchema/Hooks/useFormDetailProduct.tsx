@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Form } from 'antd';
 import { timeout } from '@/utils/utilitys';
-
+import { usecreateProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
 import { FieldTypeAddProduct } from '../models/businessSchema';
 
 interface IUserFormTeam {
-  mutate: any;
+  // mutate: any;
   handleCloseForm: any;
   productType: any;
   productCategory: any;
@@ -16,7 +16,8 @@ export default function useFormMProduct(props: IUserFormTeam) {
   const [watchData, setWatchData] = React.useState<FieldTypeAddProduct | null>(
     null
   );
-  const { mutate, handleCloseForm, productType, productCategory } = props;
+  const { mutate } = usecreateProduct();
+  const { handleCloseForm, productType, productCategory } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 

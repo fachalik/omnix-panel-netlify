@@ -12,7 +12,7 @@ export const channel = [
   {
     channel: 'digital',
     value: 'email',
-    label: 'email',
+    label: 'Email',
   },
   {
     channel: 'digital',

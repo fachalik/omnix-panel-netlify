@@ -17,9 +17,11 @@ export default function useFormDetailProduct(props: IUserFormTeam) {
   const { mutate, refetch, id } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<any>(null);
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+    setError(errorInfo);
   };
 
   const onFinish = async (params: any) => {
@@ -70,15 +72,16 @@ export default function useFormDetailProduct(props: IUserFormTeam) {
     setIsLoading(false);
   };
 
-  const handleValuesChange = (changedValues: any, allValues: any) => {
-    console.log('Changed values:', changedValues);
-    console.log('All values:', allValues);
+  const handleValuesChange = (_changedValues: any, allValues: any) => {
+    // console.log('Changed values:', changedValues);
+    // console.log('All values:', allValues);
     setWatchData(allValues);
   };
 
   return {
     form,
     watchData,
+    error,
     handleValuesChange,
     onFinish,
     onFinishFailed,

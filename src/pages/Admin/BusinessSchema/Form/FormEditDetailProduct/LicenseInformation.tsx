@@ -8,12 +8,10 @@ import { FormInstance } from 'antd/lib';
 interface IProps {
   form: FormInstance;
   watchData: FieldTypeUpdateProduct | null;
+  error: any;
 }
 
-export default function LicenseInformation({ form, watchData }: IProps) {
-  const getValue = form.getFieldsValue();
-  console.log('getValue', getValue);
-  console.log('watchData', watchData);
+export default function LicenseInformation({ form }: IProps) {
   return (
     <Content style={{ marginBottom: '1.5em' }}>
       <Row

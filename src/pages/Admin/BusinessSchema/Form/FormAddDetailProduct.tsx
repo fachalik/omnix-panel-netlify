@@ -1,7 +1,7 @@
 // import React from 'react';
 import { Button, Form, Input, Select, InputNumber } from 'antd';
 import useFormDetailProduct from '../Hooks/useFormDetailProduct';
-import { usecreateProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
+
 
 import { FieldTypeAddProduct } from '../models/businessSchema';
 
@@ -16,10 +16,10 @@ export default function FormAddDetailProduct({
   productType,
   productCategory,
 }: IFormMenu) {
-  const { mutate: mutateCreate } = usecreateProduct();
+
   const { form, isLoading, onFinish, onFinishFailed } = useFormDetailProduct({
     handleCloseForm: handleClose,
-    mutate: mutateCreate,
+    // mutate: mutateCreate,
     productType,
     productCategory,
   });

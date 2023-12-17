@@ -74,8 +74,9 @@ export const postProductAdmin = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.post(`/api/products`, payload);
-      if (respon.data) {
-        resolve(respon.data);
+      console.log('respon', respon);
+      if (respon) {
+        resolve(respon);
       }
     } catch (err: any) {
       const message: string = err.response
@@ -104,8 +105,26 @@ export const updateProductAdmin = ({ val, id }: any) => {
       const respon = await http.patch(`/api/products/${id}`, {
         ...val,
       });
-      if (respon.data) {
-        resolve(respon.data);
+      if (respon) {
+        resolve(respon);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
+};
+
+export const updateProductAdminAddon = ({ val }: any) => {
+  return new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.post(`/api/products/addon`, {
+        ...val,
+      });
+      if (respon) {
+        resolve(respon);
       }
     } catch (err: any) {
       const message: string = err.response

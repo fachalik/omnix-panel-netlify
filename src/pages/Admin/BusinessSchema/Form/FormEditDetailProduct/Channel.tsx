@@ -15,16 +15,12 @@ import { FieldTypeUpdateProduct } from '../../models/businessSchema';
 interface IProps {
   form: FormInstance;
   watchData: FieldTypeUpdateProduct | null;
+  error: any;
 }
 export default function Channel({ form }: IProps) {
-  // console.log('getValue', getValue);
-  // console.log('watchData', watchData);
-  // const [modalVisible, setModalVisible] = React.useState(false);
-
   const handleCheckboxChange = (key: any, value: any) => {
     const formValues = form.getFieldsValue();
-    // console.log('formValues', formValues);
-    // console.log('formValues[key]', formValues[key]);
+
     const updatedValues = formValues[key] || [];
 
     if (updatedValues.includes(value)) {
@@ -35,26 +31,8 @@ export default function Channel({ form }: IProps) {
       updatedValues.push(value);
     }
 
-    // console.log('updatedValues', updatedValues);
-
     form.setFieldsValue({ [key]: updatedValues });
   };
-
-  // const showConfirmModal = () => {
-  //   setModalVisible(true);
-  // };
-
-  // const handleModalOk = () => {
-  //   // Handle confirmation logic
-  //   message.success('Checkboxes unchecked!');
-  //   form.setFieldsValue({ checkboxGroup: [] });
-  //   setModalVisible(false);
-  // };
-
-  // const handleModalCancel = () => {
-  //   // Handle cancel logic
-  //   setModalVisible(false);
-  // };
 
   return (
     <Content style={{ marginBottom: '1.5em' }}>

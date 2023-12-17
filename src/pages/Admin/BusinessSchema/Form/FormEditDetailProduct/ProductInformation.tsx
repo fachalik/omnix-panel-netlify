@@ -1,6 +1,5 @@
 import Content from '@/layouts/Dashboard/Content';
 import { Row, Col, Input, Form } from 'antd';
-
 import { FieldTypeUpdateProduct } from '../../models/businessSchema';
 
 import { FormInstance } from 'antd/lib';
@@ -8,6 +7,7 @@ import { FormInstance } from 'antd/lib';
 interface IProps {
   form: FormInstance;
   watchData: FieldTypeUpdateProduct | null;
+  error: any;
 }
 
 export default function ProductInformation({ form }: IProps) {

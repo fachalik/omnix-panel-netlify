@@ -32,14 +32,6 @@ export default function DetailProduct() {
   });
 
   const columns: ColumnsType<any> = [
-    // {
-    //   key: 'no',
-    //   title: 'No',
-    //   dataIndex: 'number',
-    //   render: (_text, _record, index: number) => index + 1,
-    //   width: 80,
-    //   align: 'center',
-    // },
     {
       key: 'productName',
       title: 'Name',
@@ -63,13 +55,13 @@ export default function DetailProduct() {
       },
     },
     {
-      key: 'productType',
+      key: 'typeDetails',
       title: 'Type',
-      dataIndex: 'productType',
+      dataIndex: 'typeDetails',
       render: (_, record: any) => {
         return (
           <p style={{ fontSize: 14, fontWeight: 600 }}>
-            {record.productType ?? '-'}
+            {record.typeDetails ?? '-'}
           </p>
         );
       },
@@ -86,18 +78,6 @@ export default function DetailProduct() {
         );
       },
     },
-    // {
-    //   key: 'salesPrice',
-    //   title: 'Sales Price',
-    //   dataIndex: 'salesPrice',
-    //   render: (_, record: any) => {
-    //     return (
-    //       <p style={{ fontSize: 14, fontWeight: 600 }}>
-    //         {formatRupiah(record.salesPrice.toString(), 'Rp.')}
-    //       </p>
-    //     );
-    //   },
-    // },
     {
       key: 'status',
       title: 'Status',
@@ -119,11 +99,6 @@ export default function DetailProduct() {
           <div>
             <Button
               onClick={() => {
-                // setSearchParams({
-                //   ...Object.fromEntries(searchParams),
-                //   product,
-                //   id: record?.id,
-                // });
                 setSearchParams({
                   ...Object.fromEntries(searchParams),
                   type,

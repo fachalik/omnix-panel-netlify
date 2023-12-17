@@ -15,10 +15,26 @@ export type FieldTypeUpdateProduct = {
   licenseSVP?: license;
   licenseBackroom?: license;
   channel?: string[];
-  // digital?: string[];
-  // nondigital?: string[];
   status?: boolean;
 };
+
+export type FieldTypeAddonUpdateProduct = {
+  channel?: string[];
+  selectChannel?: string[];
+  channelAddOn?: ChannelAddOn[];
+};
+
+export interface ChannelAddOn {
+  channel: string;
+  addOnType: string;
+  pricingRequired: number;
+  detail: Detail[];
+}
+
+export interface Detail {
+  name: string;
+  price: string;
+}
 
 export type FieldTypeAddProduct = {
   typeDetails?: string;

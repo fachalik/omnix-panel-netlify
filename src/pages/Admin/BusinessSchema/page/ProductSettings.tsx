@@ -36,14 +36,6 @@ export default function ProductSettings() {
   const { mutate: mutateDestroy } = usedestroyMProduct();
 
   const columns: ColumnsType<any> = [
-    // {
-    //   key: 'number',
-    //   title: 'No',
-    //   dataIndex: 'number',
-    //   render: (_text, _record, index: number) => index + 1,
-    //   width: 80,
-    //   align: 'center',
-    // },
     {
       key: 'name',
       title: 'Name',

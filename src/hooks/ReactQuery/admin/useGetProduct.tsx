@@ -6,7 +6,10 @@ import {
   postProductAdmin,
   updateProductAdmin,
   getDetailProductAdmin,
+  updateProductAdminAddon,
 } from '@/service/product';
+
+import { useSearchParams } from 'react-router-dom';
 
 const QUERY_KEY = ['PRODUCT_DETAILS'];
 
@@ -87,11 +90,20 @@ const createProduct = async (val: any) => {
 };
 
 export const usecreateProduct = () => {
+  const [searchParams, setSearchParams]: any = useSearchParams();
   const queryClient = useQueryClient();
   return useMutation<any, Error, any>(createProduct, {
-    onSuccess: async () => {
+    onSuccess: async (data: any) => {
       await queryClient.invalidateQueries(QUERY_KEY);
-      message.success('Product has been added');
+      await message.success('Product has been added');
+      await setSearchParams({
+        ...Object.fromEntries(searchParams),
+        type: data?.productType,
+        product: data?.productCategory,
+        name: data?.productName,
+        id: data._id,
+      });
+      // return data;
     },
     onError: (error) => {
       console.error(error);
@@ -137,6 +149,26 @@ export const usepatchProduct = () => {
     onError: (error) => {
       console.error(error);
       message.error('failed updated Product');
+    },
+  });
+};
+
+// ** UPDATE
+const patchProductAddOn = async ({ val }: any) => {
+  const { data } = await updateProductAdminAddon({ val });
+  return data;
+};
+
+export const usepatchProductAddOn = () => {
+  const queryClient = useQueryClient();
+  return useMutation<any, Error, any>(patchProductAddOn, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QUERY_KEY);
+      message.success('Product Addon successfully updated');
+    },
+    onError: (error) => {
+      console.error(error);
+      message.error('failed updated Product Addon');
     },
   });
 };

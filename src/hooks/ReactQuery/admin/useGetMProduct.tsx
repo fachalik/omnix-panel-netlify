@@ -6,6 +6,7 @@ import {
   postMProduct,
   updateMProduct,
 } from '@/service/m-product';
+import { useSearchParams } from 'react-router-dom';
 
 const QUERY_KEY = ['M_PRODUCT'];
 
@@ -56,10 +57,17 @@ const createMProduct = async (val: any) => {
 
 export const usecreateMProduct = () => {
   const queryClient = useQueryClient();
+  const [searchParams, setSearchParams]: any = useSearchParams();
   return useMutation<any, Error, any>(createMProduct, {
-    onSuccess: async () => {
+    onSuccess: async (data: any) => {
       await queryClient.invalidateQueries(QUERY_KEY);
-      message.success('Product has been added');
+      await message.success('Product has been added');
+      await console.log('data', data);
+      await setSearchParams({
+        ...searchParams,
+        type: data.productType,
+        product: data.key,
+      });
     },
     onError: (error) => {
       console.error(error);
@@ -98,9 +106,10 @@ const patchMProduct = async ({ val, id }: any) => {
 export const usepatchMProduct = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, any>(patchMProduct, {
-    onSuccess: async () => {
+    onSuccess: async (data: any) => {
       await queryClient.invalidateQueries(QUERY_KEY);
-      message.success('Product successfully updated');
+      await message.success('Product successfully updated');
+      await console.log('data', data);
     },
     onError: (error) => {
       console.error(error);

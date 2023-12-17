@@ -8,6 +8,7 @@ import { FormInstance } from 'antd/lib';
 interface IProps {
   form: FormInstance;
   watchData: FieldTypeUpdateProduct | null;
+  error: any;
 }
 export default function ProductPricingInformation({ form, watchData }: IProps) {
   // const getValue = form.getFieldsValue();
