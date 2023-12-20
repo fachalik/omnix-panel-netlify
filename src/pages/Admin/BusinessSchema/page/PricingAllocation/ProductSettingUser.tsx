@@ -2,18 +2,26 @@ import React from 'react';
 import { Table, Button, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useSearchParams } from 'react-router-dom';
-import { EyeOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined } from '@ant-design/icons';
 
-// import FormMProduct from '../Form/FormMProduct';
+import Drawer from '@/components/Drawer';
+import FormMProductUser from '../../Form/FormMProductUser';
+import FormMProductReseller from '../../Form/FormMProductReseller';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import { useGetMProduct } from '@/hooks/ReactQuery/admin/useGetMProduct';
 import { getLogin } from '@/utils/sessions';
+import { palette } from '@/theme/themeConfig';
 
 export default function ProductSettingUser() {
   const [searchParams, setSearchParams] = useSearchParams();
   const role: any = searchParams.get('role');
   const user: any = searchParams.get('user');
+
+  const [addProduct, setAddProduct] = React.useState<boolean>(false);
+
+  const [editProduct, seteditProduct] = React.useState<boolean>(false);
+  const [editData, setEditData] = React.useState<any>(null);
 
   const [type, setType] = React.useState('PLATFORM');
 
@@ -56,21 +64,6 @@ export default function ProductSettingUser() {
       render: (_, record: any) => {
         return (
           <div>
-            {/* <Popconfirm
-              title="Delete Product?"
-              description={'Are you sure want to delete this product?'}
-              onConfirm={async () => {
-                await mutateDestroy(record?._id);
-              }}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button
-                color={'red'}
-                style={{ marginRight: '0.5em' }}
-                icon={<DeleteOutlined style={{ color: 'red' }} />}
-              />
-            </Popconfirm>
             <Button
               onClick={async () => {
                 await setEditData(null);
@@ -80,7 +73,7 @@ export default function ProductSettingUser() {
               style={{ marginRight: '0.5em' }}
               color={palette.primary.main}
               icon={<EditOutlined style={{ color: palette.primary.main }} />}
-            /> */}
+            />
             <Button
               onClick={() => {
                 setSearchParams({
@@ -131,7 +124,7 @@ export default function ProductSettingUser() {
             Non Platform
           </Button>
         </div>
-        {/* <Button
+        <Button
           onClick={() => {
             setAddProduct(true);
           }}
@@ -139,7 +132,7 @@ export default function ProductSettingUser() {
           style={{ marginLeft: '1em' }}
         >
           Add Product
-        </Button> */}
+        </Button>
       </div>
       <div
         style={{
@@ -165,15 +158,23 @@ export default function ProductSettingUser() {
         )}
         {!isLoading && isError && <Error error={error} />}
 
-        {/* <Drawer
+        <Drawer
           onClose={() => setAddProduct(false)}
           open={addProduct}
           title="Add Product"
         >
-          <FormMProduct
-            handleClose={() => setAddProduct(false)}
-            productType={type}
-          />
+          {role === 'RESELLER' && (
+            <FormMProductReseller
+              handleClose={() => setAddProduct(false)}
+              productType={type}
+            />
+          )}
+          {role === 'REGULER' && (
+            <FormMProductUser
+              handleClose={() => setAddProduct(false)}
+              productType={type}
+            />
+          )}
         </Drawer>
 
         <Drawer
@@ -181,12 +182,21 @@ export default function ProductSettingUser() {
           open={editProduct}
           title="Edit Product"
         >
-          <FormMProduct
-            handleClose={() => seteditProduct(false)}
-            productType={type}
-            data={editData}
-          />
-        </Drawer> */}
+          {role === 'RESELLER' && (
+            <FormMProductReseller
+              handleClose={() => setAddProduct(false)}
+              productType={type}
+              data={editData}
+            />
+          )}
+          {role === 'REGULER' && (
+            <FormMProductUser
+              handleClose={() => setAddProduct(false)}
+              productType={type}
+              data={editData}
+            />
+          )}
+        </Drawer>
       </div>
     </div>
   );

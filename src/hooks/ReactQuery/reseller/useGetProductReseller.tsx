@@ -168,8 +168,18 @@ export const usepatchProductReseller = () => {
 };
 
 // ** UPDATE
-const patchProductAddOnReseller = async ({ val }: any) => {
-  const { data } = await updateProductResellerAddon({ val });
+const patchProductAddOnReseller = async ({
+  val,
+  id,
+  id_reseller,
+  id_user,
+}: any) => {
+  const { data } = await updateProductResellerAddon({
+    val,
+    id,
+    id_reseller,
+    id_user,
+  });
   return data;
 };
 

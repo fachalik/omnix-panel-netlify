@@ -19,7 +19,7 @@ import { palette } from '@/theme/themeConfig';
 export default function ProductSettings() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const role: any = searchParams.get('role');
+  // const role: any = searchParams.get('role');
 
   const [addProduct, setAddProduct] = React.useState<boolean>(false);
 
@@ -140,17 +140,15 @@ export default function ProductSettings() {
             Non Platform
           </Button>
         </div>
-        {!role && (
-          <Button
-            onClick={() => {
-              setAddProduct(true);
-            }}
-            type="primary"
-            style={{ marginLeft: '1em' }}
-          >
-            Add Product
-          </Button>
-        )}
+        <Button
+          onClick={() => {
+            setAddProduct(true);
+          }}
+          type="primary"
+          style={{ marginLeft: '1em' }}
+        >
+          Add Product
+        </Button>
       </div>
       <div
         style={{

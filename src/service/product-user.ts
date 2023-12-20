@@ -128,7 +128,7 @@ export const updateProductUser = ({
   return new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.patch(
-        `/api/products`,
+        `/api/products-for-user`,
         {
           ...val,
         },

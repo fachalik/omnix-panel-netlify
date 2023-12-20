@@ -11,12 +11,17 @@ import { EllipsisOutlined } from '@ant-design/icons';
 
 import lodash from 'lodash';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductReseller } from '@/hooks/ReactQuery/reseller/useGetProductReseller';
+import {
+  useGetProductReseller,
+  usepatchProductReseller,
+} from '@/hooks/ReactQuery/reseller/useGetProductReseller';
 import { getLogin } from '@/utils/sessions';
 import FormAddDetailProduct from '../Form/FormAddDetailProduct';
 
 export default function DetailProductReseller() {
   const [searchParams, setSearchParams]: any = useSearchParams();
+
+  const { mutate: mutatePatch } = usepatchProductReseller();
 
   const product = searchParams.get('product');
   const type = searchParams.get('type');
@@ -116,6 +121,18 @@ export default function DetailProductReseller() {
               style={{ marginRight: '0.5em' }}
               icon={<EllipsisOutlined />}
             />
+            <Button
+              onClick={() =>
+                mutatePatch({
+                  val: { status: record?.status == 1 ? 0 : 1 },
+                  id: record._id,
+                  id_reseller: user ?? '',
+                })
+              }
+              style={{ marginRight: '0.5em' }}
+            >
+              Change Status
+            </Button>
           </div>
         );
       },
@@ -124,7 +141,7 @@ export default function DetailProductReseller() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      {/* <div
+      <div
         style={{
           marginBottom: '1em',
           display: 'flex',
@@ -142,7 +159,7 @@ export default function DetailProductReseller() {
         >
           Add Product
         </Button>
-      </div> */}
+      </div>
       <div
         style={{
           width: '100%',

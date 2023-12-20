@@ -11,7 +11,10 @@ import { EllipsisOutlined } from '@ant-design/icons';
 
 import lodash from 'lodash';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
+import {
+  useGetProduct,
+  usepatchProduct,
+} from '@/hooks/ReactQuery/admin/useGetProduct';
 import { getLogin } from '@/utils/sessions';
 import FormAddDetailProduct from '../Form/FormAddDetailProduct';
 
@@ -24,6 +27,8 @@ export default function DetailProduct() {
   const role: any = searchParams.get('role');
 
   const [addProduct, setAddProduct] = React.useState<boolean>(false);
+
+  const { mutate: mutatePatch } = usepatchProduct();
 
   const { data, isLoading, error, isError, isSuccess }: any = useGetProduct({
     token: getLogin()?.token ?? '',
@@ -114,6 +119,17 @@ export default function DetailProduct() {
               style={{ marginRight: '0.5em' }}
               icon={<EllipsisOutlined />}
             />
+            <Button
+              onClick={() =>
+                mutatePatch({
+                  val: { status: record?.status == 1 ? 0 : 1 },
+                  id: record._id,
+                })
+              }
+              style={{ marginRight: '0.5em' }}
+            >
+              Change Status
+            </Button>
           </div>
         );
       },
@@ -131,17 +147,15 @@ export default function DetailProduct() {
           width: '100%',
         }}
       >
-        {!role && (
-          <Button
-            onClick={() => {
-              setAddProduct(true);
-            }}
-            type="primary"
-            style={{ marginLeft: '1em' }}
-          >
-            Add Product
-          </Button>
-        )}
+        <Button
+          onClick={() => {
+            setAddProduct(true);
+          }}
+          type="primary"
+          style={{ marginLeft: '1em' }}
+        >
+          Add Product
+        </Button>
       </div>
       <div
         style={{

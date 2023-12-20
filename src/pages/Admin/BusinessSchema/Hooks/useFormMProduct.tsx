@@ -5,8 +5,6 @@ import { timeout, transformStringToKey } from '@/utils/utilitys';
 
 import { FieldTypeAddProduct } from '../models/businessSchema';
 
-// import { useSearchParams } from 'react-router-dom';
-
 interface IUserFormTeam {
   mutate: any;
   data?: any;
@@ -15,7 +13,6 @@ interface IUserFormTeam {
 }
 
 export default function useFormMProduct(props: IUserFormTeam) {
-  // const [searchParams, setSearchParams] = useSearchParams();
   const [watchData, setWatchData] = React.useState<FieldTypeAddProduct | null>(
     null
   );
@@ -48,11 +45,12 @@ export default function useFormMProduct(props: IUserFormTeam) {
         id: data['_id'],
       };
     }
+
     setIsLoading(true);
     await timeout(1000);
     await mutate(payload);
-    await form.resetFields();
-    handleCloseForm();
+    await handleCloseForm();
+    form.resetFields();
     setIsLoading(false);
   };
 

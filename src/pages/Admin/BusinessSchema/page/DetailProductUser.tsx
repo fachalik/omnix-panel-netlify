@@ -11,12 +11,17 @@ import { EllipsisOutlined } from '@ant-design/icons';
 
 import lodash from 'lodash';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProductUser } from '@/hooks/ReactQuery/user/useGetProductUser';
+import {
+  useGetProductUser,
+  usepatchProductUser,
+} from '@/hooks/ReactQuery/user/useGetProductUser';
 import { getLogin } from '@/utils/sessions';
 import FormAddDetailProduct from '../Form/FormAddDetailProduct';
 
 export default function DetailProductUser() {
   const [searchParams, setSearchParams]: any = useSearchParams();
+
+  const { mutate: mutatePatch } = usepatchProductUser();
 
   const product = searchParams.get('product');
   const type = searchParams.get('type');
@@ -121,6 +126,19 @@ export default function DetailProductUser() {
               style={{ marginRight: '0.5em' }}
               icon={<EllipsisOutlined />}
             />
+            <Button
+              onClick={() =>
+                mutatePatch({
+                  val: { status: record?.status == 1 ? 0 : 1 },
+                  id: record._id,
+                  id_reseller: role === 'RESELLER' ? user : '',
+                  id_user: role === 'REGULER' ? user : '',
+                })
+              }
+              style={{ marginRight: '0.5em' }}
+            >
+              Change Status
+            </Button>
           </div>
         );
       },
@@ -129,7 +147,7 @@ export default function DetailProductUser() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      {/* <div
+      <div
         style={{
           marginBottom: '1em',
           display: 'flex',
@@ -147,7 +165,7 @@ export default function DetailProductUser() {
         >
           Add Product
         </Button>
-      </div> */}
+      </div>
       <div
         style={{
           width: '100%',
