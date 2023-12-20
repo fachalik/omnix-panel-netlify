@@ -9,9 +9,10 @@ interface IProps {
   form: FormInstance;
   watchData: FieldTypeUpdateProduct | null;
   error: any;
+  role?: string;
 }
 
-export default function LicenseInformation({ form }: IProps) {
+export default function LicenseInformation({ form, role }: IProps) {
   return (
     <Content style={{ marginBottom: '1.5em' }}>
       <Row
@@ -74,6 +75,7 @@ export default function LicenseInformation({ form }: IProps) {
                 ]}
               >
                 <Input
+                  disabled={!!role}
                   type="number"
                   onChange={(e) =>
                     form.setFieldsValue({
@@ -110,6 +112,7 @@ export default function LicenseInformation({ form }: IProps) {
                 ]}
               >
                 <Input
+                  disabled={!!role}
                   type="number"
                   onChange={(e) =>
                     form.setFieldsValue({
@@ -173,6 +176,7 @@ export default function LicenseInformation({ form }: IProps) {
                 ]}
               >
                 <Input
+                  disabled={!!role}
                   onChange={(e) =>
                     form.setFieldsValue({
                       licenseSVP: {
@@ -206,6 +210,7 @@ export default function LicenseInformation({ form }: IProps) {
                 ]}
               >
                 <Input
+                  disabled={!!role}
                   onChange={(e) =>
                     // form.setFieldValue('licenseSVP.maxQuantity', e.target.value)
                     form.setFieldsValue({
@@ -271,6 +276,7 @@ export default function LicenseInformation({ form }: IProps) {
                 ]}
               >
                 <Input
+                  disabled={!!role}
                   onChange={(e) =>
                     form.setFieldsValue({
                       licenseBackroom: {
@@ -305,6 +311,7 @@ export default function LicenseInformation({ form }: IProps) {
                 ]}
               >
                 <Input
+                  disabled={!!role}
                   onChange={(e) =>
                     form.setFieldsValue({
                       licenseBackroom: {

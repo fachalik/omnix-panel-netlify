@@ -1,6 +1,6 @@
 import { Button, Form, Input } from 'antd';
 
-import { usePatchUser } from '../Hooks/useGetUsers';
+import { usePatchUser } from '@/hooks/ReactQuery/admin/useGetUsers';
 import useFormUser from '../Hooks/useFormUser';
 import { User } from '@/models';
 

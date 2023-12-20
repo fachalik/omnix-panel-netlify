@@ -8,9 +8,10 @@ interface IProps {
   form: FormInstance;
   watchData: FieldTypeUpdateProduct | null;
   error: any;
+  role?: string;
 }
 
-export default function ProductInformation({ form }: IProps) {
+export default function ProductInformation({ form, role }: IProps) {
   return (
     <Content style={{ marginBottom: '1.5em' }}>
       <Row>
@@ -52,6 +53,7 @@ export default function ProductInformation({ form }: IProps) {
             rules={[{ required: true, message: 'pricing name is required' }]}
           >
             <Input
+              disabled={!!role}
               placeholder="Input your pricing name"
               name="productName"
               value={form.getFieldValue('productName')}
@@ -90,6 +92,7 @@ export default function ProductInformation({ form }: IProps) {
             ]}
           >
             <Input.TextArea
+              disabled={!!role}
               rows={3}
               placeholder="Input your pricing description"
               name="description"

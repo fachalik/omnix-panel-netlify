@@ -11,27 +11,32 @@ import { EllipsisOutlined } from '@ant-design/icons';
 
 import lodash from 'lodash';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
+import { useGetProductUser } from '@/hooks/ReactQuery/user/useGetProductUser';
 import { getLogin } from '@/utils/sessions';
 import FormAddDetailProduct from '../Form/FormAddDetailProduct';
 
-export default function DetailProduct() {
+export default function DetailProductUser() {
   const [searchParams, setSearchParams]: any = useSearchParams();
 
   const product = searchParams.get('product');
   const type = searchParams.get('type');
   const user: any = searchParams.get('user');
   const role: any = searchParams.get('role');
+  // const product_id: any = searchParams.get('product_id');
 
   const [addProduct, setAddProduct] = React.useState<boolean>(false);
 
-  const { data, isLoading, error, isError, isSuccess }: any = useGetProduct({
-    token: getLogin()?.token ?? '',
-    page: 1,
-    limit: 100,
-    productType: type,
-    productCategory: product,
-  });
+  const { data, isLoading, error, isError, isSuccess }: any = useGetProductUser(
+    {
+      token: getLogin()?.token ?? '',
+      page: 1,
+      limit: 100,
+      productType: type,
+      productCategory: product,
+      akses: 'admin',
+      id_user: user ?? '',
+    }
+  );
 
   const columns: ColumnsType<any> = [
     {
@@ -75,7 +80,9 @@ export default function DetailProduct() {
       render: (_, record: any) => {
         return (
           <p style={{ fontSize: 14, fontWeight: 600 }}>
-            {formatRupiah(record.productPrice.toString(), 'Rp.')}
+            {record.productPrice
+              ? formatRupiah(record.productPrice.toString(), 'Rp.')
+              : '-'}
           </p>
         );
       },
@@ -122,7 +129,7 @@ export default function DetailProduct() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <div
+      {/* <div
         style={{
           marginBottom: '1em',
           display: 'flex',
@@ -131,18 +138,16 @@ export default function DetailProduct() {
           width: '100%',
         }}
       >
-        {!role && (
-          <Button
-            onClick={() => {
-              setAddProduct(true);
-            }}
-            type="primary"
-            style={{ marginLeft: '1em' }}
-          >
-            Add Product
-          </Button>
-        )}
-      </div>
+        <Button
+          onClick={() => {
+            setAddProduct(true);
+          }}
+          type="primary"
+          style={{ marginLeft: '1em' }}
+        >
+          Add Product
+        </Button>
+      </div> */}
       <div
         style={{
           width: '100%',

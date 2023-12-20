@@ -7,10 +7,7 @@ const http = axios.create({
 
 const getToken = () => {
   const auth = getLogin();
-  if (auth) {
-    return auth.token;
-  }
-  return false;
+  return auth ? auth?.token : null;
 };
 
 let token = getToken();
@@ -21,58 +18,49 @@ if (token) {
 }
 
 http.interceptors.response.use(
-  (config) => {
-    const getToken = () => {
-      const auth = getLogin();
-      if (auth) {
-        return auth.token;
-      }
-      return false;
-    };
-
-    let token = getToken();
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
+  (response) => {
+    console.log('token', token);
+    return response;
   },
   async (error) => {
-    // const { response, config } = error;
-    // if (response.status !== 401) {
+    console.log('token', token);
+    // const { config, response } = error;
+
+    // if (response.status === 401) {
+    // Attempt to refresh the token
+    // try {
+    //   const refreshToken = getLogin()?.refreshToken;
+    //   if (refreshToken) {
+    //     const refreshResponse = await axios.post(
+    //       `${import.meta.env.VITE_APP_APP_API_URL}api/v1/auth/refresh`,
+    //       {},
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${refreshToken}`,
+    //         },
+    //       }
+    //     );
+    //     setLogin({
+    //       refreshToken: refreshResponse?.data.refreshToken ?? '',
+    //       token: refreshResponse?.data.token ?? '',
+    //       user: getLogin().user,
+    //     });
+    //     // Retry the original request
+    //     return axios(config);
+    //   } else {
+    //     // If no refresh token, log out the user
+    //     removeLogin();
+    //   }
+    // } catch (refreshError) {
+    //   // If token refresh fails, log out the user
+    //   if (refreshError.response?.data?.status === '401') {
+    //     removeLogin();
+    //   }
+    //   return Promise.reject(error);
+    // }
+    // }
+
     return Promise.reject(error);
-    // }
-    // if (response.status == 401) {
-    //   return (
-    //     axios
-    //       .post(
-    //         `${import.meta.env.VITE_APP_APP_API_URL}api/v1/auth/refresh`,
-    //         {},
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${refreshToken}`,
-    //           },
-    //         }
-    //       )
-    //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //       .then((values: any) => {
-    //         // If you are using localStorage, update the token and Authorization header here
-    //         setLogin({
-    //           refreshToken: values?.refreshToken ?? '',
-    //           token: values?.token ?? '',
-    //           user: getLogin().user,
-    //         });
-    //         return http(config);
-    //       })
-    //       .catch((err) => {
-    //         // return Promise.reject(error);
-    //         if (err.response.data.status == '401') {
-    //           removeLogin();
-    //         }
-    //       })
-    //   );
-    // }
   }
 );
 

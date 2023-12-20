@@ -1,30 +1,19 @@
 import React from 'react';
-import { Table, Button, Popconfirm, Tag } from 'antd';
+import { Table, Button, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useSearchParams } from 'react-router-dom';
-import { EyeOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { EyeOutlined } from '@ant-design/icons';
 
-import Drawer from '@/components/Drawer';
-import FormMProduct from '../Form/FormMProduct';
+// import FormMProduct from '../Form/FormMProduct';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-
-import {
-  useGetMProduct,
-  usedestroyMProduct,
-} from '@/hooks/ReactQuery/admin/useGetMProduct';
+import { useGetMProduct } from '@/hooks/ReactQuery/admin/useGetMProduct';
 import { getLogin } from '@/utils/sessions';
-import { palette } from '@/theme/themeConfig';
 
-export default function ProductSettings() {
+export default function ProductSettingUser() {
   const [searchParams, setSearchParams] = useSearchParams();
-
   const role: any = searchParams.get('role');
-
-  const [addProduct, setAddProduct] = React.useState<boolean>(false);
-
-  const [editProduct, seteditProduct] = React.useState<boolean>(false);
-  const [editData, setEditData] = React.useState<any>(null);
+  const user: any = searchParams.get('user');
 
   const [type, setType] = React.useState('PLATFORM');
 
@@ -33,9 +22,9 @@ export default function ProductSettings() {
     page: 1,
     limit: 100,
     ProductType: type,
+    id_reseller: role === 'RESELLER' ? user : null,
+    user_id: role === 'REGULER' ? user : null,
   });
-
-  const { mutate: mutateDestroy } = usedestroyMProduct();
 
   const columns: ColumnsType<any> = [
     {
@@ -67,7 +56,7 @@ export default function ProductSettings() {
       render: (_, record: any) => {
         return (
           <div>
-            <Popconfirm
+            {/* <Popconfirm
               title="Delete Product?"
               description={'Are you sure want to delete this product?'}
               onConfirm={async () => {
@@ -91,14 +80,16 @@ export default function ProductSettings() {
               style={{ marginRight: '0.5em' }}
               color={palette.primary.main}
               icon={<EditOutlined style={{ color: palette.primary.main }} />}
-            />
+            /> */}
             <Button
               onClick={() => {
                 setSearchParams({
                   ...searchParams,
                   type,
-                  product_id: record._id,
                   product: record.key,
+                  product_id: record._id,
+                  role,
+                  user,
                 });
               }}
               style={{ marginRight: '0.5em' }}
@@ -140,17 +131,15 @@ export default function ProductSettings() {
             Non Platform
           </Button>
         </div>
-        {!role && (
-          <Button
-            onClick={() => {
-              setAddProduct(true);
-            }}
-            type="primary"
-            style={{ marginLeft: '1em' }}
-          >
-            Add Product
-          </Button>
-        )}
+        {/* <Button
+          onClick={() => {
+            setAddProduct(true);
+          }}
+          type="primary"
+          style={{ marginLeft: '1em' }}
+        >
+          Add Product
+        </Button> */}
       </div>
       <div
         style={{
@@ -176,7 +165,7 @@ export default function ProductSettings() {
         )}
         {!isLoading && isError && <Error error={error} />}
 
-        <Drawer
+        {/* <Drawer
           onClose={() => setAddProduct(false)}
           open={addProduct}
           title="Add Product"
@@ -197,7 +186,7 @@ export default function ProductSettings() {
             productType={type}
             data={editData}
           />
-        </Drawer>
+        </Drawer> */}
       </div>
     </div>
   );

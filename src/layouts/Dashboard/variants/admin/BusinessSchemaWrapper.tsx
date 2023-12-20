@@ -26,6 +26,7 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
   const name: any = searchParams.get('name');
   // const id: any = searchParams.get('id');
   const action: any = searchParams.get('action');
+  const username: any = searchParams.get('username');
 
   React.useEffect(() => {
     setSearchParams({ ...searchParams, menu: menuData });
@@ -38,11 +39,7 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
     },
     {
       value: 'Pricing Allocation',
-      label: 'Pricing Allocation',
-    },
-    {
-      value: 'Product Visibility',
-      label: 'Product Visibility',
+      label: 'Pricing Allocation & Visibility',
     },
   ];
   return (
@@ -156,7 +153,7 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
                           alignItems: 'center',
                         }}
                       >
-                        {product && (
+                        {(product || username) && (
                           <Tooltip title="back">
                             <Button
                               type="text"
@@ -168,6 +165,11 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
                           </Tooltip>
                         )}
                         <Breadcrumb style={{ fontWeight: 600, fontSize: 14 }}>
+                          {username && (
+                            <Breadcrumb.Item>
+                              {username.replaceAll('_', ' ')}
+                            </Breadcrumb.Item>
+                          )}
                           {menu && (
                             <Breadcrumb.Item>
                               {menu.replaceAll('_', ' ')}

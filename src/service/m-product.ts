@@ -7,6 +7,8 @@ export const getMProduct = ({
   status,
   ProductType,
   is_not_paginate,
+  id_reseller,
+  user_id,
 }: {
   token: string;
   page: number;
@@ -14,6 +16,8 @@ export const getMProduct = ({
   status?: string;
   ProductType: string;
   is_not_paginate?: string;
+  id_reseller?: string;
+  user_id?: string;
 }) =>
   new Promise<any>(async (resolve, reject) => {
     try {
@@ -27,6 +31,8 @@ export const getMProduct = ({
           status,
           ProductType,
           is_not_paginate,
+          id_reseller,
+          user_id,
         },
       });
       if (respon.data) {

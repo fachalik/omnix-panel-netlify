@@ -8,6 +8,7 @@ import { useAlertStore } from './alert';
 import { User, Menu } from '@/models/authModels';
 
 import { logout } from '@/service/auth';
+import { timeout } from '@/utils/utilitys';
 
 interface IStoreAuth {
   token: string | null;
@@ -57,7 +58,7 @@ export const useAuthStore = create<IStoreAuth>()(
                 type: 'success',
               };
               useAlertStore.getState().setAlert(payload);
-
+              await timeout(1000);
               setLogin({
                 token: response?.data?.accessToken,
                 user: getProfile,
@@ -68,6 +69,7 @@ export const useAuthStore = create<IStoreAuth>()(
                 user: getProfile,
                 menu,
               });
+              window.location.reload();
             } else {
               const payload = {
                 status: `Email not exists`,
@@ -106,6 +108,7 @@ export const useAuthStore = create<IStoreAuth>()(
             localStorage.clear();
             removeLogin();
           }
+          window.location.reload();
         },
 
         setAuth(payload: any) {

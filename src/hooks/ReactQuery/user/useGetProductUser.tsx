@@ -1,31 +1,33 @@
 import { message } from 'antd';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  deleteProductAdmin,
-  getProductAdmin,
-  postProductAdmin,
-  updateProductAdmin,
-  getDetailProductAdmin,
-  updateProductAdminAddon,
-} from '@/service/product';
+  deleteProductUser,
+  getProductUser,
+  postProductUser,
+  updateProductUser,
+  getDetailProductUser,
+  updateProductUserAddon,
+} from '@/service/product-user';
 
 import { useSearchParams } from 'react-router-dom';
 
-const QUERY_KEY = ['PRODUCT_DETAILS'];
+const QUERY_KEY = ['PRODUCT_DETAILS_USER'];
 
 // ** GET
 
-const fetchProduct = async (params: {
+const fetchProductUser = async (params: {
   token: any;
   page: number;
   limit: number;
+  akses: string;
+  id_user: string;
   productType: string;
   productCategory: string;
   status?: string;
   term?: string;
   is_not_paginate?: string;
 }): Promise<any> => {
-  const data = await getProductAdmin({
+  const data = await getProductUser({
     token: params.token,
     page: params.page,
     limit: params.limit,
@@ -34,14 +36,18 @@ const fetchProduct = async (params: {
     term: params.term,
     status: params.status,
     is_not_paginate: params.is_not_paginate,
+    akses: params.akses,
+    id_user: params.id_user,
   });
   return data;
 };
 
-export const useGetProduct = (params: {
+export const useGetProductUser = (params: {
   token: any;
   page: number;
   limit: number;
+  akses: string;
+  id_user: string;
   productType: string;
   productCategory: string;
   status?: string;
@@ -50,20 +56,20 @@ export const useGetProduct = (params: {
 }) => {
   return useQuery<any, Error>({
     queryKey: [...QUERY_KEY, params],
-    queryFn: () => fetchProduct(params),
+    queryFn: () => fetchProductUser(params),
     keepPreviousData: true,
   });
 };
 
 // ** GET Detail
 
-const fetchProductGetDetail = async (params: {
+const fetchProductGetDetailUser = async (params: {
   token: any;
   id: string;
   id_reseller?: string;
   id_user?: string;
 }): Promise<any> => {
-  const data = await getDetailProductAdmin({
+  const data = await getDetailProductUser({
     token: params.token,
     id: params.id,
     id_reseller: params.id_reseller,
@@ -72,7 +78,7 @@ const fetchProductGetDetail = async (params: {
   return data;
 };
 
-export const useGetDetailProduct = (params: {
+export const useGetDetailProductUser = (params: {
   token: any;
   id: string;
   key: string;
@@ -81,7 +87,7 @@ export const useGetDetailProduct = (params: {
 }) => {
   return useQuery<any, Error>({
     queryKey: [params.key, params],
-    queryFn: () => fetchProductGetDetail(params),
+    queryFn: () => fetchProductGetDetailUser(params),
     keepPreviousData: true,
     enabled: params.id ? true : false,
     cacheTime: 0,
@@ -90,15 +96,15 @@ export const useGetDetailProduct = (params: {
 
 // ** CREATE
 
-const createProduct = async (val: any) => {
-  const { data } = await postProductAdmin(val);
+const createProductUser = async (val: any) => {
+  const { data } = await postProductUser(val);
   return data;
 };
 
-export const usecreateProduct = () => {
+export const usecreateProductUser = () => {
   const [searchParams, setSearchParams]: any = useSearchParams();
   const queryClient = useQueryClient();
-  return useMutation<any, Error, any>(createProduct, {
+  return useMutation<any, Error, any>(createProductUser, {
     onSuccess: async (data: any) => {
       await queryClient.invalidateQueries(QUERY_KEY);
       await message.success('Product has been added');
@@ -119,14 +125,14 @@ export const usecreateProduct = () => {
 };
 
 // ** DELETE
-const destroyProduct = async (id: number) => {
-  const { data } = await deleteProductAdmin(id);
+const destroyProductUser = async (id: number) => {
+  const { data } = await deleteProductUser(id);
   return data;
 };
 
-export const usedestroyProduct = () => {
+export const usedestroyProductUser = () => {
   const queryClient = useQueryClient();
-  return useMutation<any, Error, any>(destroyProduct, {
+  return useMutation<any, Error, any>(destroyProductUser, {
     onSuccess: async () => {
       console.log(QUERY_KEY);
       await queryClient.invalidateQueries(QUERY_KEY);
@@ -140,14 +146,14 @@ export const usedestroyProduct = () => {
 };
 
 // ** UPDATE
-const patchProduct = async ({ val, id, id_user, id_reseller }: any) => {
-  const { data } = await updateProductAdmin({ val, id, id_user, id_reseller });
+const patchProductUser = async ({ val, id, id_user, id_reseller }: any) => {
+  const { data } = await updateProductUser({ val, id, id_user, id_reseller });
   return data;
 };
 
-export const usepatchProduct = () => {
+export const usepatchProductUser = () => {
   const queryClient = useQueryClient();
-  return useMutation<any, Error, any>(patchProduct, {
+  return useMutation<any, Error, any>(patchProductUser, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY);
       message.success('Product successfully updated');
@@ -160,14 +166,14 @@ export const usepatchProduct = () => {
 };
 
 // ** UPDATE
-const patchProductAddOn = async ({ val }: any) => {
-  const { data } = await updateProductAdminAddon({ val });
+const patchProductAddOnUser = async ({ val }: any) => {
+  const { data } = await updateProductUserAddon({ val });
   return data;
 };
 
-export const usepatchProductAddOn = () => {
+export const usepatchProductAddOnUser = () => {
   const queryClient = useQueryClient();
-  return useMutation<any, Error, any>(patchProductAddOn, {
+  return useMutation<any, Error, any>(patchProductAddOnUser, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY);
       message.success('Product Addon successfully updated');

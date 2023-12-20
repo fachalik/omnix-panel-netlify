@@ -6,7 +6,9 @@ export const getUser = (
   limit: number = 100,
   role?: string,
   term?: string,
-  status?: string
+  status?: string,
+  reqPrice?: string,
+  is_not_paginate?: string
 ) =>
   new Promise<any>(async (resolve, reject) => {
     try {
@@ -20,6 +22,8 @@ export const getUser = (
           role,
           term,
           status,
+          reqPrice,
+          is_not_paginate,
         },
       });
       if (respon.data) {
@@ -63,7 +67,7 @@ export const getUserDetail = (
 export const postUser = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.post(`/api/v1/users`, payload);
+      const respon = await http.post(`/api/users`, payload);
       if (respon.data) {
         resolve(respon.data);
       }

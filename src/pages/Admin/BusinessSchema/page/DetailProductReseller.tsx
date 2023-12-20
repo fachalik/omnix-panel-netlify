@@ -11,11 +11,11 @@ import { EllipsisOutlined } from '@ant-design/icons';
 
 import lodash from 'lodash';
 import { formatRupiah } from '@/utils/utilitys';
-import { useGetProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
+import { useGetProductReseller } from '@/hooks/ReactQuery/reseller/useGetProductReseller';
 import { getLogin } from '@/utils/sessions';
 import FormAddDetailProduct from '../Form/FormAddDetailProduct';
 
-export default function DetailProduct() {
+export default function DetailProductReseller() {
   const [searchParams, setSearchParams]: any = useSearchParams();
 
   const product = searchParams.get('product');
@@ -25,13 +25,15 @@ export default function DetailProduct() {
 
   const [addProduct, setAddProduct] = React.useState<boolean>(false);
 
-  const { data, isLoading, error, isError, isSuccess }: any = useGetProduct({
-    token: getLogin()?.token ?? '',
-    page: 1,
-    limit: 100,
-    productType: type,
-    productCategory: product,
-  });
+  const { data, isLoading, error, isError, isSuccess }: any =
+    useGetProductReseller({
+      token: getLogin()?.token ?? '',
+      page: 1,
+      limit: 100,
+      productType: type,
+      productCategory: product,
+      akses: role === 'RESELLER' ? user : '',
+    });
 
   const columns: ColumnsType<any> = [
     {
@@ -122,7 +124,7 @@ export default function DetailProduct() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <div
+      {/* <div
         style={{
           marginBottom: '1em',
           display: 'flex',
@@ -131,18 +133,16 @@ export default function DetailProduct() {
           width: '100%',
         }}
       >
-        {!role && (
-          <Button
-            onClick={() => {
-              setAddProduct(true);
-            }}
-            type="primary"
-            style={{ marginLeft: '1em' }}
-          >
-            Add Product
-          </Button>
-        )}
-      </div>
+        <Button
+          onClick={() => {
+            setAddProduct(true);
+          }}
+          type="primary"
+          style={{ marginLeft: '1em' }}
+        >
+          Add Product
+        </Button>
+      </div> */}
       <div
         style={{
           width: '100%',

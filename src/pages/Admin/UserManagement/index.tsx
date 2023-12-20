@@ -12,7 +12,10 @@ import {
   Input,
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useGetUsers, usePatchUser } from './Hooks/useGetUsers';
+import {
+  useGetUsers,
+  usePatchUser,
+} from '@/hooks/ReactQuery/admin/useGetUsers';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';

@@ -9,12 +9,14 @@ interface IUserFormTeam {
   mutate: any;
   refetch: any;
   id: string;
+  role?: string;
+  user?: string;
 }
 
 export default function useFormDetailProduct(props: IUserFormTeam) {
+  const { mutate, refetch, id, role, user } = props;
   const [watchData, setWatchData] =
     React.useState<FieldTypeUpdateProduct | null>(null);
-  const { mutate, refetch, id } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<any>(null);
@@ -32,6 +34,8 @@ export default function useFormDetailProduct(props: IUserFormTeam) {
         status: 1,
       },
       id,
+      id_reseller: role === 'RESELLER' ? user : '',
+      id_user: role === 'REGULER' ? user : '',
     };
 
     if (params?.licenseAgent) {

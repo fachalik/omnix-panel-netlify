@@ -9,8 +9,13 @@ interface IProps {
   form: FormInstance;
   watchData: FieldTypeUpdateProduct | null;
   error: any;
+  role?: string;
 }
-export default function ProductPricingInformation({ form, watchData }: IProps) {
+export default function ProductPricingInformation({
+  form,
+  watchData,
+  role,
+}: IProps) {
   // const getValue = form.getFieldsValue();
 
   const RenderData = ({ children }: { children: React.ReactNode }) => {
@@ -68,6 +73,7 @@ export default function ProductPricingInformation({ form, watchData }: IProps) {
             rules={[{ required: true, message: 'Product Price is required' }]}
           >
             <Select
+              disabled={!!role}
               // loading={isLoadingMember}
               showSearch
               style={{ width: '100%' }}
@@ -121,6 +127,7 @@ export default function ProductPricingInformation({ form, watchData }: IProps) {
             rules={[{ required: true, message: 'Product Price is required' }]}
           >
             <Select
+              disabled={!!role}
               showSearch
               style={{ width: '100%' }}
               onChange={(value: any) => {
@@ -173,6 +180,7 @@ export default function ProductPricingInformation({ form, watchData }: IProps) {
             rules={[{ required: true, message: 'Product Price is required' }]}
           >
             <InputNumber
+              disabled={!!role}
               prefix="Rp."
               style={{ width: '100%' }}
               autoComplete="false"
@@ -190,6 +198,52 @@ export default function ProductPricingInformation({ form, watchData }: IProps) {
             />
           </Form.Item>
         </Col>
+        {!!role && (
+          <Col
+            xs={24}
+            sm={24}
+            md={24}
+            lg={24}
+            xl={24}
+            style={{ marginBottom: '1em' }}
+          >
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 'bold',
+                marginBottom: 10,
+              }}
+            >
+              Sales Price *
+            </div>
+
+            <Form.Item<FieldTypeUpdateProduct>
+              name="salesPrice"
+              hasFeedback
+              rules={[{ required: true, message: 'sales Price is required' }]}
+            >
+              <InputNumber
+                prefix="Rp."
+                style={{ width: '100%' }}
+                autoComplete="false"
+                placeholder="Input your sales price"
+                formatter={(value) =>
+                  ` ${value}`
+                    .replace(/\./, ',')
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                }
+                parser={(x) =>
+                  parseFloat(
+                    `${x}`
+                      .replace(/,/, '#')
+                      .replace(/\./g, '')
+                      .replace(/#/, '.')
+                  )
+                }
+              />
+            </Form.Item>
+          </Col>
+        )}
         <RenderData>
           <Col
             xs={24}
@@ -214,6 +268,7 @@ export default function ProductPricingInformation({ form, watchData }: IProps) {
               rules={[{ required: true, message: 'Product Price is required' }]}
             >
               <Input
+                disabled={!!role}
                 type="number"
                 style={{ width: '100%' }}
                 autoComplete="false"
@@ -246,6 +301,7 @@ export default function ProductPricingInformation({ form, watchData }: IProps) {
               rules={[{ required: true, message: 'Product Price is required' }]}
             >
               <Input
+                disabled={!!role}
                 type="number"
                 style={{ width: '100%' }}
                 autoComplete="false"

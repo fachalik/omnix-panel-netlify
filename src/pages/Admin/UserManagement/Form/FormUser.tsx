@@ -1,5 +1,5 @@
 import { Button, Form, Input } from 'antd';
-import { useCreateUser } from '../Hooks/useGetUsers';
+import { useCreateUser } from '@/hooks/ReactQuery/admin/useGetUsers';
 import useFormUser from '../Hooks/useFormUser';
 
 interface IFormUsers {

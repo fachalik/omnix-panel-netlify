@@ -1,6 +1,6 @@
 import http from '../utils/request';
 
-export const getProductAdmin = ({
+export const getProductUser = ({
   token,
   page = 1,
   limit = 10,
@@ -9,6 +9,8 @@ export const getProductAdmin = ({
   productType,
   productCategory,
   is_not_paginate,
+  akses,
+  id_user,
 }: {
   token: string;
   page: number;
@@ -18,12 +20,12 @@ export const getProductAdmin = ({
   term?: string;
   status?: string;
   is_not_paginate?: string;
-  id_reseller?: string;
-  id_user?: string;
+  akses: string;
+  id_user: string;
 }) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.get(`/api/products/paginate`, {
+      const respon = await http.get(`/api/products-for-user/paginate`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -35,6 +37,8 @@ export const getProductAdmin = ({
           productType,
           productCategory,
           is_not_paginate,
+          akses,
+          id_user,
         },
       });
       if (respon.data) {
@@ -47,7 +51,7 @@ export const getProductAdmin = ({
       reject(message);
     }
   });
-export const getDetailProductAdmin = ({
+export const getDetailProductUser = ({
   token,
   id,
   id_reseller,
@@ -81,10 +85,10 @@ export const getDetailProductAdmin = ({
     }
   });
 
-export const postProductAdmin = (payload: any) =>
+export const postProductUser = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.post(`/api/products`, payload);
+      const respon = await http.post(`/api/products-for-user`, payload);
       console.log('respon', respon);
       if (respon) {
         resolve(respon);
@@ -97,10 +101,10 @@ export const postProductAdmin = (payload: any) =>
     }
   });
 
-export const deleteProductAdmin = (id: number) =>
+export const deleteProductUser = (id: number) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.delete(`/api/products/?id=${id}`);
+      const respon = await http.delete(`/api/products-for-user/?id=${id}`);
       if (respon.status === 204 || respon.status === 200) resolve(respon);
     } catch (err: any) {
       const message: string = err.response
@@ -110,7 +114,7 @@ export const deleteProductAdmin = (id: number) =>
     }
   });
 
-export const updateProductAdmin = ({
+export const updateProductUser = ({
   val,
   id,
   id_user,
@@ -148,12 +152,32 @@ export const updateProductAdmin = ({
   });
 };
 
-export const updateProductAdminAddon = ({ val }: any) => {
+export const updateProductUserAddon = ({
+  val,
+  id,
+  id_reseller,
+  id_user,
+}: {
+  val: any;
+  id: string;
+  id_reseller?: string;
+  id_user?: string;
+}) => {
   return new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.post(`/api/products/addon`, {
-        ...val,
-      });
+      const respon = await http.post(
+        `/api/products/addon`,
+        {
+          ...val,
+        },
+        {
+          params: {
+            id,
+            id_reseller,
+            id_user,
+          },
+        }
+      );
       if (respon) {
         resolve(respon);
       }

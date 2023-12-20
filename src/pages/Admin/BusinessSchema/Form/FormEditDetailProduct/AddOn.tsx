@@ -23,9 +23,10 @@ interface IProps {
   formAddon: FormInstance;
   watchDataAddon: FieldTypeUpdateProduct | null;
   error: any;
+  role?: string;
 }
 
-export default function AddOn({ formAddon }: IProps) {
+export default function AddOn({ formAddon, role }: IProps) {
   const getChannelAddon = formAddon.getFieldValue('channel');
 
   const channelAddOnData = formAddon.getFieldValue('channelAddOn');
@@ -120,7 +121,12 @@ export default function AddOn({ formAddon }: IProps) {
           md={24}
           lg={24}
           xl={24}
-          style={{ margin: '0px', padding: '0px' }}
+          style={{
+            margin: '0px',
+            padding: '0px',
+            width: '100%',
+            height: '100%',
+          }}
         >
           <div
             style={{
@@ -138,6 +144,7 @@ export default function AddOn({ formAddon }: IProps) {
             rules={[{ required: true, message: 'channel name is required' }]}
           >
             <Select
+              disabled={!!role}
               mode="multiple"
               showSearch
               style={{ width: '100%' }}
@@ -167,11 +174,11 @@ export default function AddOn({ formAddon }: IProps) {
                   md={24}
                   lg={24}
                   xl={24}
-                  style={{ marginBottom: '1em' }}
+                  style={{ marginBottom: '1em', width: '100%', height: '100%' }}
                 >
                   <Divider />
 
-                  <Row>
+                  <Row style={{ width: '100%', height: '100%' }}>
                     <Col>
                       <p
                         style={{
@@ -182,14 +189,18 @@ export default function AddOn({ formAddon }: IProps) {
                       >{`${channelAddOnData[channelAddOnIndex].channel} Channel Add-On Configuration`}</p>
                     </Col>
                   </Row>
-                  <Row gutter={24}>
+                  <Row gutter={24} style={{ width: '100%', height: '100%' }}>
                     <Col
                       xs={24}
                       sm={12}
                       md={12}
                       lg={12}
                       xl={12}
-                      style={{ marginBottom: '1em' }}
+                      style={{
+                        marginBottom: '1em',
+                        width: '100%',
+                        height: '100%',
+                      }}
                     >
                       <div
                         style={{
@@ -212,6 +223,7 @@ export default function AddOn({ formAddon }: IProps) {
                         ]}
                       >
                         <Select
+                          disabled={!!role}
                           showSearch
                           style={{ width: '100%' }}
                           value={formAddon.getFieldValue([
@@ -253,7 +265,11 @@ export default function AddOn({ formAddon }: IProps) {
                       md={12}
                       lg={12}
                       xl={12}
-                      style={{ marginBottom: '1em' }}
+                      style={{
+                        marginBottom: '1em',
+                        width: '100%',
+                        height: '100%',
+                      }}
                     >
                       <div
                         style={{
@@ -262,7 +278,7 @@ export default function AddOn({ formAddon }: IProps) {
                           marginBottom: 10,
                         }}
                       >
-                        Pricing Required *
+                        Purchase Required *
                       </div>
                       <Form.Item
                         style={{ margin: 0 }}
@@ -276,6 +292,7 @@ export default function AddOn({ formAddon }: IProps) {
                         ]}
                       >
                         <Select
+                          disabled={!!role}
                           showSearch
                           value={formAddon.getFieldValue([
                             channelAddOn.name,
@@ -306,8 +323,15 @@ export default function AddOn({ formAddon }: IProps) {
                       </Form.Item>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                  <Row style={{ width: '100%', height: '100%' }}>
+                    <Col
+                      xs={24}
+                      sm={24}
+                      md={24}
+                      lg={24}
+                      xl={24}
+                      style={{ width: '100%', height: '100%' }}
+                    >
                       <Form.List
                         name={[channelAddOn.name, 'detail']}
                         rules={[{ validator: validateChannels }]}
@@ -336,9 +360,18 @@ export default function AddOn({ formAddon }: IProps) {
                                   // justifyContent: 'space-between',
                                   alignItems: 'center',
                                   marginBottom: 5,
+                                  width: '100%',
+                                  height: '100%',
                                 }}
                               >
-                                <Col xs={24} sm={10} md={10} lg={10} xl={10}>
+                                <Col
+                                  xs={24}
+                                  sm={10}
+                                  md={10}
+                                  lg={10}
+                                  xl={10}
+                                  style={{ width: '100%', height: '100%' }}
+                                >
                                   <Form.Item
                                     {...detail}
                                     name={[detail.name, 'name']}
@@ -352,10 +385,20 @@ export default function AddOn({ formAddon }: IProps) {
                                       },
                                     ]}
                                   >
-                                    <Input placeholder="Detail Name" />
+                                    <Input
+                                      disabled={!!role}
+                                      placeholder="Detail Name"
+                                    />
                                   </Form.Item>
                                 </Col>
-                                <Col xs={24} sm={10} md={10} lg={10} xl={10}>
+                                <Col
+                                  xs={24}
+                                  sm={10}
+                                  md={10}
+                                  lg={10}
+                                  xl={10}
+                                  style={{ width: '100%', height: '100%' }}
+                                >
                                   <Form.Item
                                     {...detail}
                                     name={[detail.name, 'price']}
@@ -370,6 +413,7 @@ export default function AddOn({ formAddon }: IProps) {
                                     ]}
                                   >
                                     <InputNumber
+                                      disabled={!!role}
                                       prefix="Rp."
                                       style={{ width: '100%' }}
                                       autoComplete="false"
@@ -395,6 +439,7 @@ export default function AddOn({ formAddon }: IProps) {
                                     title={`Delete variant ${detailIndex + 1}`}
                                   >
                                     <Button
+                                      disabled={!!role}
                                       onClick={() => removeDetail(detail.name)}
                                       color={'red'}
                                       style={{ marginRight: '0.5em' }}
@@ -411,6 +456,7 @@ export default function AddOn({ formAddon }: IProps) {
                               </Row>
                             ))}
                             <Button
+                              disabled={!!role}
                               type="dashed"
                               block
                               onClick={() => addDetail()}

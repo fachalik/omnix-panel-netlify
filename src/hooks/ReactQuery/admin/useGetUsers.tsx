@@ -1,3 +1,4 @@
+import React from 'react';
 import { message } from 'antd';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
@@ -14,9 +15,43 @@ export type GetPackageQueryParams = {
   role?: string;
   term?: string;
   status?: string;
+  reqPrice?: string;
+  is_not_paginate?: string;
 };
 
 const QUERY_KEY = ['LIST_USERS_ADMIN'];
+
+// ** GET LIST
+
+const transformData = (data: any) => {
+  const arr = Array.from(data, function (item: any) {
+    return { value: item._id, label: item.email };
+  });
+  return arr;
+};
+
+const fetchUsersList = async (params: GetPackageQueryParams): Promise<any> => {
+  const data = await getUser(
+    params.token,
+    params.page,
+    params.limit,
+    params.role,
+    params.term,
+    params.status,
+    params.reqPrice,
+    params.is_not_paginate
+  );
+  return data;
+};
+
+export const useGetUsersList = (params: GetPackageQueryParams) => {
+  return useQuery<any, Error>({
+    queryKey: ['user-list', params],
+    queryFn: () => fetchUsersList(params),
+    keepPreviousData: true,
+    select: React.useCallback((data: any) => transformData(data), []),
+  });
+};
 
 // ** GET
 
@@ -27,7 +62,9 @@ const fetchUsers = async (params: GetPackageQueryParams): Promise<any> => {
     params.limit,
     params.role,
     params.term,
-    params.status
+    params.status,
+    params.reqPrice,
+    params.is_not_paginate
   );
   return data;
 };

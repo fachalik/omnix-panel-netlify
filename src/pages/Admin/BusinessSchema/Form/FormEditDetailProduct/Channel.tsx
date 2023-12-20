@@ -16,8 +16,9 @@ interface IProps {
   form: FormInstance;
   watchData: FieldTypeUpdateProduct | null;
   error: any;
+  role?: string;
 }
-export default function Channel({ form }: IProps) {
+export default function Channel({ form, role }: IProps) {
   const handleCheckboxChange = (key: any, value: any) => {
     const formValues = form.getFieldsValue();
 
@@ -70,6 +71,7 @@ export default function Channel({ form }: IProps) {
               .map((option) => (
                 <Form.Item key={option.value} name="channel">
                   <Checkbox
+                    disabled={!!role}
                     name="channel"
                     checked={form
                       .getFieldValue('channel')
@@ -108,6 +110,7 @@ export default function Channel({ form }: IProps) {
               .map((option) => (
                 <Form.Item key={option.value} name="channel">
                   <Checkbox
+                    disabled={!!role}
                     name="channel"
                     checked={form
                       .getFieldValue('channel')

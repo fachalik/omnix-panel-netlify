@@ -20,6 +20,8 @@ const fetchMProduct = async (params: {
   ProductType: string;
   is_not_paginate?: string;
   term?: string;
+  id_reseller?: string;
+  user_id?: string;
 }): Promise<any> => {
   const data = await getMProduct({
     limit: params.limit,
@@ -27,6 +29,8 @@ const fetchMProduct = async (params: {
     ProductType: params.ProductType,
     token: params.token,
     is_not_paginate: params.is_not_paginate,
+    id_reseller: params.id_reseller,
+    user_id: params.user_id,
   });
   return data;
   return data;
@@ -40,6 +44,8 @@ export const useGetMProduct = (params: {
   ProductType: string;
   is_not_paginate?: string;
   term?: string;
+  id_reseller?: string;
+  user_id?: string;
 }) => {
   return useQuery<any, Error>({
     queryKey: [...QUERY_KEY, params],

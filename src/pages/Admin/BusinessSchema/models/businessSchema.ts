@@ -9,6 +9,7 @@ export type FieldTypeUpdateProduct = {
   typeDetails?: string;
   typeSchema?: string;
   productPrice?: string;
+  salesPrice?: string;
   minQuantity?: string;
   maxQuantity?: string;
   licenseAgent?: license;

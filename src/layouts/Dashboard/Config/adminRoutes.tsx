@@ -8,11 +8,6 @@ const adminRoutes: any = [
     label: 'Home',
   },
   {
-    key: `/manage-product`,
-    icon: 'ri-home-fill',
-    label: 'Manage Product',
-  },
-  {
     key: `/manage-role`,
     icon: 'ri-home-fill',
     label: 'Role Management',
