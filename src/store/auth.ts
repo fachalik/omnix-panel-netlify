@@ -52,6 +52,16 @@ export const useAuthStore = create<IStoreAuth>()(
                 menu = await getMenuMember(response?.data?.accessToken ?? '');
               }
 
+              if (menu) {
+                menu.sort((a: any, b: any) => {
+                  const iconA = a.menu_id[0].icon;
+                  const iconB = b.menu_id[0].icon;
+
+                  // Assuming icon is a string, you might need to convert it to a comparable format if it's not
+                  return iconA.localeCompare(iconB);
+                });
+              }
+
               const payload = {
                 status: `welcome back ${getProfile.name}`,
                 hit: true,
