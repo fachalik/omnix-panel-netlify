@@ -10,8 +10,8 @@ const BusinessManagementProduct = lazy(
 );
 
 const TeamManagement = lazy(() => import('@/pages/Admin/TeamManagement'));
-
 const GroupManagement = lazy(() => import('@/pages/Admin/GroupManagement'));
+const MenuManagement = lazy(() => import('@/pages/Admin/ManageMenu'));
 
 const Routers: ListRouteProps[] = [
   {
@@ -59,6 +59,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: UserManagement,
     path: '/user-management',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.ADMIN],
+  },
+  {
+    comp: MenuManagement,
+    path: '/manage-menu',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.ADMIN],
