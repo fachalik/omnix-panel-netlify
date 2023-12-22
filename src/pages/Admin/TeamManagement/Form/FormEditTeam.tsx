@@ -145,7 +145,7 @@ export default function FormEditTeam({ handleClose, data }: IFormTeam) {
           htmlType="submit"
           style={{ fontSize: 14, fontWeight: 700 }}
         >
-          {!isLoading ? 'Edit Akun' : 'Loading ...'}
+          {!isLoading ? 'Edit Team' : 'Loading ...'}
         </Button>
       </Form>
     </main>

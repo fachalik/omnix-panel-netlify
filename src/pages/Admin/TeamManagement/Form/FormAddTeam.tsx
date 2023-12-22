@@ -150,7 +150,7 @@ export default function FormAddTeam({ handleClose }: IFormTeam) {
           htmlType="submit"
           style={{ fontSize: 14, fontWeight: 700 }}
         >
-          {!isLoading ? 'Buat Akun' : 'Loading ...'}
+          {!isLoading ? 'Buat Team' : 'Loading ...'}
         </Button>
       </Form>
     </main>

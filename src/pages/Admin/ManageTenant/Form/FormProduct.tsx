@@ -57,7 +57,7 @@ export default function FormProduct({ handleClose }: IFormUsers) {
           htmlType="submit"
           style={{ fontSize: 14, fontWeight: 700 }}
         >
-          {!isLoading ? 'Tambah Tenant' : 'Loading ....'}
+          {!isLoading ? 'Tambah Product' : 'Loading ....'}
         </Button>
       </Form>
     </main>

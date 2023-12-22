@@ -78,7 +78,7 @@ export default function FormUserEdit({ handleClose, data }: IFormUsersEdit) {
           htmlType="submit"
           style={{ fontSize: 14, fontWeight: 700 }}
         >
-          {!isLoading ? 'Buat Akun' : 'Loading ....'}
+          {!isLoading ? 'Edit User' : 'Loading ....'}
         </Button>
       </Form>
     </main>

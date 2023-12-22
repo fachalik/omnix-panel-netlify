@@ -203,7 +203,7 @@ export default function FormUser({ handleClose }: IFormUsers) {
           htmlType="submit"
           style={{ fontSize: 14, fontWeight: 700 }}
         >
-          {!isLoading ? 'Buat Akun' : 'Loading ....'}
+          {!isLoading ? 'Buat User' : 'Loading ....'}
         </Button>
       </Form>
     </main>

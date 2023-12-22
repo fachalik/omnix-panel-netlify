@@ -103,7 +103,7 @@ export default function FormEditMenu({ handleClose, id, data }: IFormMenu) {
           htmlType="submit"
           style={{ fontSize: 14, fontWeight: 700 }}
         >
-          {!isLoading ? 'Buat Menu' : 'Loading ...'}
+          {!isLoading ? 'Edit Menu' : 'Loading ...'}
         </Button>
       </Form>
     </main>
