@@ -124,7 +124,7 @@ export default function FormMenuEdit({ handleClose, data }: IFormTeam) {
           htmlType="submit"
           style={{ fontSize: 14, fontWeight: 700 }}
         >
-          {!isLoading ? 'Edit Akun' : 'Loading ...'}
+          {!isLoading ? 'Edit Menu' : 'Loading ...'}
         </Button>
       </Form>
     </main>
