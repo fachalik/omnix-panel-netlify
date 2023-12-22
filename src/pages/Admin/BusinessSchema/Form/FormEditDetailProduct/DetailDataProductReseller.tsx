@@ -15,9 +15,11 @@ import useFormEditDetailProduct from '../../Hooks/useFormEditDetailProduct';
 import useFormAddOnDetailProduct from '../../Hooks/useFormAddOnDetailProduct';
 import {
   useGetDetailProductReseller,
-  usepatchProductReseller,
+  // usepatchProductReseller,
   usepatchProductAddOnReseller,
 } from '@/hooks/ReactQuery/reseller/useGetProductReseller';
+
+import { usepatchProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
 
 import { useSearchParams } from 'react-router-dom';
 import { getLogin } from '@/utils/sessions';
@@ -26,7 +28,7 @@ export default function DetailDataProductReseller() {
   const [initData, setInitData] = React.useState<any>({});
   const [initDataAddon, setInitDataAddon] = React.useState<any>({});
   const [searchParams]: any = useSearchParams();
-  const { mutate: mutateProduct } = usepatchProductReseller();
+  const { mutate: mutateProduct } = usepatchProduct();
   const { mutate: mutateAddOn } = usepatchProductAddOnReseller();
 
   const id = searchParams.get('id');

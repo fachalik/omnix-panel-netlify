@@ -52,7 +52,7 @@ export const useAuthStore = create<IStoreAuth>()(
                 menu = await getMenuMember(response?.data?.accessToken ?? '');
               }
 
-              if (menu) {
+              if (menu.length !== 0) {
                 menu.sort((a: any, b: any) => {
                   const iconA = a.menu_id[0].icon;
                   const iconB = b.menu_id[0].icon;
@@ -90,6 +90,7 @@ export const useAuthStore = create<IStoreAuth>()(
             }
             // await window.location.reload();
           } catch (err: any) {
+            console.log('err', err);
             console.log('err', err?.response?.data?.message);
             const payload = {
               status: err?.response?.data?.message,

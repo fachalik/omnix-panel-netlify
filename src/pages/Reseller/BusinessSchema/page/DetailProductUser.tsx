@@ -12,33 +12,39 @@ import { EllipsisOutlined } from '@ant-design/icons';
 import lodash from 'lodash';
 import { formatRupiah } from '@/utils/utilitys';
 import {
-  useGetProductReseller,
-  usepatchProductReseller,
-} from '@/hooks/ReactQuery/reseller/useGetProductReseller';
+  useGetProductUser,
+  usepatchProductUser,
+} from '@/hooks/ReactQuery/user/useGetProductUser';
 import { getLogin } from '@/utils/sessions';
 import FormAddDetailProduct from '../Form/FormAddDetailProduct';
 
-export default function DetailProductReseller() {
+import { useAuthStore } from '@/store/auth';
+
+export default function DetailProductUser() {
+  const { user: userData } = useAuthStore((state) => state);
   const [searchParams, setSearchParams]: any = useSearchParams();
 
-  const { mutate: mutatePatch } = usepatchProductReseller();
+  const { mutate: mutatePatch } = usepatchProductUser();
 
   const product = searchParams.get('product');
   const type = searchParams.get('type');
   const user: any = searchParams.get('user');
   const role: any = searchParams.get('role');
+  // const product_id: any = searchParams.get('product_id');
 
   const [addProduct, setAddProduct] = React.useState<boolean>(false);
 
-  const { data, isLoading, error, isError, isSuccess }: any =
-    useGetProductReseller({
+  const { data, isLoading, error, isError, isSuccess }: any = useGetProductUser(
+    {
       token: getLogin()?.token ?? '',
       page: 1,
       limit: 100,
       productType: type,
       productCategory: product,
-      akses: role === 'RESELLER' ? user : '',
-    });
+      akses: 'admin',
+      id_user: user ?? '',
+    }
+  );
 
   const columns: ColumnsType<any> = [
     {
@@ -82,20 +88,8 @@ export default function DetailProductReseller() {
       render: (_, record: any) => {
         return (
           <p style={{ fontSize: 14, fontWeight: 600 }}>
-            {formatRupiah(record.productPrice.toString(), 'Rp.')}
-          </p>
-        );
-      },
-    },
-    {
-      key: 'salesPrice',
-      title: 'Sales Price',
-      dataIndex: 'salesPrice',
-      render: (_, record: any) => {
-        return (
-          <p style={{ fontSize: 14, fontWeight: 600 }}>
-            {record.salesPrice
-              ? formatRupiah(record.salesPrice.toString(), 'Rp.')
+            {record.productPrice
+              ? formatRupiah(record.productPrice.toString(), 'Rp.')
               : '-'}
           </p>
         );
@@ -140,7 +134,8 @@ export default function DetailProductReseller() {
                 mutatePatch({
                   val: { status: record?.status == 1 ? 0 : 1 },
                   id: record._id,
-                  id_reseller: user ?? '',
+                  id_reseller: userData?._id ?? '',
+                  id_user: role === 'REGULER' ? user : '',
                 })
               }
               style={{ marginRight: '0.5em' }}

@@ -17,6 +17,7 @@ export type GetPackageQueryParams = {
   status?: string;
   reqPrice?: string;
   is_not_paginate?: string;
+  reseller?: string;
 };
 
 const QUERY_KEY = ['LIST_USERS_ADMIN'];
@@ -39,7 +40,8 @@ const fetchUsersList = async (params: GetPackageQueryParams): Promise<any> => {
     params.term,
     params.status,
     params.reqPrice,
-    params.is_not_paginate
+    params.is_not_paginate,
+    params.reseller
   );
   return data;
 };
@@ -64,7 +66,8 @@ const fetchUsers = async (params: GetPackageQueryParams): Promise<any> => {
     params.term,
     params.status,
     params.reqPrice,
-    params.is_not_paginate
+    params.is_not_paginate,
+    params.reseller
   );
   return data;
 };

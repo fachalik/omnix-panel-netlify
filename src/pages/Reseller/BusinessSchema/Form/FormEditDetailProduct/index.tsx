@@ -14,26 +14,26 @@ import AddOn from './AddOn';
 import useFormEditDetailProduct from '../../Hooks/useFormEditDetailProduct';
 import useFormAddOnDetailProduct from '../../Hooks/useFormAddOnDetailProduct';
 import {
-  useGetDetailProductUser,
-  // usepatchProductUser,
-  usepatchProductAddOnUser,
-} from '@/hooks/ReactQuery/user/useGetProductUser';
+  useGetDetailProductReseller,
+  // usepatchProductReseller,
+  usepatchProductAddOnReseller,
+} from '@/hooks/ReactQuery/reseller/useGetProductReseller';
 
 import { usepatchProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
 
 import { useSearchParams } from 'react-router-dom';
 import { getLogin } from '@/utils/sessions';
 
-export default function DetailDataProductUser() {
+export default function DetailDataProductReseller() {
   const [initData, setInitData] = React.useState<any>({});
   const [initDataAddon, setInitDataAddon] = React.useState<any>({});
   const [searchParams]: any = useSearchParams();
   const { mutate: mutateProduct } = usepatchProduct();
-  const { mutate: mutateAddOn } = usepatchProductAddOnUser();
+  const { mutate: mutateAddOn } = usepatchProductAddOnReseller();
 
   const id = searchParams.get('id');
   const role: any = searchParams.get('role');
-  const user: any = searchParams.get('user');
+  // const user: any = searchParams.get('user');
 
   const {
     data: dataDetail,
@@ -42,12 +42,11 @@ export default function DetailDataProductUser() {
     isError: isErrorDetail,
     isSuccess: isSuccessDetail,
     refetch: refetchDetail,
-  }: any = useGetDetailProductUser({
+  }: any = useGetDetailProductReseller({
     token: getLogin()?.token ?? '',
     id,
-    key: `PRODUCT_DETAILS_USER_${id}`,
-    id_reseller: role === 'RESELLER' ? user : '',
-    id_user: role === 'REGULER' ? user : '',
+    key: `PRODUCT_DETAILS_RESELLER_${id}`,
+    // id_reseller: user?._id ?? '',
   });
 
   const {
@@ -63,7 +62,7 @@ export default function DetailDataProductUser() {
     refetch: refetchDetail,
     id,
     role,
-    user,
+    // user,
   });
 
   const {

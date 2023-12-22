@@ -8,7 +8,8 @@ export const getUser = (
   term?: string,
   status?: string,
   reqPrice?: string,
-  is_not_paginate?: string
+  is_not_paginate?: string,
+  reseller?: string
 ) =>
   new Promise<any>(async (resolve, reject) => {
     try {
@@ -24,6 +25,7 @@ export const getUser = (
           status,
           reqPrice,
           is_not_paginate,
+          reseller,
         },
       });
       if (respon.data) {

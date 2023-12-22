@@ -93,6 +93,20 @@ export default function DetailProductUser() {
       },
     },
     {
+      key: 'salesPrice',
+      title: 'Sales Price',
+      dataIndex: 'salesPrice',
+      render: (_, record: any) => {
+        return (
+          <p style={{ fontSize: 14, fontWeight: 600 }}>
+            {record.salesPrice
+              ? formatRupiah(record.salesPrice.toString(), 'Rp.')
+              : '-'}
+          </p>
+        );
+      },
+    },
+    {
       key: 'status',
       title: 'Status',
       dataIndex: 'status',

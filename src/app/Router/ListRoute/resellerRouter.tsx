@@ -61,7 +61,9 @@ const ActivatedProduct = lazy(
   () => import('@/pages/Reseller/ActivatedProduct')
 );
 
-const BusinessSchema = lazy(() => import('@/pages/Reseller/BusinessSchema'));
+const BusinessManagementProduct = lazy(
+  () => import('@/pages/Reseller/BusinessSchema/page')
+);
 
 const Member = lazy(() => import('@/pages/Reseller/Member'));
 
@@ -112,13 +114,13 @@ const Routers: ListRouteProps[] = [
     index: true,
     auth: [RoleEnum.RESELLER],
   },
-  {
-    comp: BusinessSchema,
-    path: '/business-schema',
-    layout: 'Dashboard',
-    index: true,
-    auth: [RoleEnum.RESELLER],
-  },
+  // {
+  //   comp: BusinessSchema,
+  //   path: '/business-schema',
+  //   layout: 'Dashboard',
+  //   index: true,
+  //   auth: [RoleEnum.RESELLER],
+  // },
   {
     comp: ProductActivationDetail,
     path: '/manage-tenant/product-activation',
@@ -235,6 +237,13 @@ const Routers: ListRouteProps[] = [
     comp: GroupManagement,
     path: '/manage-group',
     layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.RESELLER],
+  },
+  {
+    comp: BusinessManagementProduct,
+    path: '/schema-product',
+    layout: 'ADMIN_BUSINESS_SCHEMA',
     index: true,
     auth: [RoleEnum.RESELLER],
   },

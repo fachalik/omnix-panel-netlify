@@ -3,10 +3,8 @@ import { Button, Form, Switch, Input } from 'antd';
 import useFormMProduct from '../Hooks/useFormMProduct';
 import {
   usecreateMProductReseller,
-  // usepatchMProductReseller,
+  usepatchMProductReseller,
 } from '@/hooks/ReactQuery/reseller/useGetMProductReseller';
-
-import { usepatchProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
 
 type FieldType = {
   name?: string;
@@ -20,14 +18,13 @@ interface IFormMenu {
   data?: any;
 }
 
-export default function FormMProductReseller({
+export default function FormMProduct({
   handleClose,
   productType,
   data,
 }: IFormMenu) {
   const { mutate: mutateCreate } = usecreateMProductReseller();
-  const { mutate: mutatePatch } = usepatchProduct();
-
+  const { mutate: mutatePatch } = usepatchMProductReseller();
   const { form, isLoading, onFinish, onFinishFailed } = useFormMProduct({
     handleCloseForm: handleClose,
     mutate: data ? mutatePatch : mutateCreate,

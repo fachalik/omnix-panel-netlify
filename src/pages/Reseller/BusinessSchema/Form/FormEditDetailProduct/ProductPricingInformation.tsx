@@ -223,7 +223,6 @@ export default function ProductPricingInformation({
               rules={[{ required: true, message: 'sales Price is required' }]}
             >
               <InputNumber
-                min={!!role ? form.getFieldValue('productPrice') : 0}
                 prefix="Rp."
                 style={{ width: '100%' }}
                 autoComplete="false"

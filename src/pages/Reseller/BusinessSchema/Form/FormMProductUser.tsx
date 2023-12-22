@@ -2,11 +2,9 @@ import React from 'react';
 import { Button, Form, Switch, Input } from 'antd';
 import useFormMProduct from '../Hooks/useFormMProduct';
 import {
-  usecreateMProductReseller,
-  // usepatchMProductReseller,
-} from '@/hooks/ReactQuery/reseller/useGetMProductReseller';
-
-import { usepatchProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
+  usecreateMProductUser,
+  usepatchMProductUser,
+} from '@/hooks/ReactQuery/user/useGetMProductUser';
 
 type FieldType = {
   name?: string;
@@ -20,14 +18,13 @@ interface IFormMenu {
   data?: any;
 }
 
-export default function FormMProductReseller({
+export default function FormMProductUser({
   handleClose,
   productType,
   data,
 }: IFormMenu) {
-  const { mutate: mutateCreate } = usecreateMProductReseller();
-  const { mutate: mutatePatch } = usepatchProduct();
-
+  const { mutate: mutateCreate } = usecreateMProductUser();
+  const { mutate: mutatePatch } = usepatchMProductUser();
   const { form, isLoading, onFinish, onFinishFailed } = useFormMProduct({
     handleCloseForm: handleClose,
     mutate: data ? mutatePatch : mutateCreate,

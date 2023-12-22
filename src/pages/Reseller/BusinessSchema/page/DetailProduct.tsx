@@ -11,24 +11,29 @@ import { EllipsisOutlined } from '@ant-design/icons';
 
 import lodash from 'lodash';
 import { formatRupiah } from '@/utils/utilitys';
+// import {
+//   useGetProduct,
+//   usepatchProduct,
+// } from '@/hooks/ReactQuery/admin/useGetProduct';
 import {
   useGetProductReseller,
   usepatchProductReseller,
 } from '@/hooks/ReactQuery/reseller/useGetProductReseller';
 import { getLogin } from '@/utils/sessions';
 import FormAddDetailProduct from '../Form/FormAddDetailProduct';
+import { useAuthStore } from '@/store/auth';
 
-export default function DetailProductReseller() {
+export default function DetailProduct() {
+  const { user } = useAuthStore((state) => state);
   const [searchParams, setSearchParams]: any = useSearchParams();
-
-  const { mutate: mutatePatch } = usepatchProductReseller();
 
   const product = searchParams.get('product');
   const type = searchParams.get('type');
-  const user: any = searchParams.get('user');
   const role: any = searchParams.get('role');
 
   const [addProduct, setAddProduct] = React.useState<boolean>(false);
+
+  const { mutate: mutatePatch } = usepatchProductReseller();
 
   const { data, isLoading, error, isError, isSuccess }: any =
     useGetProductReseller({
@@ -37,7 +42,7 @@ export default function DetailProductReseller() {
       limit: 100,
       productType: type,
       productCategory: product,
-      akses: role === 'RESELLER' ? user : '',
+      akses: user?._id ?? '',
     });
 
   const columns: ColumnsType<any> = [
@@ -88,20 +93,6 @@ export default function DetailProductReseller() {
       },
     },
     {
-      key: 'salesPrice',
-      title: 'Sales Price',
-      dataIndex: 'salesPrice',
-      render: (_, record: any) => {
-        return (
-          <p style={{ fontSize: 14, fontWeight: 600 }}>
-            {record.salesPrice
-              ? formatRupiah(record.salesPrice.toString(), 'Rp.')
-              : '-'}
-          </p>
-        );
-      },
-    },
-    {
       key: 'status',
       title: 'Status',
       dataIndex: 'status',
@@ -140,7 +131,7 @@ export default function DetailProductReseller() {
                 mutatePatch({
                   val: { status: record?.status == 1 ? 0 : 1 },
                   id: record._id,
-                  id_reseller: user ?? '',
+                  id_reseller: user?._id ?? '',
                 })
               }
               style={{ marginRight: '0.5em' }}
