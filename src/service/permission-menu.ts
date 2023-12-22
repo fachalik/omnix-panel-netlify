@@ -1,11 +1,29 @@
 import http from '../utils/request';
 
-export const getListMenu = ({ token }: { token: string }) =>
+export const getListMenu = ({
+  token,
+  limit,
+  page,
+  status,
+  is_not_paginate,
+}: {
+  token: string;
+  limit: string;
+  page: string;
+  status?: string;
+  is_not_paginate?: string;
+}) =>
   new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.get(`/api/settings-menu/menu`, {
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+        params: {
+          limit,
+          page,
+          status,
+          is_not_paginate,
         },
       });
       if (respon.data) {

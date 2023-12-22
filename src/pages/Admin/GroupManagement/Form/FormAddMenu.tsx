@@ -27,6 +27,9 @@ export default function FormAddMenu({ handleClose, id }: IFormMenu) {
 
   const { data: dataMenu, isLoading: isLoadingMenu } = useGetListMenu({
     token: getLogin()?.token ?? '',
+    limit: '100',
+    page: '1',
+    is_not_paginate: '1',
   });
 
   // console.log('dataMenu', dataMenu);

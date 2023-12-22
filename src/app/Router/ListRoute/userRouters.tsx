@@ -5,15 +5,17 @@ import { RoleEnum } from '@/models';
 const Dashboard = lazy(() => import('@/pages/User/Dashboard/index'));
 const Home = lazy(() => import('@/pages/User/Home'));
 
-const ProductActivation = lazy(() => import('@/pages/User/ProductActivation'));
+const Package = lazy(() => import('@/pages/User/Package'));
 
-const ProductActivationDetail = lazy(
-  () => import('@/pages/User/ProductActivation/Detail')
-);
+// const ProductActivation = lazy(() => import('@/pages/User/ProductActivation'));
 
-const ProductActivationSettingAccount = lazy(
-  () => import('@/pages/User/ProductActivation/SettingAccount')
-);
+// const ProductActivationDetail = lazy(
+//   () => import('@/pages/User/ProductActivation/Detail')
+// );
+
+// const ProductActivationSettingAccount = lazy(
+//   () => import('@/pages/User/ProductActivation/SettingAccount')
+// );
 
 const ChannelSubscribe = lazy(() => import('@/pages/User/ChannelSubscribe'));
 
@@ -173,26 +175,33 @@ const Routers: ListRouteProps[] = [
     auth: [RoleEnum.REGULER],
   },
   {
-    comp: ProductActivation,
-    path: '/product-activation',
+    comp: Package,
+    path: '/package',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.REGULER],
   },
-  {
-    comp: ProductActivationDetail,
-    path: '/product-activation/:id',
-    layout: 'Dashboard',
-    index: true,
-    auth: [RoleEnum.REGULER],
-  },
-  {
-    comp: ProductActivationSettingAccount,
-    path: '/product-activation/:id/setting-account',
-    layout: 'Dashboard',
-    index: true,
-    auth: [RoleEnum.REGULER],
-  },
+  // {
+  //   comp: ProductActivation,
+  //   path: '/product-activation',
+  //   layout: 'Dashboard',
+  //   index: true,
+  //   auth: [RoleEnum.REGULER],
+  // },
+  // {
+  //   comp: ProductActivationDetail,
+  //   path: '/product-activation/:id',
+  //   layout: 'Dashboard',
+  //   index: true,
+  //   auth: [RoleEnum.REGULER],
+  // },
+  // {
+  //   comp: ProductActivationSettingAccount,
+  //   path: '/product-activation/:id/setting-account',
+  //   layout: 'Dashboard',
+  //   index: true,
+  //   auth: [RoleEnum.REGULER],
+  // },
   {
     comp: ActivatedProduct,
     path: '/active-product',

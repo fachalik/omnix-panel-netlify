@@ -1,5 +1,5 @@
 import { Button, Form, Input, Switch, Typography } from 'antd';
-import useFormMenu from '../Hooks/useFormMenu';
+import useFormPackage from '../Hooks/useFormPackage';
 import { useCreateMenu } from '@/hooks/ReactQuery/admin/useGetMenu';
 
 type FieldType = {
@@ -9,7 +9,6 @@ type FieldType = {
   parentAccessor?: string;
   status?: string;
   path?: string;
-  type?: string;
 };
 
 interface IFormTeam {
@@ -18,7 +17,7 @@ interface IFormTeam {
 
 export default function FormAddGroup({ handleClose }: IFormTeam) {
   const { mutate } = useCreateMenu();
-  const { form, isLoading, onFinish, onFinishFailed } = useFormMenu({
+  const { form, isLoading, onFinish, onFinishFailed } = useFormPackage({
     handleCloseForm: handleClose,
     mutate,
   });

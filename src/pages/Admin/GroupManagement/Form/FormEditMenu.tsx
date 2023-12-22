@@ -29,6 +29,9 @@ export default function FormEditMenu({ handleClose, id, data }: IFormMenu) {
 
   const { data: dataMenu, isLoading: isLoadingMenu } = useGetListMenu({
     token: getLogin()?.token ?? '',
+    limit: '100',
+    page: '1',
+    is_not_paginate: '1',
   });
 
   const handleChange = (value: string[]) => {

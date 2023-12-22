@@ -22,6 +22,12 @@ export const hexToRgba = (hex: string, opacity: number): string => {
   return `rgba(${r}, ${g}, ${b}, ${validOpacity})`;
 };
 
+export const capitalizeFirstLetter = (string: any) => {
+  return string
+    .replace(/\b\w/g, (match: any) => match.toUpperCase())
+    .replace(/-/g, ' ');
+};
+
 export const formatRupiah = (angka: string, prefix: string) => {
   let separator = '';
   const number_string = angka.replace(/[^,\d]/g, '').toString();

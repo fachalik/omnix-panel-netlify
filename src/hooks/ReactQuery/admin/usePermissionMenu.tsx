@@ -27,14 +27,30 @@ const transformData = (data: any) => {
   return arr;
 };
 
-const fetchGetListMenu = async (params: { token: string }): Promise<any> => {
+const fetchGetListMenu = async (params: {
+  token: string;
+  limit: string;
+  page: string;
+  status?: string;
+  is_not_paginate?: string;
+}): Promise<any> => {
   const data = await getListMenu({
     token: params.token,
+    limit: params.limit,
+    page: params.page,
+    status: params.status,
+    is_not_paginate: params.is_not_paginate,
   });
   return data;
 };
 
-export const useGetListMenu = (params: { token: string }) => {
+export const useGetListMenu = (params: {
+  token: string;
+  limit: string;
+  page: string;
+  status?: string;
+  is_not_paginate?: string;
+}) => {
   return useQuery<any, Error>({
     queryKey: [...QUERY_KEY, params],
     queryFn: () => fetchGetListMenu(params),

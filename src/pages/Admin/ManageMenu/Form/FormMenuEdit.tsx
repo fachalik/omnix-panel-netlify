@@ -9,6 +9,7 @@ type FieldType = {
   parentAccessor?: string;
   status?: string;
   path?: string;
+  type?: string;
 };
 
 interface IFormTeam {
@@ -21,6 +22,7 @@ export default function FormMenuEdit({ handleClose, data }: IFormTeam) {
   const { form, isLoading, onFinish, onFinishFailed } = useFormMenu({
     handleCloseForm: handleClose,
     mutate,
+    data,
   });
 
   const init: any = {

@@ -1,6 +1,6 @@
 import { Button, Form, Input, Switch, Typography } from 'antd';
-import useFormMenu from '../Hooks/useFormMenu';
-import { useCreateMenu } from '@/hooks/ReactQuery/admin/useGetMenu';
+import useFormPackage from '../Hooks/useFormPackage';
+import { usePatchMenu } from '@/hooks/ReactQuery/admin/useGetMenu';
 
 type FieldType = {
   accessor?: string;
@@ -9,28 +9,30 @@ type FieldType = {
   parentAccessor?: string;
   status?: string;
   path?: string;
-  type?: string;
 };
 
 interface IFormTeam {
   handleClose: () => void;
+  data: any;
 }
 
-export default function FormAddGroup({ handleClose }: IFormTeam) {
-  const { mutate } = useCreateMenu();
-  const { form, isLoading, onFinish, onFinishFailed } = useFormMenu({
+export default function FormMenuEdit({ handleClose, data }: IFormTeam) {
+  const { mutate } = usePatchMenu();
+  const { form, isLoading, onFinish, onFinishFailed } = useFormPackage({
     handleCloseForm: handleClose,
     mutate,
   });
 
-  form.setFieldsValue({
-    accessor: '',
-    path: '',
-    label: '',
-    icon: '',
-    parentAccessor: '',
-    status: true,
-  });
+  const init: any = {
+    accessor: data.accessor,
+    path: data.path,
+    label: data.label,
+    icon: data.icon,
+    parentAccessor: data.parentAccessor,
+    status: data.status == '1' ? true : false,
+  };
+
+  form.setFieldsValue(init);
 
   return (
     <main style={{ width: '100%', height: '100%' }}>
@@ -122,7 +124,7 @@ export default function FormAddGroup({ handleClose }: IFormTeam) {
           htmlType="submit"
           style={{ fontSize: 14, fontWeight: 700 }}
         >
-          {!isLoading ? 'Buat Menu' : 'Loading ...'}
+          {!isLoading ? 'Edit Menu' : 'Loading ...'}
         </Button>
       </Form>
     </main>
