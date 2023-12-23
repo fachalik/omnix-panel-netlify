@@ -4,63 +4,49 @@ import { RoleEnum } from '@/models';
 
 const Dashboard = lazy(() => import('@/pages/User/Dashboard/index'));
 const Home = lazy(() => import('@/pages/User/Home'));
-
 const Package = lazy(() => import('@/pages/User/Package'));
-
-// const ProductActivation = lazy(() => import('@/pages/User/ProductActivation'));
-
-// const ProductActivationDetail = lazy(
-//   () => import('@/pages/User/ProductActivation/Detail')
-// );
-
-// const ProductActivationSettingAccount = lazy(
-//   () => import('@/pages/User/ProductActivation/SettingAccount')
-// );
-
 const ChannelSubscribe = lazy(() => import('@/pages/User/ChannelSubscribe'));
-
 const ChannelSubscribeDetail = lazy(
   () => import('@/pages/User/ChannelSubscribe/detail')
 );
-
 const ChannelFacebook = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Facebook')
 );
 const ChannelFacebookSubscribe = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Facebook/subscribe')
 );
-
 const ChannelInstagram = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Instagram')
 );
 const ChannelInstagramSubscribe = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Instagram/subscribe')
 );
-
 const ChannelTelegram = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Telegram')
 );
 const ChannelTelegramSubscribe = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Telegram/subscribe')
 );
-
 const ChannelTwitter = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Twitter')
 );
 const ChannelTwitterSubscribe = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Twitter/subscribe')
 );
-
 const ChannelWhatsapp = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Whatsapp')
 );
 const ChannelWhatsappSubscribe = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Whatsapp/subscribe')
 );
-
 const ActivatedProduct = lazy(() => import('@/pages/User/ActivatedProduct'));
 const TeamManagement = lazy(() => import('@/pages/User/TeamManagement'));
 const GroupManagement = lazy(() => import('@/pages/User/GroupManagement'));
+const OrderHistory = lazy(() => import('@/pages/User/OrderHistory'));
+const OrderHitoryDetail = lazy(
+  () => import('@/pages/User/OrderHistory/Detail')
+);
+
 const Routers: ListRouteProps[] = [
   {
     redirectLink: '*',
@@ -181,27 +167,20 @@ const Routers: ListRouteProps[] = [
     index: true,
     auth: [RoleEnum.REGULER],
   },
-  // {
-  //   comp: ProductActivation,
-  //   path: '/product-activation',
-  //   layout: 'Dashboard',
-  //   index: true,
-  //   auth: [RoleEnum.REGULER],
-  // },
-  // {
-  //   comp: ProductActivationDetail,
-  //   path: '/product-activation/:id',
-  //   layout: 'Dashboard',
-  //   index: true,
-  //   auth: [RoleEnum.REGULER],
-  // },
-  // {
-  //   comp: ProductActivationSettingAccount,
-  //   path: '/product-activation/:id/setting-account',
-  //   layout: 'Dashboard',
-  //   index: true,
-  //   auth: [RoleEnum.REGULER],
-  // },
+  {
+    comp: OrderHistory,
+    path: '/order-history',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.REGULER],
+  },
+  {
+    comp: OrderHitoryDetail,
+    path: '/order-history/:id',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.REGULER],
+  },
   {
     comp: ActivatedProduct,
     path: '/active-product',

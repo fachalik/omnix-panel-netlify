@@ -1,4 +1,16 @@
 /* eslint-disable no-nested-ternary */
+export const transformPath = (path: string) => {
+  // Remove leading slash and replace hyphens with spaces
+  const formattedString = path.replace(/^\/|[-]/g, ' ');
+
+  // Capitalize each word
+  const transformedString = formattedString.replace(/\b\w/g, (c) =>
+    c.toUpperCase()
+  );
+
+  return transformedString.trim();
+};
+
 export const hexToRgba = (hex: string, opacity: number): string => {
   // Ensure the hex color is valid
   const isValidHex = /^#([0-9A-F]{3}){1,2}$/i.test(hex);
