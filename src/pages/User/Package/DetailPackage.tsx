@@ -166,7 +166,7 @@ export default function OrderHistory() {
                       style={{
                         width: '100%',
                         display: 'flex',
-                        gap: '4em',
+                        gap: '2em',
                       }}
                     >
                       <Col xs={24}>

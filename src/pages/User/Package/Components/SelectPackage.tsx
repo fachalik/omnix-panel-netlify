@@ -1,3 +1,4 @@
+import { formatRupiah } from '@/utils/utilitys';
 import { Row, Col, Checkbox } from 'antd';
 import React from 'react';
 
@@ -9,6 +10,8 @@ interface IProps {
 
 export const SelectPackage: React.FC<IProps> = (props: IProps) => {
   const { itemPackages, selectedItems, setSelectedItems } = props;
+
+  console.log('itemPackages', itemPackages);
   return (
     <Row
       style={{
@@ -62,6 +65,38 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
                 checked={selectedItems.productName === item.productName}
               />
             </div>
+            {item.productName.toLowerCase() !== 'custom' && (
+              <p
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color:
+                    selectedItems.productName !== item.productName
+                      ? '#19336B'
+                      : 'white',
+                }}
+              >
+                {`${formatRupiah(
+                  item?.salesPrice?.toString() ??
+                    item?.productPrice?.toString(),
+                  'Rp.'
+                )} / month`}
+              </p>
+            )}
+            {item.productName.toLowerCase() === 'custom' && (
+              <p
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color:
+                    selectedItems.productName !== item.productName
+                      ? '#19336B'
+                      : 'white',
+                }}
+              >
+                Choose your needs
+              </p>
+            )}
           </Col>
         ))}
     </Row>

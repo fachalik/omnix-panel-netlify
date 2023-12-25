@@ -40,21 +40,6 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
     };
   }, [data]);
 
-  console.log('Data ADDON new', dataAddOn);
-
-  // {
-  //   value: 'LICENSE_GENERAL',
-  //   label: 'License General',
-  // },
-  // {
-  //   value: 'LICENSE_USER',
-  //   label: 'License User',
-  // },
-  // {
-  //   value: 'TRANSACTION',
-  //   label: 'Transaction',
-  // },
-
   if (!isLoading && isSuccess && Object.keys(dataAddOn).length !== 0)
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '.5em' }}>
@@ -91,7 +76,7 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
             {dataAddOn?.transaction?.map((item: any, idx: number) => (
               <div
                 key={`${idx}_transaction`}
-                style={{ display: 'flex', justifyContent:'space-between' }}
+                style={{ display: 'flex', justifyContent: 'space-between' }}
               >
                 <div
                   style={{ display: 'flex', alignItems: 'center', gap: '1em' }}

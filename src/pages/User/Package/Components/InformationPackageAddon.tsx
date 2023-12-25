@@ -34,7 +34,7 @@ export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
             style={{
               marginTop: '1.5em',
               border: '1px solid #BAC2D3',
-              backgroundColor: 'rgba(25, 51, 107, 0.02);',
+              backgroundColor: '#19336b1a',
               borderRadius: 6,
               padding: '16px 21px',
               display: 'flex',
