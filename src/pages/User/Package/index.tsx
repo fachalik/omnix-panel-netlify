@@ -1,175 +1,89 @@
-import React from 'react';
-import { Button, Table, Tag, Popconfirm } from 'antd';
+import { Button, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import {
-  useGetMenu,
-  useDestroyMenu,
-} from '@/hooks/ReactQuery/admin/useGetMenu';
+
+// import { EllipsisOutlined } from '@ant-design/icons';
+
+import Content from '@/layouts/Dashboard/Content';
+import HeaderSection from '@/components/HeaderSection';
+
+import { useGetMProduct } from '@/hooks/ReactQuery/admin/useGetMProduct';
+import { useAuthStore } from '@/store/auth';
+
+import { useNavigate } from 'react-router-dom';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import { palette } from '@/theme/themeConfig';
-import moment from 'moment';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import Drawer from '@/components/Drawer';
 
-import Content from '@/layouts/Dashboard/Content';
-import FormMenu from './Form/FormMenu';
-import FormMenuEdit from './Form/FormMenuEdit';
+export default function OrderHistory() {
+  const navigate = useNavigate();
 
-export default function Package() {
-  // ** Modal Create
-  const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
-  const handleCancelCreate = () => setIsModalCreate(false);
+  const { user } = useAuthStore((state) => state);
 
-  // ** Modal Edit
-  const [editData, setEditData] = React.useState(null);
-  const [IsModalEdit, setIsModalEdit] = React.useState<boolean>(false);
-  const handleCancelEdit = () => {
-    setEditData(null);
-    setIsModalEdit(false);
-  };
-
-  const { mutate: mutateDestroy } = useDestroyMenu();
-  const { data, isLoading, isSuccess, isError, error }: any = useGetMenu({
-    token: getLogin()?.token ?? '',
+  const { data, isLoading, isError, isSuccess, error }: any = useGetMProduct({
     limit: 100,
+    user_id: user?._id ?? '',
+    token: getLogin()?.token ?? '',
     page: 1,
-    status,
+    ProductType: '',
   });
 
   const columns: ColumnsType<any> = [
     {
-      key: 'menu',
-      title: 'Menu',
-      dataIndex: 'menu',
+      key: 'name',
+      title: 'Name',
+      dataIndex: 'name',
+      width: '15em',
       render: (_, record: any) => {
-        return <p>{record?.label}</p>;
-      },
-    },
-
-    {
-      key: 'path',
-      title: 'Path',
-      dataIndex: 'path',
-      render: (_, record: any) => {
-        return <p style={{ width: 150 }}>{record?.path}</p>;
+        return <p>{record?.name}</p>;
       },
     },
     {
-      key: 'icon',
-      title: 'Icon',
-      dataIndex: 'icon',
+      key: 'productType',
+      title: 'Categories',
+      dataIndex: 'productType',
+      width: '15em',
       render: (_, record: any) => {
-        return (
-          <Tag color={palette.primary.main}>
-            <div className={record?.icon} />
-          </Tag>
-        );
-      },
-    },
-    {
-      key: 'createdAt',
-      title: 'Created At',
-      dataIndex: 'createdAt',
-      render: (_, record: any) => {
-        return (
-          <Tag color={palette.primary.main}>
-            {record?.createdAt ? moment(record?.createdAt).format('LLL') : '-'}
-          </Tag>
-        );
-      },
-    },
-    {
-      key: 'updatedAt',
-      title: 'Updated At',
-      dataIndex: 'updatedAt',
-      render: (_, record: any) => {
-        return (
-          <Tag color={palette.primary.main}>
-            {record?.updatedAt ? moment(record?.updatedAt).format('LLL') : '-'}
-          </Tag>
-        );
+        return <p>{record?.productType}</p>;
       },
     },
     {
       key: 'action',
-      title: 'Action',
+      title: '',
       dataIndex: 'action',
+      width: '5em',
       render: (_, record: any) => {
         return (
-          <div>
-            <Popconfirm
-              title="Delete Product?"
-              description={'Are you sure want to delete this product?'}
-              onConfirm={async () => {
-                await mutateDestroy(record?._id);
-              }}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button
-                color={'red'}
-                style={{ marginRight: '0.5em' }}
-                icon={<DeleteOutlined style={{ color: 'red' }} />}
-              />
-            </Popconfirm>
-            <Button
-              onClick={async () => {
-                await setEditData(null);
-                await setEditData(record);
-                await setIsModalEdit(true);
-              }}
-              style={{ marginRight: '0.5em' }}
-              color={palette.primary.main}
-              icon={<EditOutlined style={{ color: palette.primary.main }} />}
-            />
-          </div>
+          <Button
+            type="primary"
+            block
+            onClick={() => {
+              navigate(`/package/${record._id}`);
+            }}
+          >
+            Choose
+          </Button>
         );
       },
     },
   ];
 
   return (
-    <Content>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h3 style={{}}>Menu Management</h3>
-        <Button
-          onClick={() => {
-            setIsModalCreate(true);
-          }}
-          type="primary"
-          style={{ marginLeft: '1em' }}
-        >
-          Add Menu
-        </Button>
-      </div>
-
-      <div style={{ marginTop: '2em', overflow: 'auto' }}>
-        {isLoading && <Loading />}
-        {isSuccess && data && (
-          <Table
-            loading={isLoading}
-            style={{ marginTop: 10, paddingBottom: 20 }}
-            columns={columns}
-            dataSource={data.data}
-          />
-        )}
-        {!isLoading && isError && <Error error={error} />}
-      </div>
-      <Drawer
-        title="Add Menu"
-        onClose={handleCancelCreate}
-        open={IsModalCreate}
-      >
-        <FormMenu handleClose={handleCancelCreate} />
-      </Drawer>
-
-      <Drawer title="Edit Menu" onClose={handleCancelEdit} open={IsModalEdit}>
-        {editData && (
-          <FormMenuEdit data={editData} handleClose={handleCancelEdit} />
-        )}
-      </Drawer>
-    </Content>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
+      <HeaderSection item={[{ title: 'Choose Package' }]} />
+      <Content>
+        <div style={{ overflow: 'auto' }}>
+          {isLoading && <Loading />}
+          {isSuccess && data && (
+            <Table
+              loading={isLoading}
+              style={{ marginTop: 10, paddingBottom: 20 }}
+              columns={columns}
+              dataSource={data.data}
+            />
+          )}
+          {!isLoading && isError && <Error error={error} />}
+        </div>
+      </Content>
+    </div>
   );
 }

@@ -5,6 +5,7 @@ import {
   getMProduct,
   postMProduct,
   updateMProduct,
+  getDetailMProduct,
 } from '@/service/m-product';
 import { useSearchParams } from 'react-router-dom';
 
@@ -33,7 +34,6 @@ const fetchMProduct = async (params: {
     user_id: params.user_id,
   });
   return data;
-  return data;
 };
 
 export const useGetMProduct = (params: {
@@ -51,6 +51,34 @@ export const useGetMProduct = (params: {
     queryKey: [...QUERY_KEY, params],
     queryFn: () => fetchMProduct(params),
     keepPreviousData: true,
+  });
+};
+
+// ** GET DETAIL
+
+const fetchMProductDetail = async (params: {
+  token: any;
+  id: string;
+  userType: string;
+}): Promise<any> => {
+  const data = await getDetailMProduct({
+    token: params.token,
+    id: params.id,
+    userType: params.userType,
+  });
+  return data;
+};
+
+export const useGetMProductDetail = (params: {
+  token: any;
+  id: string;
+  userType: string;
+}) => {
+  return useQuery<any, Error>({
+    queryKey: [...QUERY_KEY, params],
+    queryFn: () => fetchMProductDetail(params),
+    keepPreviousData: true,
+    cacheTime: 0,
   });
 };
 

@@ -19,10 +19,10 @@ const fetchProductUser = async (params: {
   token: any;
   page: number;
   limit: number;
-  akses: string;
+  akses?: string;
   id_user: string;
   productType: string;
-  productCategory: string;
+  productCategory?: string;
   status?: string;
   term?: string;
   is_not_paginate?: string;
@@ -46,10 +46,10 @@ export const useGetProductUser = (params: {
   token: any;
   page: number;
   limit: number;
-  akses: string;
+  akses?: string;
   id_user: string;
   productType: string;
-  productCategory: string;
+  productCategory?: string;
   status?: string;
   term?: string;
   is_not_paginate?: string;

@@ -5,6 +5,7 @@ import { RoleEnum } from '@/models';
 const Dashboard = lazy(() => import('@/pages/User/Dashboard/index'));
 const Home = lazy(() => import('@/pages/User/Home'));
 const Package = lazy(() => import('@/pages/User/Package'));
+const DetailPackage = lazy(() => import('@/pages/User/Package/DetailPackage'));
 const ChannelSubscribe = lazy(() => import('@/pages/User/ChannelSubscribe'));
 const ChannelSubscribeDetail = lazy(
   () => import('@/pages/User/ChannelSubscribe/detail')
@@ -163,6 +164,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: Package,
     path: '/package',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.REGULER],
+  },
+  {
+    comp: DetailPackage,
+    path: '/package/:id',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.REGULER],

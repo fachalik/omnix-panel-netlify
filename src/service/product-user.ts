@@ -16,11 +16,11 @@ export const getProductUser = ({
   page: number;
   limit: number;
   productType: string;
-  productCategory: string;
+  productCategory?: string;
   term?: string;
   status?: string;
   is_not_paginate?: string;
-  akses: string;
+  akses?: string;
   id_user: string;
 }) =>
   new Promise<any>(async (resolve, reject) => {

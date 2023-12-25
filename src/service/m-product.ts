@@ -49,15 +49,21 @@ export const getMProduct = ({
 export const getDetailMProduct = ({
   token,
   id,
+  userType,
 }: {
   token: string;
   id: string;
+  userType: string;
 }) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.get(`/api/m-products/${id}`, {
+      const respon = await http.get(`/api/m-products`, {
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+        params: {
+          id,
+          userType,
         },
       });
       if (respon.data) {
