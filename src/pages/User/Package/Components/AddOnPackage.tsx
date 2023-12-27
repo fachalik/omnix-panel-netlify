@@ -7,10 +7,13 @@ interface IProps {
   data: any;
   isLoading: boolean;
   isSuccess: boolean;
+  getValue: any;
+  watchData: any;
+  setValue: any;
 }
 
 export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
-  const { data, isLoading, isSuccess } = props;
+  const { data, isLoading, isSuccess, getValue, watchData, setValue } = props;
 
   const [dataAddOn, setDataAddOn] = React.useState<any>({});
 
@@ -19,14 +22,12 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
 
     if (isMount && data.length !== 0) {
       const groupedData = data.reduce((acc: any, item: any) => {
-        const typeSchema = item.typeSchema.toLowerCase();
+        const typeSchema = item.item.typeSchema.toLowerCase();
 
-        // Create an array for the typeSchema if it doesn't exist in the accumulator
         if (!acc[typeSchema]) {
           acc[typeSchema] = [];
         }
 
-        // Push the current item to the array corresponding to its typeSchema
         acc[typeSchema].push(item);
 
         return acc;
@@ -39,6 +40,58 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
       isMount = false;
     };
   }, [data]);
+
+  const handleCheckboxChange = (key: any, value: any) => {
+    const formValues = getValue();
+
+    const updatedValues = [...formValues[key]] || [];
+
+    const itemIndex = updatedValues.findIndex((i) => i.name === value.name);
+
+    if (itemIndex !== -1) {
+      updatedValues.splice(itemIndex, 1);
+    } else {
+      updatedValues.push(value);
+    }
+    setValue(key, updatedValues);
+  };
+
+  const checkedBox = (key: any, item: any): boolean => {
+    const formValues = watchData();
+
+    const updatedValues = [...(formValues[key] || [])];
+
+    const itemIndex = updatedValues.findIndex((i) => i.name === item.name);
+
+    return itemIndex !== -1;
+  };
+
+  const getValueInputNumber = (key: any, item: any): any => {
+    const formValues = watchData();
+
+    const updatedValues = [...(formValues[key] || [])];
+
+    const itemIndex = updatedValues.findIndex((i) => i.name === item.name);
+
+    if (itemIndex !== -1) {
+      return updatedValues[itemIndex];
+    } else {
+      return {};
+    }
+  };
+
+  const changeValueInputNumber = (key: any, item: any, e: any) => {
+    const formValues = getValue();
+
+    const updatedValues = [...(formValues[key] || [])];
+
+    const itemIndex = updatedValues.findIndex((i) => i.name === item.name);
+
+    if (itemIndex !== -1) {
+      updatedValues[itemIndex]['quantity'] = e;
+    }
+    setValue(key, updatedValues);
+  };
 
   if (!isLoading && isSuccess && Object.keys(dataAddOn).length !== 0)
     return (
@@ -81,14 +134,53 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
                 <div
                   style={{ display: 'flex', alignItems: 'center', gap: '1em' }}
                 >
-                  <InputNumber min={0} max={10} defaultValue={0} />
+                  <InputNumber
+                    value={
+                      getValueInputNumber('addon', {
+                        id: item?.item?._id,
+                        name: item?.item?.productName,
+                        quantity: 1,
+                        price:
+                          item?.item?.salesPrice ?? item?.item?.productPrice,
+                        type: `ADDON`,
+                      })?.quantity ?? 1
+                    }
+                    onChange={(e: any) =>
+                      changeValueInputNumber(
+                        'addon',
+                        {
+                          id: item?.item?._id,
+                          name: item?.item?.productName,
+                          quantity: 1,
+                          price:
+                            item?.item?.salesPrice ?? item?.item?.productPrice,
+                          type: `ADDON`,
+                        },
+                        e
+                      )
+                    }
+                    min={item?.item?.minQuantity ?? 1}
+                    max={item?.item?.maxQuantity ?? 5}
+                    defaultValue={1}
+                    disabled={
+                      !checkedBox('addon', {
+                        id: item?.item?._id,
+                        name: item?.item?.productName,
+                        quantity: 1,
+                        price:
+                          item?.item?.salesPrice ?? item?.item?.productPrice,
+                        type: `ADDON`,
+                      })
+                    }
+                  />
+
                   <p
                     style={{
                       color: palette.primary.main,
                       fontSize: 13,
                       fontWeight: 600,
                     }}
-                  >{`${item.productName}`}</p>
+                  >{`${item.item.productName}`}</p>
                   <p
                     style={{
                       color: palette.primary.main,
@@ -96,10 +188,27 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
                       fontWeight: 600,
                     }}
                   >
-                    {formatRupiah(item.productPrice.toString(), 'Rp.')}
+                    {formatRupiah(item.item.productPrice.toString(), 'Rp.')}
                   </p>
                 </div>
-                <Checkbox />
+                <Checkbox
+                  checked={checkedBox('addon', {
+                    id: item?.item?._id,
+                    name: item?.item?.productName,
+                    quantity: 1,
+                    price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                    type: `ADDON`,
+                  })}
+                  onChange={() => {
+                    handleCheckboxChange('addon', {
+                      id: item?.item?._id,
+                      name: item?.item?.productName,
+                      quantity: 1,
+                      price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                      type: `ADDON`,
+                    });
+                  }}
+                />
               </div>
             ))}
           </div>

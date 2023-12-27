@@ -4,6 +4,7 @@ import { useAlertStore } from './alert';
 import { useActivatedProduct } from './activatedProduct';
 import { useModalLogoutstore } from './modallogout';
 import { useNotificatonStore } from './notification';
+import { useOrderStore } from './order';
 
 export {
   useOtherStore,
@@ -12,4 +13,5 @@ export {
   useActivatedProduct,
   useModalLogoutstore,
   useNotificatonStore,
+  useOrderStore,
 };

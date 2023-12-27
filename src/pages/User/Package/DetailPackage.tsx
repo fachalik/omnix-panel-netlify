@@ -1,14 +1,13 @@
 import React from 'react';
-import { Row, Col, Divider, Empty } from 'antd';
+import { Row, Col, Divider, Empty, Form } from 'antd';
 
-// import { EllipsisOutlined } from '@ant-design/icons';
-
+// import useFormPackage from './Hooks/useFormPackage';
 import Content from '@/layouts/Dashboard/Content';
 import HeaderSection from '@/components/HeaderSection';
 
 import { useGetMProductDetail } from '@/hooks/ReactQuery/admin/useGetMProduct';
 import {
-  useGetProductUser,
+  useGetProductUserWithAddon,
   useGetDetailProductUser,
 } from '@/hooks/ReactQuery/user/useGetProductUser';
 import { useAuthStore } from '@/store/auth';
@@ -22,8 +21,25 @@ import { InformationPackageAddOn } from './Components/InformationPackageAddon';
 import { SelectPackage } from './Components/SelectPackage';
 import { AddOnPackage } from './Components/AddOnPackage';
 import { Summary } from './Components/Summary';
+import { AlacartePackage } from './Components/AlacartePackage';
+
+import { useForm, useWatch } from 'react-hook-form';
 
 export default function OrderHistory() {
+  const { control, handleSubmit, setValue, watch, getValues } = useForm({
+    defaultValues: {
+      package: null,
+      alacarte: [],
+      addon: [],
+      package_addon: [],
+      alacarte_addon: [],
+    },
+  });
+  const watchFields = useWatch({
+    control,
+    name: ['package', 'alacarte', 'addon', 'package_addon', 'alacarte_addon'],
+  });
+
   const { user } = useAuthStore((state) => state);
   const { id } = useParams();
 
@@ -42,7 +58,7 @@ export default function OrderHistory() {
     data: dataPackage,
     isLoading: isLoadingPackage,
     isSuccess: isSuccessPackage,
-  } = useGetProductUser({
+  } = useGetProductUserWithAddon({
     limit: 100,
     page: 1,
     token: getLogin()?.token ?? '',
@@ -50,6 +66,7 @@ export default function OrderHistory() {
     is_not_paginate: '1',
     id_user: user?._id ?? '',
     productCategory: data?.key ?? '',
+    status: '1',
   });
 
   const {
@@ -58,8 +75,8 @@ export default function OrderHistory() {
     isSuccess: isSuccessProduct,
   } = useGetDetailProductUser({
     token: getLogin()?.token ?? '',
-    id: selectedItems?._id ?? '',
-    key: `GET_DETAIL_PRODUCT_${selectedItems?.productName ?? 'none'}`,
+    id: selectedItems?.item?._id ?? '',
+    key: `GET_DETAIL_PRODUCT_${selectedItems?.item?.productName ?? 'none'}`,
   });
 
   React.useEffect(() => {
@@ -80,8 +97,9 @@ export default function OrderHistory() {
     if (isMount && dataPackage) {
       let groupedData: any = {};
 
+      console.log('dataPackage', dataPackage);
       groupedData = dataPackage?.reduce((acc: any, item: any) => {
-        const key = item.typeDetails;
+        const key = item.item.typeDetails;
         if (!acc[key]) {
           acc[key] = [];
         }
@@ -96,7 +114,8 @@ export default function OrderHistory() {
       if (Object.keys(groupedData).length !== 0) {
         if (groupedData['PACKAGE']?.length !== 0) {
           groupedData['PACKAGE'].push({
-            productName: 'Custom',
+            item: { productName: 'Custom' },
+            addOn: [],
           });
         }
       }
@@ -109,12 +128,22 @@ export default function OrderHistory() {
         }
       }
     }
+    // form.setFieldsValue({
+    //   package: null,
+    //   alacarte: [],
+    //   addon: [],
+    //   package_addon: [],
+    //   alacarte_addon: [],
+    // });
 
     return () => {
       isMount = false;
     };
   }, [dataPackage]);
 
+  const onSubmit = (data: any) => {
+    console.log('Form data:', data);
+  };
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
       {isLoading && <Loading />}
@@ -124,93 +153,135 @@ export default function OrderHistory() {
             isBack
             item={[{ title: 'Choose Package' }, { title: data.name }]}
           />
-          {Object.keys(itemPackages).length === 0 && (
-            <Content style={{ width: '100%', marginTop: '1em' }}>
-              <Empty description={<p>There is no package assign</p>} />
-            </Content>
-          )}
-          {Object.keys(itemPackages).length !== 0 && (
-            <Row
-              style={{
-                width: '100%',
-                marginTop: '1em',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-              gutter={[8, 8]}
-            >
-              <Col
-                xs={24}
-                sm={24}
-                md={16}
-                style={{ width: '100%', height: '100%' }}
+          <Form onFinish={handleSubmit(onSubmit)}>
+            {Object.keys(itemPackages).length === 0 && (
+              <Content style={{ width: '100%', marginTop: '1em' }}>
+                <Empty description={<p>There is no package assign</p>} />
+              </Content>
+            )}
+            {Object.keys(itemPackages).length !== 0 && (
+              <Row
+                style={{
+                  width: '100%',
+                  marginTop: '1em',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+                gutter={[8, 8]}
               >
-                <Content style={{ width: '100%' }}>
-                  <div
-                    style={{
-                      overflow: 'auto',
-                      width: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <SelectPackage
-                      itemPackages={itemPackages['PACKAGE']}
-                      selectedItems={selectedItems}
-                      setSelectedItems={setSelectedItems}
-                    />
-                    <Divider />
-                    <Row
+                <Col
+                  xs={24}
+                  sm={24}
+                  md={16}
+                  style={{ width: '100%', height: '100%' }}
+                >
+                  <Content style={{ width: '100%' }}>
+                    <div
                       style={{
+                        overflow: 'auto',
                         width: '100%',
                         display: 'flex',
-                        gap: '2em',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
                     >
-                      <Col xs={24}>
-                        <InformationPackage
-                          data={detailPackage['product']}
-                          isLoading={isLoadingProduct}
-                          isSuccess={isSuccessProduct}
-                        />
-                      </Col>
-                      {detailPackage['addOn'] && (
+                      <SelectPackage
+                        itemPackages={itemPackages['PACKAGE']}
+                        selectedItems={selectedItems}
+                        setSelectedItems={setSelectedItems}
+                        getValue={getValues}
+                        watchData={watch}
+                        setValue={setValue}
+                      />
+                      <Divider />
+                      {selectedItems.item.productName.toLowerCase() !==
+                        'custom' && (
+                        <Row
+                          style={{
+                            width: '100%',
+                            display: 'flex',
+                            gap: '2em',
+                          }}
+                        >
+                          <Col xs={24}>
+                            <InformationPackage
+                              data={detailPackage['product']}
+                              isLoading={isLoadingProduct}
+                              isSuccess={isSuccessProduct}
+                              getValue={getValues}
+                              watchData={watch}
+                              setValue={setValue}
+                            />
+                          </Col>
+                          {detailPackage['addOn'] && (
+                            <Col xs={24}>
+                              <InformationPackageAddOn
+                                data={detailPackage['addOn']}
+                                isLoading={isLoadingProduct}
+                                isSuccess={isSuccessProduct}
+                                getValue={getValues}
+                                watchData={watch}
+                                setValue={setValue}
+                              />
+                            </Col>
+                          )}
+                        </Row>
+                      )}
+                      {selectedItems.item.productName.toLowerCase() ===
+                        'custom' && (
+                        <Row
+                          style={{
+                            width: '100%',
+                            display: 'flex',
+                            gap: '2em',
+                          }}
+                        >
+                          <Col xs={24}>
+                            <AlacartePackage
+                              data={itemPackages['ALACARTE']}
+                              isLoading={isLoadingPackage}
+                              isSuccess={isSuccessPackage}
+                              getValue={getValues}
+                              watchData={watch}
+                              setValue={setValue}
+                            />
+                          </Col>
+                        </Row>
+                      )}
+                      <Divider />
+                      <Row
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                        }}
+                      >
                         <Col xs={24}>
-                          <InformationPackageAddOn
-                            data={detailPackage['addOn']}
-                            isLoading={isLoadingProduct}
-                            isSuccess={isSuccessProduct}
+                          <AddOnPackage
+                            data={itemPackages['ADDON']}
+                            isLoading={isLoadingPackage}
+                            isSuccess={isSuccessPackage}
+                            getValue={getValues}
+                            watchData={watch}
+                            setValue={setValue}
                           />
                         </Col>
-                      )}
-                    </Row>
-                    <Divider />
-                    <Row
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                      }}
-                    >
-                      <Col xs={24}>
-                        <AddOnPackage
-                          data={itemPackages['ADDON']}
-                          isLoading={isLoadingPackage}
-                          isSuccess={isSuccessPackage}
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                </Content>
-              </Col>
-              <Col xs={24} sm={24} md={8} style={{ height: '100%' }}>
-                <Content>
-                  <Summary />
-                </Content>
-              </Col>
-            </Row>
-          )}
+                      </Row>
+                    </div>
+                  </Content>
+                </Col>
+                <Col xs={24} sm={24} md={8} style={{ height: '100%' }}>
+                  <Content>
+                    <Summary
+                      getValue={getValues}
+                      watchData={watchFields}
+                      setValue={setValue}
+                    />
+                  </Content>
+                </Col>
+              </Row>
+            )}
+          </Form>
         </div>
       )}
       {!isLoading && isError && <Error error={error} />}

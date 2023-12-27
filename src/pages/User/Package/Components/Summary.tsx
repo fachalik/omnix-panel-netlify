@@ -1,10 +1,43 @@
 import React from 'react';
 
 import { formatRupiah } from '@/utils/utilitys';
-import { Divider, Button } from 'antd';
+import { Divider, Button, Form } from 'antd';
 
-export const Summary: React.FC = () => {
-  const total = 1000000;
+interface IProps {
+  getValue: any;
+  watchData: any;
+  setValue: any;
+}
+
+export const Summary: React.FC<IProps> = (props: IProps) => {
+  const [total, setTotal] = React.useState<number>(0);
+  const [checkout, setCheckout] = React.useState<any[]>([]);
+  const { watchData } = props;
+
+  React.useEffect(() => {
+    let isMount = true;
+
+    if (isMount && watchData) {
+      const combinedArray = watchData
+        .filter((item: any) => item !== null)
+        .reduce((result: any, array: any) => result.concat(array), []);
+
+      const totalPrice = combinedArray.reduce((total: any, item: any) => {
+        return total + item.quantity * item.price;
+      }, 0);
+
+      setTotal(totalPrice);
+
+      setCheckout(combinedArray);
+    }
+
+    return () => {
+      isMount = false;
+    };
+  }, [watchData]);
+
+  console.log('checkout', checkout);
+
   return (
     <div
       style={{
@@ -23,7 +56,7 @@ export const Summary: React.FC = () => {
         }}
       >
         <p style={{ fontSize: 15, fontWeight: 600 }}>Sub Total</p>
- 
+
         <p style={{ fontSize: 15, fontWeight: 600 }}>
           {formatRupiah(total.toString(), 'Rp.')}
         </p>
@@ -60,9 +93,18 @@ export const Summary: React.FC = () => {
         By placing your order, you agree to our company Privacy Policy and
         Conditions of Use.
       </p>
-      <Button block type="primary">
-        Continue
-      </Button>
+      <Form.Item shouldUpdate className="submit">
+        {() => (
+          <Button
+            type="primary"
+            block
+            htmlType="submit"
+            style={{ fontSize: 14, fontWeight: 700 }}
+          >
+            Continue
+          </Button>
+        )}
+      </Form.Item>
     </div>
   );
 };

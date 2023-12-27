@@ -8,7 +8,11 @@ interface IProps {
   data: any;
   isLoading: boolean;
   isSuccess: boolean;
+  getValue: any;
+  watchData: any;
+  setValue: any;
 }
+
 export const InformationPackage: React.FC<IProps> = (props: IProps) => {
   const { data, isLoading, isSuccess } = props;
 

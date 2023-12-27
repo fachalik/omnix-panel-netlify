@@ -1,31 +1,19 @@
 import http from '../utils/request';
 
-export const getProductUser = ({
+export const getCarts = ({
   token,
   page = 1,
   limit = 10,
   term,
-  status,
-  productType,
-  productCategory,
-  is_not_paginate,
-  akses,
-  id_user,
 }: {
   token: string;
   page: number;
   limit: number;
-  productType: string;
-  productCategory?: string;
   term?: string;
-  status?: string;
-  is_not_paginate?: string;
-  akses?: string;
-  id_user: string;
 }) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.get(`/api/products-for-user/paginate`, {
+      const respon = await http.get(`/api/carts`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,64 +21,6 @@ export const getProductUser = ({
           page,
           limit,
           term,
-          status,
-          productType,
-          productCategory,
-          is_not_paginate,
-          akses,
-          id_user,
-        },
-      });
-      if (respon.data) {
-        resolve(respon.data);
-      }
-    } catch (err: any) {
-      const message: string = err.response
-        ? `${err.response.data.message}`
-        : 'Oops, something wrong with our server, please try again later.';
-      reject(message);
-    }
-  });
-
-export const getProductUserWithAddOn = ({
-  token,
-  page = 1,
-  limit = 10,
-  term,
-  status,
-  productType,
-  productCategory,
-  is_not_paginate,
-  akses,
-  id_user,
-}: {
-  token: string;
-  page: number;
-  limit: number;
-  productType: string;
-  productCategory?: string;
-  term?: string;
-  status?: string;
-  is_not_paginate?: string;
-  akses?: string;
-  id_user: string;
-}) =>
-  new Promise<any>(async (resolve, reject) => {
-    try {
-      const respon = await http.get(`/api/products-for-user/with-add-on`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          page,
-          limit,
-          term,
-          status,
-          productType,
-          productCategory,
-          is_not_paginate,
-          akses,
-          id_user,
         },
       });
       if (respon.data) {

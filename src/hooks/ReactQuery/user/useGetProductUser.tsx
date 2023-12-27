@@ -7,6 +7,7 @@ import {
   updateProductUser,
   getDetailProductUser,
   updateProductUserAddon,
+  getProductUserWithAddOn,
 } from '@/service/product-user';
 
 import { useSearchParams } from 'react-router-dom';
@@ -57,6 +58,54 @@ export const useGetProductUser = (params: {
   return useQuery<any, Error>({
     queryKey: [...QUERY_KEY, params],
     queryFn: () => fetchProductUser(params),
+    keepPreviousData: true,
+  });
+};
+
+// ** GET With Addon
+
+const fetchProductUserWithAddon = async (params: {
+  token: any;
+  page: number;
+  limit: number;
+  akses?: string;
+  id_user: string;
+  productType: string;
+  productCategory?: string;
+  status?: string;
+  term?: string;
+  is_not_paginate?: string;
+}): Promise<any> => {
+  const data = await getProductUserWithAddOn({
+    token: params.token,
+    page: params.page,
+    limit: params.limit,
+    productCategory: params.productCategory,
+    productType: params.productType,
+    term: params.term,
+    status: params.status,
+    is_not_paginate: params.is_not_paginate,
+    akses: params.akses,
+    id_user: params.id_user,
+  });
+  return data;
+};
+
+export const useGetProductUserWithAddon = (params: {
+  token: any;
+  page: number;
+  limit: number;
+  akses?: string;
+  id_user: string;
+  productType: string;
+  productCategory?: string;
+  status?: string;
+  term?: string;
+  is_not_paginate?: string;
+}) => {
+  return useQuery<any, Error>({
+    queryKey: [...QUERY_KEY, params],
+    queryFn: () => fetchProductUserWithAddon(params),
     keepPreviousData: true,
   });
 };
