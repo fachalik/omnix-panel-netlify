@@ -11,7 +11,7 @@ interface IProps {
 
 export const Summary: React.FC<IProps> = (props: IProps) => {
   const [total, setTotal] = React.useState<number>(0);
-  const [checkout, setCheckout] = React.useState<any[]>([]);
+  const [_checkout, setCheckout] = React.useState<any[]>([]);
   const { watchData } = props;
 
   React.useEffect(() => {
@@ -35,8 +35,6 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
       isMount = false;
     };
   }, [watchData]);
-
-  console.log('checkout', checkout);
 
   return (
     <div

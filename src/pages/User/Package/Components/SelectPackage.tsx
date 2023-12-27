@@ -1,7 +1,6 @@
 import React from 'react';
 import { formatRupiah } from '@/utils/utilitys';
 import { Row, Col, Checkbox, Form } from 'antd';
-import { useOrderStore } from '@/store';
 
 interface IProps {
   itemPackages: any;
@@ -13,7 +12,6 @@ interface IProps {
 }
 
 export const SelectPackage: React.FC<IProps> = (props: IProps) => {
-  const { setPackage } = useOrderStore((state) => state);
   const { itemPackages, selectedItems, setSelectedItems, setValue } = props;
 
   React.useEffect(() => {
@@ -21,13 +19,6 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
 
     if (isMount && selectedItems) {
       if (selectedItems?.item?.productName?.toLowerCase() !== 'custom') {
-        setPackage({
-          id: selectedItems?.item?._id,
-          name: selectedItems?.item?.productName,
-          quantity: 1,
-          price: selectedItems?.item?.salesPrice,
-          type: selectedItems?.item?.typeDetails,
-        });
         setValue('package', {
           id: selectedItems?.item?._id,
           name: selectedItems?.item?.productName,
@@ -35,8 +26,6 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
           price: selectedItems?.item?.salesPrice,
           type: selectedItems?.item?.typeDetails,
         });
-      } else {
-        setPackage(null);
       }
     }
 

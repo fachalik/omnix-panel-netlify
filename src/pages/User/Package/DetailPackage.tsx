@@ -4,6 +4,7 @@ import { Row, Col, Divider, Empty, Form } from 'antd';
 // import useFormPackage from './Hooks/useFormPackage';
 import Content from '@/layouts/Dashboard/Content';
 import HeaderSection from '@/components/HeaderSection';
+import Modal from '@/components/Modal';
 
 import { useGetMProductDetail } from '@/hooks/ReactQuery/admin/useGetMProduct';
 import {
@@ -22,10 +23,13 @@ import { SelectPackage } from './Components/SelectPackage';
 import { AddOnPackage } from './Components/AddOnPackage';
 import { Summary } from './Components/Summary';
 import { AlacartePackage } from './Components/AlacartePackage';
+import { ModalCheckout } from './Modal/modalCheckout';
 
 import { useForm, useWatch } from 'react-hook-form';
+import { useOrderStore } from '@/store';
 
 export default function OrderHistory() {
+  const { setCheckout } = useOrderStore((state) => state);
   const { control, handleSubmit, setValue, watch, getValues } = useForm({
     defaultValues: {
       package: null,
@@ -42,6 +46,10 @@ export default function OrderHistory() {
 
   const { user } = useAuthStore((state) => state);
   const { id } = useParams();
+
+  // ** Modal Create
+  const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
+  const handleCancelCreate = () => setIsModalCreate(false);
 
   const [itemPackages, setItemPackes] = React.useState<any>({});
   const [selectedItems, setSelectedItems] = React.useState<any>({});
@@ -128,13 +136,6 @@ export default function OrderHistory() {
         }
       }
     }
-    // form.setFieldsValue({
-    //   package: null,
-    //   alacarte: [],
-    //   addon: [],
-    //   package_addon: [],
-    //   alacarte_addon: [],
-    // });
 
     return () => {
       isMount = false;
@@ -142,8 +143,31 @@ export default function OrderHistory() {
   }, [dataPackage]);
 
   const onSubmit = (data: any) => {
-    console.log('Form data:', data);
+    // console.log('data', data);
+
+    const transformedArray = Object.values(data).map((category: any) => {
+      if (Array.isArray(category) && category.length > 0) {
+        return category.map((item) => ({
+          ...item,
+          type: item.type,
+        }));
+      } else {
+        if (category) {
+          return category;
+        } else {
+          return null;
+        }
+      }
+    });
+
+    const combinedArray = transformedArray
+      .filter((item: any) => item !== null)
+      .reduce((result: any, array: any) => result.concat(array), []);
+
+    setIsModalCreate(true);
+    setCheckout(combinedArray);
   };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
       {isLoading && <Loading />}
@@ -282,6 +306,15 @@ export default function OrderHistory() {
               </Row>
             )}
           </Form>
+          <Modal
+            width={'80%'}
+            title="SubScription Summary"
+            isModalOpen={IsModalCreate}
+            handleCancel={handleCancelCreate}
+            footerCancel={false}
+          >
+            <ModalCheckout handleClose={handleCancelCreate} />
+          </Modal>
         </div>
       )}
       {!isLoading && isError && <Error error={error} />}

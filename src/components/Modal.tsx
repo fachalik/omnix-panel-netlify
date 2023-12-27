@@ -7,7 +7,8 @@ interface IModal {
   handleCancel?: () => void;
   children: React.ReactNode;
   title: string;
-  width?: number;
+  width?: number | string;
+  footerCancel?: boolean;
 }
 
 export default function Modal(props: IModal) {
@@ -18,6 +19,7 @@ export default function Modal(props: IModal) {
     handleOk,
     children,
     width = 600,
+    footerCancel = true,
   } = props;
   const [footer, setFooter] = React.useState<any[]>([]);
 
@@ -60,6 +62,9 @@ export default function Modal(props: IModal) {
       onCancel={handleCancel}
       footer={footer}
       width={width}
+      footer={
+        footerCancel ? <Button onClick={handleCancel}>Cancel</Button> : []
+      }
     >
       {children}
     </ModalANTD>

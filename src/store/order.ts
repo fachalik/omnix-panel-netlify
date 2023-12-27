@@ -10,16 +10,12 @@ export interface StoreOrder {
 }
 
 export interface IStoreOrder {
-  package: StoreOrder | null;
-  alacarte: StoreOrder[] | [];
-  addon: StoreOrder[] | [];
-  setPackage: (items: StoreOrder | null) => void;
+  checkout: StoreOrder[];
+  setCheckout: (items: StoreOrder[]) => void;
 }
 
 const initialState = {
-  package: null,
-  alacarte: [],
-  addon: [],
+  checkout: [],
 };
 
 export const useOrderStore = create<IStoreOrder>()(
@@ -27,13 +23,13 @@ export const useOrderStore = create<IStoreOrder>()(
     (set, _get) => ({
       ...initialState,
 
-      setPackage(items: StoreOrder | null) {
+      setCheckout(items: StoreOrder[]) {
         set(
           (_state: IStoreOrder) => ({
-            package: items,
+            checkout: items,
           }),
           false,
-          'set-package'
+          'set-checkout'
         );
       },
     }),

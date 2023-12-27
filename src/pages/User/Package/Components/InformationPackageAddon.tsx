@@ -3,7 +3,6 @@ import { Skeleton, Checkbox, Radio, Space } from 'antd';
 import type { RadioChangeEvent } from 'antd';
 import { palette } from '@/theme/themeConfig';
 import { formatRupiah } from '@/utils/utilitys';
-import { useOrderStore } from '@/store';
 
 interface IProps {
   data: any;
@@ -16,7 +15,6 @@ interface IProps {
 
 export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
   const { data, isLoading, isSuccess, getValue, watchData, setValue } = props;
-  const {} = useOrderStore((state) => state);
 
   const onChangeRadio = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value);
