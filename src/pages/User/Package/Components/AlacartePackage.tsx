@@ -1,8 +1,9 @@
 import React from 'react';
-import { Skeleton, Checkbox, Radio, Space } from 'antd';
+import { Skeleton, Checkbox, Radio, Space, Form } from 'antd';
 import { palette } from '@/theme/themeConfig';
 import { formatRupiah } from '@/utils/utilitys';
 import type { RadioChangeEvent } from 'antd';
+import _ from 'lodash';
 
 import { channel } from '@/pages/Admin/BusinessSchema/models/listChannel';
 
@@ -13,10 +14,29 @@ interface IProps {
   getValue: any;
   watchData: any;
   setValue: any;
+  control: any;
 }
 
 export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
   const { data, isLoading, isSuccess, getValue, watchData, setValue } = props;
+
+  const onChangeRadio = (e: RadioChangeEvent, key: any) => {
+    const formValues = getValue();
+
+    const updatedValues = [...formValues[key]] || [];
+
+    const itemIndex = updatedValues.findIndex(
+      (i) => i.channel === e.target.value.channel
+    );
+
+    if (itemIndex !== -1) {
+      updatedValues.splice(itemIndex, 1);
+      updatedValues.push(e.target.value);
+    } else {
+      updatedValues.push(e.target.value);
+    }
+    setValue(key, updatedValues);
+  };
 
   const handleCheckboxChange = (key: any, value: any) => {
     const formValues = getValue();
@@ -41,10 +61,6 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
     const itemIndex = updatedValues.findIndex((i) => i.name === item.name);
 
     return itemIndex !== -1;
-  };
-
-  const onChangeRadio = (e: RadioChangeEvent) => {
-    console.log('radio checked', e.target.value);
   };
 
   if (!isLoading && isSuccess && Object.keys(data).length !== 0)
@@ -289,77 +305,132 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
             }) &&
               item.addOn.length !== 0 &&
               item.addOn.map((item: any, idx: number) => (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}
-                  key={`${idx}_ALACARTE_ADDON`}
+                <Form.Item
+                  name={`alacarte_addon${item._id}`}
+                  rules={
+                    item.pricingRequired === 1
+                      ? [{ required: true, message: 'Addon is required!' }]
+                      : []
+                  }
                 >
-                  {item.addOnType === 'single-selection' &&
-                    item.detail.map((detail: any, idx2: number) => (
-                      <div
-                        key={`detail_single_${idx2}`}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '.5em',
-                        }}
-                      >
-                        <Checkbox
-                          checked={checkedBox('alacarte_addon', {
-                            id: item?._id,
-                            name: detail?.name,
-                            quantity: 1,
-                            price: detail?.price,
-                            type: `ALACARTE_ADDON`,
-                          })}
-                          onChange={() => {
-                            handleCheckboxChange('alacarte_addon', {
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                    }}
+                    key={`${idx}_ALACARTE_ADDON`}
+                  >
+                    {item.addOnType !== 'single-selection' &&
+                      item.detail.map((detail: any, idx2: number) => (
+                        <div
+                          key={`detail_single_${idx2}`}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '.5em',
+                          }}
+                        >
+                          <Checkbox
+                            checked={checkedBox('alacarte_addon', {
                               id: item?._id,
                               name: detail?.name,
                               quantity: 1,
                               price: detail?.price,
                               type: `ALACARTE_ADDON`,
-                            });
-                          }}
-                        />
-                        <p
-                          style={{
-                            color: palette.primary.main,
-                            fontSize: 15,
-                            fontWeight: 600,
-                          }}
-                        >
-                          {detail.name}
-                        </p>
-                        <p
-                          style={{
-                            color: palette.primary.main,
-                            fontSize: 15,
-                            fontWeight: 600,
-                          }}
-                        >
-                          {formatRupiah(detail.price.toString(), 'Rp.')}
-                        </p>
-                      </div>
-                    ))}
+                            })}
+                            onChange={() => {
+                              handleCheckboxChange('alacarte_addon', {
+                                id: item?._id,
+                                name: detail?.name,
+                                quantity: 1,
+                                price: detail?.price,
+                                type: `ALACARTE_ADDON`,
+                              });
+                            }}
+                          />
+                          <p
+                            style={{
+                              color: palette.primary.main,
+                              fontSize: 15,
+                              fontWeight: 600,
+                            }}
+                          >
+                            {detail.name}
+                          </p>
+                          <p
+                            style={{
+                              color: palette.primary.main,
+                              fontSize: 15,
+                              fontWeight: 600,
+                            }}
+                          >
+                            {formatRupiah(detail.price.toString(), 'Rp.')}
+                          </p>
+                        </div>
+                      ))}
 
-                  <Radio.Group onChange={onChangeRadio} value={1}>
                     <Space direction="vertical">
-                      {item.addOnType === 'multiple-selection' &&
+                      {item.addOnType === 'single-selection' &&
                         item.detail.map((detail: any, idx3: number) => (
                           <Radio
                             key={`detail_multiple_${idx3}`}
-                            value={detail.name}
+                            onChange={(e) => {
+                              onChangeRadio(e, 'package_addon');
+                            }}
+                            value={{
+                              id: item?._id,
+                              channel: item?.channel,
+                              name: detail?.name,
+                              quantity: 1,
+                              price: detail?.price,
+                              type: `PACKAGE_ADDON`,
+                            }}
+                            checked={_.isEqual(
+                              getValue('package_addon').find(
+                                (i: any) => i.channel === item.channel
+                              ),
+                              {
+                                id: item?._id,
+                                channel: item?.channel,
+                                name: detail?.name,
+                                quantity: 1,
+                                price: detail?.price,
+                                type: `PACKAGE_ADDON`,
+                              }
+                            )}
                           >
-                            {detail.name}
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '.5em',
+                              }}
+                            >
+                              <p
+                                style={{
+                                  color: palette.primary.main,
+                                  fontSize: 15,
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {detail.name}
+                              </p>
+                              <p
+                                style={{
+                                  color: palette.primary.main,
+                                  fontSize: 15,
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {formatRupiah(detail.price.toString(), 'Rp.')}
+                              </p>
+                            </div>
                           </Radio>
                         ))}
                     </Space>
-                  </Radio.Group>
-                </div>
+                  </div>
+                </Form.Item>
               ))}
           </div>
         ))}

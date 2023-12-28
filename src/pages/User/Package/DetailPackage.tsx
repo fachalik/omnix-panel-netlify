@@ -30,7 +30,14 @@ import { useOrderStore } from '@/store';
 
 export default function OrderHistory() {
   const { setCheckout } = useOrderStore((state) => state);
-  const { control, handleSubmit, setValue, watch, getValues } = useForm({
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       package: null,
       alacarte: [],
@@ -39,6 +46,9 @@ export default function OrderHistory() {
       alacarte_addon: [],
     },
   });
+
+  console.log('errors', errors);
+
   const watchFields = useWatch({
     control,
     name: ['package', 'alacarte', 'addon', 'package_addon', 'alacarte_addon'],
@@ -166,6 +176,7 @@ export default function OrderHistory() {
 
     setIsModalCreate(true);
     setCheckout(combinedArray);
+    console.log('combinedArray', combinedArray);
   };
 
   return (
@@ -247,6 +258,7 @@ export default function OrderHistory() {
                                 getValue={getValues}
                                 watchData={watch}
                                 setValue={setValue}
+                                control={control}
                               />
                             </Col>
                           )}
