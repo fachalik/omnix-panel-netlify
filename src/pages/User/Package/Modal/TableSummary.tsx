@@ -3,7 +3,7 @@ import { Table, Typography, Button } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useOrderStore } from '@/store';
 import { StoreOrder } from '@/store/order';
-import { formatRupiah } from '@/utils/utilitys';
+import { formatRupiahV2 } from '@/utils/utilitys';
 
 const columns: ColumnsType<StoreOrder> = [
   {
@@ -14,7 +14,7 @@ const columns: ColumnsType<StoreOrder> = [
     title: 'Price',
     dataIndex: 'price',
     render: (_, record: any) => {
-      return <p>{formatRupiah((record?.price).toString(), 'Rp.')}</p>;
+      return <p>{formatRupiahV2((record?.price).toString())}</p>;
     },
   },
   {
@@ -26,9 +26,7 @@ const columns: ColumnsType<StoreOrder> = [
     dataIndex: 'total',
     render: (_, record: any) => {
       return (
-        <p>
-          {formatRupiah((record?.price * record?.quantity).toString(), 'Rp.')}
-        </p>
+        <p>{formatRupiahV2((record?.price * record?.quantity).toString())}</p>
       );
     },
   },
@@ -89,7 +87,7 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={1} colSpan={3}>
                   <Typography.Text style={{ fontWeight: 600 }}>
-                    {formatRupiah(total.toString(), 'Rp.')}
+                    {formatRupiahV2(total.toString())}
                   </Typography.Text>
                 </Table.Summary.Cell>
               </Table.Summary.Row>
@@ -99,7 +97,7 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={1} colSpan={3}>
                   <Typography.Text style={{ fontWeight: 600 }}>
-                    {formatRupiah(ppn.toString(), 'Rp.')}
+                    {formatRupiahV2(ppn.toString())}
                   </Typography.Text>
                 </Table.Summary.Cell>
               </Table.Summary.Row>
@@ -127,7 +125,7 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
         <div>
           <p style={{ fontSize: 13, fontWeight: 600 }}>Total Payment</p>
           <p style={{ fontSize: 18, fontWeight: 700 }}>
-            {formatRupiah(total.toString(), 'Rp.')}
+            {formatRupiahV2(total.toString())}
           </p>
         </div>
 

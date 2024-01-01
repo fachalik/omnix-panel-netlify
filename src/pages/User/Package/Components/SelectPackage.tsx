@@ -9,10 +9,21 @@ interface IProps {
   getValue: any;
   watchData: any;
   setValue: any;
+  reset: any;
+  setWFields: any;
+  setInitData: any;
 }
 
 export const SelectPackage: React.FC<IProps> = (props: IProps) => {
-  const { itemPackages, selectedItems, setSelectedItems, setValue } = props;
+  const {
+    itemPackages,
+    selectedItems,
+    setSelectedItems,
+    setValue,
+    reset,
+    setWFields,
+    setInitData,
+  } = props;
 
   React.useEffect(() => {
     let isMount = true;
@@ -34,48 +45,76 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
     };
   }, [selectedItems]);
 
+  const handleOnClickData = async (item: any) => {
+    if (item?.item?.productName.toLowerCase() !== 'custom') {
+      let resultObject: any = {};
+
+      await item['addOn'].forEach((value: any) => {
+        resultObject[`package_addon_${value.channel}`] = [];
+      });
+
+      const fields = {
+        package: {
+          id: item?.item?._id,
+          name: item?.item?.productName,
+          quantity: 1,
+          price: item?.item?.salesPrice,
+          type: item?.item?.typeDetails,
+        },
+        alacarte: [],
+        addon: [],
+        ...resultObject,
+        alacarte_addon: [],
+      };
+
+      const resultArray = Object.keys(fields).filter((value) => {
+        return (
+          value !== null && (Array.isArray(value) ? value.length > 0 : true)
+        );
+      });
+
+      setWFields(resultArray);
+
+      reset(fields);
+      setInitData(fields);
+
+      await setValue('package', {
+        id: item?.item?._id,
+        name: item?.item?.productName,
+        quantity: 1,
+        price: item?.item?.salesPrice,
+        type: item?.item?.typeDetails,
+      });
+    } else {
+      setValue('package', null);
+    }
+    await setSelectedItems(item);
+  };
+
   return (
     <Row
       style={{
         width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        gap: 32,
       }}
-      gutter={[12, 12]}
+      gutter={[16, 16]}
     >
       {itemPackages &&
         itemPackages.map((item: any, idx: number) => (
           <Col
             key={idx}
-            span={itemPackages.length <= 4 ? 24 / itemPackages.length - 1 : 6}
+            span={itemPackages.length <= 4 ? 24 / itemPackages.length - 1 : 7}
+            lg={itemPackages.length <= 4 ? 24 / itemPackages.length - 1 : 7}
             xs={24}
             sm={24}
-            md={itemPackages.length <= 4 ? 24 / itemPackages.length - 1 : 6}
-            onClick={async () => {
-              if (item?.item?.productName.toLowerCase() !== 'custom') {
-                setValue('package', {
-                  id: item?.item?._id,
-                  name: item?.item?.productName,
-                  quantity: 1,
-                  price: item?.item?.salesPrice,
-                  type: item?.item?.typeDetails,
-                });
-                setValue('alacarte', []);
-                setValue('addon', []);
-                setValue('package_addon', []);
-                setValue('alacarte_addon', []);
-              } else {
-                setValue('package', null);
-              }
-
-              await setSelectedItems(item);
-            }}
+            md={24}
+            onClick={async () => await handleOnClickData(item)}
             style={{
               cursor: 'pointer',
               borderRadius: '6px',
+              // marginRight: '32px',
               backgroundColor:
-                selectedItems.item.productName === item.item.productName
+                selectedItems?.item?.productName === item.item.productName
                   ? '#19336B'
                   : '#19336b1a',
               height: '84px',
@@ -93,7 +132,7 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
                 <p
                   style={{
                     color:
-                      selectedItems.item.productName !== item.item.productName
+                      selectedItems?.item?.productName !== item.item.productName
                         ? '#19336B'
                         : 'white',
                     fontSize: '15px',
@@ -104,7 +143,7 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
                 </p>
                 <Checkbox
                   checked={
-                    selectedItems.item.productName === item.item.productName
+                    selectedItems?.item?.productName === item.item.productName
                   }
                 />
               </div>
@@ -114,7 +153,7 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
                     fontSize: 13,
                     fontWeight: 600,
                     color:
-                      selectedItems.item.productName !== item.item.productName
+                      selectedItems?.item?.productName !== item.item.productName
                         ? '#19336B'
                         : 'white',
                   }}
@@ -132,7 +171,7 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
                     fontSize: 13,
                     fontWeight: 600,
                     color:
-                      selectedItems.item.productName !== item.item.productName
+                      selectedItems?.item?.productName !== item.item.productName
                         ? '#19336B'
                         : 'white',
                   }}

@@ -16,7 +16,6 @@ function Content({ children, style }: IContent) {
       style={{
         padding: 24,
         minHeight: '100%',
-        width: '100%',
         background: colorBgContainer,
         textAlign: 'start',
         borderRadius: 8,

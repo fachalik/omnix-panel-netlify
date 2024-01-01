@@ -1,7 +1,9 @@
 import React from 'react';
 
-import { formatRupiah } from '@/utils/utilitys';
-import { Divider, Button, Form } from 'antd';
+import { formatRupiahV2 } from '@/utils/utilitys';
+import { Divider, Button, Form, Radio } from 'antd';
+
+import type { RadioChangeEvent } from 'antd';
 
 interface IProps {
   getValue: any;
@@ -10,20 +12,30 @@ interface IProps {
 }
 
 export const Summary: React.FC<IProps> = (props: IProps) => {
+  const [plan, setPlan] = React.useState<string>('monthly');
   const [total, setTotal] = React.useState<number>(0);
   const [_checkout, setCheckout] = React.useState<any[]>([]);
   const { watchData } = props;
+
+  const options = [
+    { label: 'Monthly', value: 'monthly' },
+    { label: 'Annually', value: 'annually' },
+  ];
+
+  const onChange = ({ target: { value } }: RadioChangeEvent) => {
+    setPlan(value);
+  };
 
   React.useEffect(() => {
     let isMount = true;
 
     if (isMount && watchData) {
       const combinedArray = watchData
-        .filter((item: any) => item !== null)
+        .filter((item: any) => item !== null && item !== undefined)
         .reduce((result: any, array: any) => result.concat(array), []);
 
       const totalPrice = combinedArray.reduce((total: any, item: any) => {
-        return total + item.quantity * item.price;
+        return total + Number(item.quantity ?? 1) * Number(item?.price);
       }, 0);
 
       setTotal(totalPrice);
@@ -36,6 +48,17 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
     };
   }, [watchData]);
 
+  const HandlePlan = ({ plan, sum }: { plan: string; sum: number }) => {
+    switch (plan) {
+      case 'monthly':
+        return formatRupiahV2(sum.toString());
+      case 'annually':
+        return formatRupiahV2((sum * 12).toString());
+      default:
+        return formatRupiahV2(sum.toString());
+    }
+  };
+
   return (
     <div
       style={{
@@ -45,6 +68,21 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
         gap: '1em',
       }}
     >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Radio.Group
+          options={options}
+          onChange={onChange}
+          value={plan}
+          optionType="button"
+          buttonStyle="solid"
+        />
+      </div>
       <p style={{ fontSize: 18, fontWeight: 600 }}>Summary</p>
       <div
         style={{
@@ -56,7 +94,7 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
         <p style={{ fontSize: 15, fontWeight: 600 }}>Sub Total</p>
 
         <p style={{ fontSize: 15, fontWeight: 600 }}>
-          {formatRupiah(total.toString(), 'Rp.')}
+          <HandlePlan plan={plan} sum={total} />
         </p>
       </div>
 
@@ -70,7 +108,7 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
         <p style={{ fontSize: 15, fontWeight: 600 }}>Tax</p>
 
         <p style={{ fontSize: 15, fontWeight: 600 }}>
-          {formatRupiah((total * 0.11).toString(), 'Rp.')}
+          <HandlePlan plan={plan} sum={total * 0.11} />
         </p>
       </div>
       <Divider />
@@ -84,7 +122,7 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
         <p style={{ fontSize: 15, fontWeight: 600 }}>Total</p>
 
         <p style={{ fontSize: 15, fontWeight: 600 }}>
-          {formatRupiah((total * 0.11 + total).toString(), 'Rp.')}
+          {formatRupiahV2((total * 0.11 + total).toString())}
         </p>
       </div>
       <p style={{ fontSize: 12, fontWeight: 400 }}>

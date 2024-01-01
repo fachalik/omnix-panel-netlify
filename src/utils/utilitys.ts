@@ -58,6 +58,30 @@ export const formatRupiah = (angka: string, prefix: string) => {
   return prefix === undefined ? rupiah : rupiah ? `Rp. ${rupiah}` : '';
 };
 
+export const formatRupiahV2 = (amount: string) => {
+  // Remove commas from the input string (if any)
+  const cleanAmount =
+    typeof amount === 'string' ? amount.replace(/,/g, '') : amount;
+
+  // Parse the cleaned amount as a float
+  const parsedAmount = parseFloat(cleanAmount);
+
+  // Check if the parsedAmount is a valid number
+  if (isNaN(parsedAmount)) {
+    return 'Invalid input';
+  }
+
+  // Format the number as Rupiah with commas
+  const formattedAmount = parsedAmount.toLocaleString('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    // minimumFractionDigits: 2,
+    // maximumFractionDigits: 2,
+  });
+
+  return formattedAmount;
+};
+
 export const timeout = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };

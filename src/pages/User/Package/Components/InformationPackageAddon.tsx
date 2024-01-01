@@ -4,7 +4,7 @@ import type { RadioChangeEvent } from 'antd';
 import { palette } from '@/theme/themeConfig';
 import { formatRupiah } from '@/utils/utilitys';
 import _ from 'lodash';
-// import { Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
 interface IProps {
   data: any;
@@ -14,10 +14,20 @@ interface IProps {
   watchData: any;
   setValue: any;
   control: any;
+  errors: any;
 }
 
 export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
-  const { data, isLoading, isSuccess, getValue, watchData, setValue } = props;
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    getValue,
+    watchData,
+    setValue,
+    control,
+    errors,
+  } = props;
 
   const onChangeRadio = (e: RadioChangeEvent, key: any) => {
     const formValues = getValue();
@@ -100,16 +110,19 @@ export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
               between your Omnix Panel Account and other services.
             </p>
 
-            <Form.Item
-              name={`package_addon_${item._id}`}
-              rules={
-                item.pricingRequired === 1
-                  ? [{ required: true, message: 'Addon is required!' }]
-                  : []
-              }
-            >
-              {item.addOnType !== 'single-selection' &&
-                item.detail.map((detail: any, idx2: number) => (
+            {item.addOnType !== 'single-selection' && (
+              <Form.Item
+                name={`package_addon_${item.channel}`}
+                validateStatus={
+                  errors?.[`package_addon_${item.channel}`] ? 'error' : ''
+                }
+                help={
+                  errors?.[`package_addon_${item.channel}`]
+                    ? errors?.[`package_addon_${item.channel}`].message
+                    : ''
+                }
+              >
+                {item.detail.map((detail: any, idx2: number) => (
                   <div
                     key={`detail_single_${idx2}`}
                     style={{
@@ -118,105 +131,152 @@ export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
                       gap: '.5em',
                     }}
                   >
-                    <Checkbox
-                      checked={checkedBox('package_addon', {
-                        id: item?._id,
-                        name: detail?.name,
-                        quantity: 1,
-                        price: detail?.price,
-                        type: `PACKAGE_ADDON`,
-                      })}
-                      onChange={() => {
-                        handleCheckboxChange('package_addon', {
-                          id: item?._id,
-                          name: detail?.name,
-                          quantity: 1,
-                          price: detail?.price,
-                          type: `PACKAGE_ADDON`,
-                        });
-                      }}
+                    <Controller
+                      name={`package_addon_${item.channel}`}
+                      control={control}
+                      rules={
+                        item.pricingRequired === 1
+                          ? { required: 'Addon is required!' }
+                          : {}
+                      }
+                      render={({ field }) => (
+                        <>
+                          <Checkbox
+                            {...field}
+                            checked={checkedBox(
+                              `package_addon_${item.channel}`,
+                              {
+                                id: item?._id,
+                                name: detail?.name,
+                                quantity: 1,
+                                price: detail?.price,
+                                type: `PACKAGE_ADDON`,
+                              }
+                            )}
+                            onChange={() => {
+                              handleCheckboxChange(
+                                `package_addon_${item.channel}`,
+                                {
+                                  id: item?._id,
+                                  name: detail?.name,
+                                  quantity: 1,
+                                  price: detail?.price,
+                                  type: `PACKAGE_ADDON`,
+                                }
+                              );
+                            }}
+                          />
+                          <p
+                            style={{
+                              color: palette.primary.main,
+                              fontSize: 15,
+                              fontWeight: 600,
+                            }}
+                          >
+                            {detail.name}
+                          </p>
+                          <p
+                            style={{
+                              color: palette.primary.main,
+                              fontSize: 15,
+                              fontWeight: 600,
+                            }}
+                          >
+                            {formatRupiah(detail.price.toString(), 'Rp.')}
+                          </p>
+                        </>
+                      )}
                     />
-                    <p
-                      style={{
-                        color: palette.primary.main,
-                        fontSize: 15,
-                        fontWeight: 600,
-                      }}
-                    >
-                      {detail.name}
-                    </p>
-                    <p
-                      style={{
-                        color: palette.primary.main,
-                        fontSize: 15,
-                        fontWeight: 600,
-                      }}
-                    >
-                      {formatRupiah(detail.price.toString(), 'Rp.')}
-                    </p>
                   </div>
                 ))}
+              </Form.Item>
+            )}
 
-              <Space direction="vertical">
-                {item.addOnType === 'single-selection' &&
-                  item.detail.map((detail: any, idx3: number) => (
-                    <Radio
-                      key={`detail_multiple_${idx3}`}
-                      onChange={(e) => {
-                        onChangeRadio(e, 'package_addon');
-                      }}
-                      value={{
-                        id: item?._id,
-                        channel: item?.channel,
-                        name: detail?.name,
-                        quantity: 1,
-                        price: detail?.price,
-                        type: `PACKAGE_ADDON`,
-                      }}
-                      checked={_.isEqual(
-                        getValue('package_addon').find(
-                          (i: any) => i.channel === item.channel
-                        ),
-                        {
-                          id: item?._id,
-                          channel: item?.channel,
-                          name: detail?.name,
-                          quantity: 1,
-                          price: detail?.price,
-                          type: `PACKAGE_ADDON`,
-                        }
-                      )}
-                    >
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '.5em',
-                        }}
-                      >
-                        <p
-                          style={{
-                            color: palette.primary.main,
-                            fontSize: 15,
-                            fontWeight: 600,
+            <Space direction="vertical" />
+            {item.addOnType === 'single-selection' && (
+              <Form.Item
+                name={`package_addon_${item.channel}`}
+                validateStatus={
+                  errors?.[`package_addon_${item.channel}`] ? 'error' : ''
+                }
+                help={
+                  errors?.[`package_addon_${item.channel}`]
+                    ? errors?.[`package_addon_${item.channel}`].message
+                    : ''
+                }
+              >
+                {item.detail.map((detail: any, idx3: number) => (
+                  <Controller
+                    key={`detail_multiple_${idx3}`}
+                    name={`package_addon_${item.channel}`}
+                    control={control}
+                    rules={
+                      item.pricingRequired === 1
+                        ? { required: 'Addon is required!' }
+                        : {}
+                    }
+                    render={({ field }) => (
+                      <>
+                        <Radio
+                          {...field}
+                          onChange={(e) => {
+                            onChangeRadio(e, `package_addon_${item.channel}`);
                           }}
-                        >
-                          {detail.name}
-                        </p>
-                        <p
-                          style={{
-                            color: palette.primary.main,
-                            fontSize: 15,
-                            fontWeight: 600,
+                          value={{
+                            id: item?._id,
+                            channel: item?.channel,
+                            name: detail?.name,
+                            quantity: 1,
+                            price: detail?.price,
+                            type: `PACKAGE_ADDON`,
                           }}
+                          // checked={_.isEqual(
+                          //   getValue(`package_addon_${item.channel}`).find(
+                          //     (i: any) => i.channel === item.channel
+                          //   ),
+                          //   {
+                          //     id: item?._id,
+                          //     channel: item?.channel,
+                          //     name: detail?.name,
+                          //     quantity: 1,
+                          //     price: detail?.price,
+                          //     type: `PACKAGE_ADDON`,
+                          //   }
+                          // )}
                         >
-                          {formatRupiah(detail.price.toString(), 'Rp.')}
-                        </p>
-                      </div>
-                    </Radio>
-                  ))}
-              </Space>
-            </Form.Item>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '.5em',
+                            }}
+                          >
+                            <p
+                              style={{
+                                color: palette.primary.main,
+                                fontSize: 15,
+                                fontWeight: 600,
+                              }}
+                            >
+                              {detail.name}
+                            </p>
+                            <p
+                              style={{
+                                color: palette.primary.main,
+                                fontSize: 15,
+                                fontWeight: 600,
+                              }}
+                            >
+                              {formatRupiah(detail.price.toString(), 'Rp.')}
+                            </p>
+                          </div>
+                        </Radio>
+                      </>
+                    )}
+                  />
+                ))}
+              </Form.Item>
+            )}
           </div>
         ))}
       </div>

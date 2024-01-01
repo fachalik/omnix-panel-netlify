@@ -22,7 +22,7 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
 
     if (isMount && data.length !== 0) {
       const groupedData = data.reduce((acc: any, item: any) => {
-        const typeSchema = item.item.typeSchema.toLowerCase();
+        const typeSchema = item?.item?.typeSchema?.toLowerCase();
 
         if (!acc[typeSchema]) {
           acc[typeSchema] = [];
@@ -107,7 +107,7 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
             style={{
               marginTop: '1.5em',
               border: '1px solid #BAC2D3',
-              backgroundColor: 'rgba(25, 51, 107, 0.02);',
+              backgroundColor: 'rgba(25, 51, 107, 0.02)',
               borderRadius: 6,
               padding: '16px 21px',
               display: 'flex',
@@ -213,8 +213,228 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
             ))}
           </div>
         )}
-        {dataAddOn?.license_user && <p>ddd</p>}
-        {dataAddOn?.license_general && <p>aaa</p>}
+        {dataAddOn?.license_user && (
+          <div
+            style={{
+              marginTop: '1.5em',
+              border: '1px solid #BAC2D3',
+              backgroundColor: 'rgba(25, 51, 107, 0.02)',
+              borderRadius: 6,
+              padding: '16px 21px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '.5em',
+            }}
+          >
+            <p
+              style={{
+                color: palette.primary.main,
+                fontSize: 16,
+                fontWeight: 600,
+              }}
+            >{`License User`}</p>
+            <p style={{ fontSize: 13, fontWeight: 400 }}>
+              Increase your included License Account for your integrations
+              between your Omnix Panel Account and other services.
+            </p>
+            {dataAddOn?.license_user?.map((item: any, idx: number) => (
+              <div
+                key={`${idx}license_user`}
+                style={{ display: 'flex', justifyContent: 'space-between' }}
+              >
+                <div
+                  style={{ display: 'flex', alignItems: 'center', gap: '1em' }}
+                >
+                  <InputNumber
+                    value={
+                      getValueInputNumber('addon', {
+                        id: item?.item?._id,
+                        name: item?.item?.productName,
+                        quantity: 1,
+                        price:
+                          item?.item?.salesPrice ?? item?.item?.productPrice,
+                        type: `ADDON`,
+                      })?.quantity ?? 1
+                    }
+                    onChange={(e: any) =>
+                      changeValueInputNumber(
+                        'addon',
+                        {
+                          id: item?.item?._id,
+                          name: item?.item?.productName,
+                          quantity: 1,
+                          price:
+                            item?.item?.salesPrice ?? item?.item?.productPrice,
+                          type: `ADDON`,
+                        },
+                        e
+                      )
+                    }
+                    min={item?.item?.minQuantity ?? 1}
+                    max={item?.item?.maxQuantity ?? 5}
+                    defaultValue={1}
+                    disabled={
+                      !checkedBox('addon', {
+                        id: item?.item?._id,
+                        name: item?.item?.productName,
+                        quantity: 1,
+                        price:
+                          item?.item?.salesPrice ?? item?.item?.productPrice,
+                        type: `ADDON`,
+                      })
+                    }
+                  />
+
+                  <p
+                    style={{
+                      color: palette.primary.main,
+                      fontSize: 13,
+                      fontWeight: 600,
+                    }}
+                  >{`${item.item.productName}`}</p>
+                  <p
+                    style={{
+                      color: palette.primary.main,
+                      fontSize: 13,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {formatRupiah(item.item.productPrice.toString(), 'Rp.')}
+                  </p>
+                </div>
+                <Checkbox
+                  checked={checkedBox('addon', {
+                    id: item?.item?._id,
+                    name: item?.item?.productName,
+                    quantity: 1,
+                    price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                    type: `ADDON`,
+                  })}
+                  onChange={() => {
+                    handleCheckboxChange('addon', {
+                      id: item?.item?._id,
+                      name: item?.item?.productName,
+                      quantity: 1,
+                      price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                      type: `ADDON`,
+                    });
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+        {dataAddOn?.license_general && (
+          <div
+            style={{
+              marginTop: '1.5em',
+              border: '1px solid #BAC2D3',
+              backgroundColor: 'rgba(25, 51, 107, 0.02)',
+              borderRadius: 6,
+              padding: '16px 21px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '.5em',
+            }}
+          >
+            <p
+              style={{
+                color: palette.primary.main,
+                fontSize: 16,
+                fontWeight: 600,
+              }}
+            >{`License General`}</p>
+            <p style={{ fontSize: 13, fontWeight: 400 }}>
+              Increase your included License Account for your integrations
+              between your Omnix Panel Account and other services.
+            </p>
+            {dataAddOn?.license_general?.map((item: any, idx: number) => (
+              <div
+                key={`${idx}license_general`}
+                style={{ display: 'flex', justifyContent: 'space-between' }}
+              >
+                <div
+                  style={{ display: 'flex', alignItems: 'center', gap: '1em' }}
+                >
+                  <InputNumber
+                    value={
+                      getValueInputNumber('addon', {
+                        id: item?.item?._id,
+                        name: item?.item?.productName,
+                        quantity: 1,
+                        price:
+                          item?.item?.salesPrice ?? item?.item?.productPrice,
+                        type: `ADDON`,
+                      })?.quantity ?? 1
+                    }
+                    onChange={(e: any) =>
+                      changeValueInputNumber(
+                        'addon',
+                        {
+                          id: item?.item?._id,
+                          name: item?.item?.productName,
+                          quantity: 1,
+                          price:
+                            item?.item?.salesPrice ?? item?.item?.productPrice,
+                          type: `ADDON`,
+                        },
+                        e
+                      )
+                    }
+                    min={item?.item?.minQuantity ?? 1}
+                    max={item?.item?.maxQuantity ?? 5}
+                    defaultValue={1}
+                    disabled={
+                      !checkedBox('addon', {
+                        id: item?.item?._id,
+                        name: item?.item?.productName,
+                        quantity: 1,
+                        price:
+                          item?.item?.salesPrice ?? item?.item?.productPrice,
+                        type: `ADDON`,
+                      })
+                    }
+                  />
+
+                  <p
+                    style={{
+                      color: palette.primary.main,
+                      fontSize: 13,
+                      fontWeight: 600,
+                    }}
+                  >{`${item.item.productName}`}</p>
+                  <p
+                    style={{
+                      color: palette.primary.main,
+                      fontSize: 13,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {formatRupiah(item.item.productPrice.toString(), 'Rp.')}
+                  </p>
+                </div>
+                <Checkbox
+                  checked={checkedBox('addon', {
+                    id: item?.item?._id,
+                    name: item?.item?.productName,
+                    quantity: 1,
+                    price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                    type: `ADDON`,
+                  })}
+                  onChange={() => {
+                    handleCheckboxChange('addon', {
+                      id: item?.item?._id,
+                      name: item?.item?.productName,
+                      quantity: 1,
+                      price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                      type: `ADDON`,
+                    });
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   return <Skeleton />;
