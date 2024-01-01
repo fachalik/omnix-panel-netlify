@@ -230,19 +230,19 @@ export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
                             price: detail?.price,
                             type: `PACKAGE_ADDON`,
                           }}
-                          // checked={_.isEqual(
-                          //   getValue(`package_addon_${item.channel}`).find(
-                          //     (i: any) => i.channel === item.channel
-                          //   ),
-                          //   {
-                          //     id: item?._id,
-                          //     channel: item?.channel,
-                          //     name: detail?.name,
-                          //     quantity: 1,
-                          //     price: detail?.price,
-                          //     type: `PACKAGE_ADDON`,
-                          //   }
-                          // )}
+                          checked={_.isEqual(
+                            getValue(`package_addon_${item.channel}`).find(
+                              (i: any) => i.channel === item.channel
+                            ),
+                            {
+                              id: item?._id,
+                              channel: item?.channel,
+                              name: detail?.name,
+                              quantity: 1,
+                              price: detail?.price,
+                              type: `PACKAGE_ADDON`,
+                            }
+                          )}
                         >
                           <div
                             style={{
