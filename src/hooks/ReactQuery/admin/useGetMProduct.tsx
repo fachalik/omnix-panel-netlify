@@ -78,7 +78,7 @@ export const useGetMProductDetail = (params: {
     queryKey: [...QUERY_KEY, params],
     queryFn: () => fetchMProductDetail(params),
     keepPreviousData: true,
-    cacheTime: 0,
+    // cacheTime: 0,
   });
 };
 

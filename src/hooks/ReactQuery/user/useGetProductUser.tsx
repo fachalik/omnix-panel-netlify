@@ -139,7 +139,7 @@ export const useGetDetailProductUser = (params: {
     queryFn: () => fetchProductGetDetailUser(params),
     keepPreviousData: true,
     enabled: params.id ? true : false,
-    cacheTime: 0,
+    // cacheTime: 0,
   });
 };
 

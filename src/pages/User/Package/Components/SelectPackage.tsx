@@ -96,6 +96,9 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
       style={{
         width: '100%',
         gap: 32,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
       gutter={[16, 16]}
     >
@@ -108,11 +111,17 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
             xs={24}
             sm={24}
             md={24}
-            onClick={async () => await handleOnClickData(item)}
+            onClick={async () => {
+              if (item?.item?._id !== selectedItems?.item?._id) {
+                await handleOnClickData(item);
+              }
+            }}
             style={{
-              cursor: 'pointer',
+              cursor:
+                item?.item?._id !== selectedItems?.item?._id
+                  ? 'pointer'
+                  : 'no-drop',
               borderRadius: '6px',
-              // marginRight: '32px',
               backgroundColor:
                 selectedItems?.item?.productName === item.item.productName
                   ? '#19336B'
