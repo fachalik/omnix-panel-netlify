@@ -95,10 +95,7 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
     <Row
       style={{
         width: '100%',
-        gap: 32,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        gap: 42,
       }}
       gutter={[16, 16]}
     >

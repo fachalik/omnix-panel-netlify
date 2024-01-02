@@ -1,4 +1,5 @@
 import http from '../utils/request';
+import { Checkout } from '@/models';
 
 export const getCarts = ({
   token,
@@ -34,45 +35,10 @@ export const getCarts = ({
     }
   });
 
-export const getDetailProductUser = ({
-  token,
-  id,
-  id_reseller,
-  id_user,
-}: {
-  token: string;
-  id: string;
-  id_reseller?: string;
-  id_user?: string;
-}) =>
+export const PostOrder = (payload: Checkout) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.get(`/api/products/product_detail`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          id,
-          id_reseller,
-          id_user,
-        },
-      });
-      if (respon.data) {
-        resolve(respon.data);
-      }
-    } catch (err: any) {
-      const message: string = err.response
-        ? `${err.response.data.message}`
-        : 'Oops, something wrong with our server, please try again later.';
-      reject(message);
-    }
-  });
-
-export const postProductUser = (payload: any) =>
-  new Promise<any>(async (resolve, reject) => {
-    try {
-      const respon = await http.post(`/api/products-for-user`, payload);
-      console.log('respon', respon);
+      const respon = await http.post(`/api/carts/payment`, payload);
       if (respon) {
         resolve(respon);
       }
@@ -83,92 +49,3 @@ export const postProductUser = (payload: any) =>
       reject(message);
     }
   });
-
-export const deleteProductUser = (id: number) =>
-  new Promise<any>(async (resolve, reject) => {
-    try {
-      const respon = await http.delete(`/api/products-for-user/?id=${id}`);
-      if (respon.status === 204 || respon.status === 200) resolve(respon);
-    } catch (err: any) {
-      const message: string = err.response
-        ? `${err.response.data.message}`
-        : 'Oops, something wrong with our server, please try again later.';
-      reject(message);
-    }
-  });
-
-export const updateProductUser = ({
-  val,
-  id,
-  id_user,
-  id_reseller,
-}: {
-  val: any;
-  id: string;
-  id_reseller?: string;
-  id_user?: string;
-}) => {
-  return new Promise<any>(async (resolve, reject) => {
-    try {
-      const respon = await http.patch(
-        `/api/products-for-user`,
-        {
-          ...val,
-        },
-        {
-          params: {
-            id,
-            id_user,
-            id_reseller,
-          },
-        }
-      );
-      if (respon) {
-        resolve(respon);
-      }
-    } catch (err: any) {
-      const message: string = err.response
-        ? `${err.response.data.message}`
-        : 'Oops, something wrong with our server, please try again later.';
-      reject(message);
-    }
-  });
-};
-
-export const updateProductUserAddon = ({
-  val,
-  id,
-  id_reseller,
-  id_user,
-}: {
-  val: any;
-  id: string;
-  id_reseller?: string;
-  id_user?: string;
-}) => {
-  return new Promise<any>(async (resolve, reject) => {
-    try {
-      const respon = await http.post(
-        `/api/products/addon`,
-        {
-          ...val,
-        },
-        {
-          params: {
-            id,
-            id_reseller,
-            id_user,
-          },
-        }
-      );
-      if (respon) {
-        resolve(respon);
-      }
-    } catch (err: any) {
-      const message: string = err.response
-        ? `${err.response.data.message}`
-        : 'Oops, something wrong with our server, please try again later.';
-      reject(message);
-    }
-  });
-};

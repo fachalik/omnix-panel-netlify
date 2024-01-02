@@ -4,6 +4,7 @@ import { formatRupiahV2 } from '@/utils/utilitys';
 import { Divider, Button, Form, Radio } from 'antd';
 
 import type { RadioChangeEvent } from 'antd';
+import { useOrderStore } from '@/store';
 
 interface IProps {
   getValue: any;
@@ -12,14 +13,15 @@ interface IProps {
 }
 
 export const Summary: React.FC<IProps> = (props: IProps) => {
-  const [plan, setPlan] = React.useState<string>('monthly');
+  const { plan, setPlan } = useOrderStore((state) => state);
+
   const [total, setTotal] = React.useState<number>(0);
   const [_checkout, setCheckout] = React.useState<any[]>([]);
   const { watchData } = props;
 
   const options = [
-    { label: 'Monthly', value: 'monthly' },
-    { label: 'Annually', value: 'annually' },
+    { label: 'Monthly', value: 'MONTHLY' },
+    { label: 'Annually', value: 'ANNUALY' },
   ];
 
   const onChange = ({ target: { value } }: RadioChangeEvent) => {

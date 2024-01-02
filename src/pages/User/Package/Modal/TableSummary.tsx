@@ -5,32 +5,7 @@ import { useOrderStore } from '@/store';
 import { StoreOrder } from '@/store/order';
 import { formatRupiahV2 } from '@/utils/utilitys';
 
-const columns: ColumnsType<StoreOrder> = [
-  {
-    title: 'item',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Price',
-    dataIndex: 'price',
-    render: (_, record: any) => {
-      return <p>{formatRupiahV2((record?.price).toString())}</p>;
-    },
-  },
-  {
-    title: 'Quantity',
-    dataIndex: 'quantity',
-  },
-  {
-    title: 'Total',
-    dataIndex: 'total',
-    render: (_, record: any) => {
-      return (
-        <p>{formatRupiahV2((record?.price * record?.quantity).toString())}</p>
-      );
-    },
-  },
-];
+import { BottomTotalPayment } from './BottomTotalPayment';
 
 interface IProps {
   current: number;
@@ -42,9 +17,10 @@ interface IProps {
 }
 
 export const TableSummary: React.FC<IProps> = (props: IProps) => {
-  const [total, setTotal] = React.useState<number>(0);
+  const { checkout, plan } = useOrderStore((state) => state);
+
+  const [_total, setTotal] = React.useState<number>(0);
   const { next, handleClose } = props;
-  const { checkout } = useOrderStore((state) => state);
 
   React.useEffect(() => {
     let isMount = true;
@@ -61,6 +37,50 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
       isMount = false;
     };
   }, [checkout]);
+
+  const HandlePlan = ({ plan, sum }: { plan: string; sum: number }) => {
+    switch (plan) {
+      case 'monthly':
+        return formatRupiahV2(sum.toString());
+      case 'annually':
+        return formatRupiahV2((sum * 12).toString());
+      default:
+        return formatRupiahV2(sum.toString());
+    }
+  };
+
+  const columns: ColumnsType<StoreOrder> = [
+    {
+      title: 'item',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      render: (_, record: any) => {
+        return (
+          <p>
+            <HandlePlan plan={plan} sum={record?.price} />
+          </p>
+        );
+      },
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'quantity',
+    },
+    {
+      title: 'Total',
+      dataIndex: 'total',
+      render: (_, record: any) => {
+        return (
+          <p>
+            <HandlePlan plan={plan} sum={record?.price * record?.quantity} />
+          </p>
+        );
+      },
+    },
+  ];
 
   return (
     <div style={{ position: 'relative', height: '100%', width: '100%' }}>
@@ -87,7 +107,8 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={1} colSpan={3}>
                   <Typography.Text style={{ fontWeight: 600 }}>
-                    {formatRupiahV2(total.toString())}
+                    {/* {formatRupiahV2(total.toString())} */}
+                    <HandlePlan plan={plan} sum={total} />
                   </Typography.Text>
                 </Table.Summary.Cell>
               </Table.Summary.Row>
@@ -97,7 +118,8 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={1} colSpan={3}>
                   <Typography.Text style={{ fontWeight: 600 }}>
-                    {formatRupiahV2(ppn.toString())}
+                    {/* {formatRupiahV2(ppn.toString())} */}
+                    <HandlePlan plan={plan} sum={ppn} />
                   </Typography.Text>
                 </Table.Summary.Cell>
               </Table.Summary.Row>
@@ -105,30 +127,8 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
           );
         }}
       />
-      <div
-        style={{
-          zIndex: '99',
-          borderRadius: '8px',
-          padding: '1em',
-          backgroundColor: 'white',
-          position: 'sticky',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          bottom: '0',
-          height: '10%',
-          strokeWidth: '1px',
-          stroke: 'var(--Neutral-50, #D9D9D9)',
-          filter: 'drop-shadow(10px 0px 20px rgba(0, 0, 0, 0.15))',
-        }}
-      >
-        <div>
-          <p style={{ fontSize: 13, fontWeight: 600 }}>Total Payment</p>
-          <p style={{ fontSize: 18, fontWeight: 700 }}>
-            {formatRupiahV2(total.toString())}
-          </p>
-        </div>
 
+      <BottomTotalPayment>
         <div>
           <Button
             type="text"
@@ -142,7 +142,7 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
             Check Out
           </Button>
         </div>
-      </div>
+      </BottomTotalPayment>
     </div>
   );
 };

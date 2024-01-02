@@ -29,7 +29,9 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useOrderStore } from '@/store';
 
 export default function OrderHistory() {
-  const { setCheckout } = useOrderStore((state) => state);
+  const { setCheckout, setProductCategory, setProductType } = useOrderStore(
+    (state) => state
+  );
   const [initData, setInitData] = React.useState<any>({});
   const [wFields, setWFields] = React.useState<any>([]);
   const methods = useForm({
@@ -171,8 +173,8 @@ export default function OrderHistory() {
     }
   }, [initData]);
 
-  const onSubmit = (data: any) => {
-    const transformedArray = Object.values(data).map((category: any) => {
+  const onSubmit = (pData: any) => {
+    const transformedArray = Object.values(pData).map((category: any) => {
       if (Array.isArray(category) && category.length > 0) {
         return category.map((item) => ({
           ...item,
@@ -193,6 +195,8 @@ export default function OrderHistory() {
 
     setIsModalCreate(true);
     setCheckout(combinedArray);
+    setProductCategory(data?.key ?? '');
+    setProductType(data?.productType ?? '');
   };
 
   return (
@@ -241,19 +245,18 @@ export default function OrderHistory() {
                           justifyContent: 'center',
                         }}
                       >
-                        <div style={{ width: '100%', padding: '20px' }}>
-                          <SelectPackage
-                            itemPackages={itemPackages['PACKAGE']}
-                            selectedItems={selectedItems}
-                            setSelectedItems={setSelectedItems}
-                            getValue={methods.getValues}
-                            watchData={methods.watch}
-                            setValue={methods.setValue}
-                            reset={methods.reset}
-                            setWFields={setWFields}
-                            setInitData={setInitData}
-                          />
-                        </div>
+                        <SelectPackage
+                          itemPackages={itemPackages['PACKAGE']}
+                          selectedItems={selectedItems}
+                          setSelectedItems={setSelectedItems}
+                          getValue={methods.getValues}
+                          watchData={methods.watch}
+                          setValue={methods.setValue}
+                          reset={methods.reset}
+                          setWFields={setWFields}
+                          setInitData={setInitData}
+                        />
+
                         <Divider />
                         {selectedItems &&
                           selectedItems?.item?.productName?.toLowerCase() !==
@@ -350,7 +353,7 @@ export default function OrderHistory() {
           </FormProvider>
           <Modal
             width={'80%'}
-            title="SubScription Summary"
+            title="Subscription Summary"
             isModalOpen={IsModalCreate}
             handleCancel={handleCancelCreate}
             footerCancel={false}
