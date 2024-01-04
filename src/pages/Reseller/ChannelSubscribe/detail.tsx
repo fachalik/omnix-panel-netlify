@@ -1,8 +1,10 @@
 import React from 'react';
-import { Card, Table, Button, Drawer, Modal, Breadcrumb } from 'antd';
+import { Card, Table, Button, Drawer, Modal } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import FormAccount from '@/components/FormAccount';
 import whatsappIcon from '@/assets/icons/whatsapp.svg';
+import HeaderSection from '@/components/HeaderSection';
+import { Content } from 'antd/es/layout/layout';
 
 export default function Detail() {
   const [openAccount, setOpenAccount] = React.useState<any>(false);
@@ -65,11 +67,10 @@ export default function Detail() {
     setOpenAccount(false);
   };
   return (
-    <div>
-      <Breadcrumb
-        separator=">"
-        style={{ marginBottom: '1em' }}
-        items={[
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
+      <HeaderSection
+        isBack
+        item={[
           {
             href: '/channel-subscription',
             title: 'Manage Tenant',
@@ -79,40 +80,48 @@ export default function Detail() {
           },
         ]}
       />
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 10,
-          marginBottom: 10,
-          textAlign: 'start',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 10,
-            marginBottom: 10,
-          }}
-        >
-          <img src={whatsappIcon} alt="omnix-whatsapp" width={30} height={30} />
-          <div style={{ fontSize: 20, fontWeight: 'bold' }}>Whatsapp</div>
-          <div>by Omnix</div>
-        </div>
-        {/* <Button type="primary" onClick={() => setOpenAccount(true)}>
+      <Content>
+        <Card>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 10,
+              marginBottom: 10,
+              textAlign: 'start',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 10,
+                marginBottom: 10,
+              }}
+            >
+              <img
+                src={whatsappIcon}
+                alt="omnix-whatsapp"
+                width={30}
+                height={30}
+              />
+              <div style={{ fontSize: 20, fontWeight: 'bold' }}>Whatsapp</div>
+              <div>by Omnix</div>
+            </div>
+            {/* <Button type="primary" onClick={() => setOpenAccount(true)}>
           Add Account
         </Button> */}
-      </div>
-      <Card>
-        <Table
-          style={{ marginTop: 10, paddingBottom: 20 }}
-          columns={columns}
-          dataSource={data}
-        />
-      </Card>
+          </div>
+
+          <Table
+            style={{ marginTop: 10, paddingBottom: 20 }}
+            columns={columns}
+            dataSource={data}
+          />
+        </Card>
+      </Content>
       <Drawer
         title="Add Account Whatsapp"
         placement="right"
