@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Table, Tag, Tooltip, Popconfirm } from 'antd';
+import { Button, Tag, Tooltip, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useGetGroup, usedestroyGroup } from './Hooks/useGetGroup';
 import { getLogin } from '@/utils/sessions';
@@ -12,13 +12,13 @@ import Modal from '@/components/Modal';
 import FormAddGroup from './Form/FormAddGroup';
 import FormEditGroup from './Form/FormEditGroup';
 import Content from '@/layouts/Dashboard/Content';
-
-// import { useAuthStore } from '@/store';
+import { TablePagination } from '@/components/TablePagination';
 import lodash from 'lodash';
 
 export default function GroupManagement() {
-  // const { user } = useAuthStore((state) => state);
   // ** Modal Create
+  const [limit, _setLimit] = React.useState<number>(10);
+  const [page, setPage] = React.useState<number>(1);
   const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
   const handleCancelCreate = () => setIsModalCreate(false);
 
@@ -32,8 +32,8 @@ export default function GroupManagement() {
 
   const { data, isLoading, isSuccess, isError, error }: any = useGetGroup({
     token: getLogin()?.token ?? '',
-    limit: 10,
-    page: 1,
+    limit,
+    page,
   });
 
   const { mutate: mutateDestroy } = usedestroyGroup();
@@ -154,11 +154,16 @@ export default function GroupManagement() {
       <div style={{ marginTop: '2em', overflow: 'auto' }}>
         {isLoading && <Loading />}
         {isSuccess && data && (
-          <Table
-            loading={isLoading}
-            style={{ marginTop: 10, paddingBottom: 20 }}
+          <TablePagination
             columns={columns}
-            dataSource={data.data}
+            data={data.data}
+            isLoading={isLoading}
+            style={{ marginTop: 10, paddingBottom: 20 }}
+            total={data.total}
+            current={page}
+            pageSize={limit}
+            setPage={setPage}
+            isPaginate
           />
         )}
         {!isLoading && isError && <Error error={error} />}

@@ -10,6 +10,7 @@ interface IProps {
   children?: React.ReactNode;
   item: ItemType[];
   isBack?: boolean;
+  navigateTo?: string;
   style?: any;
 }
 
@@ -18,6 +19,7 @@ export default function HeaderSection({
   isBack = false,
   children,
   style,
+  navigateTo,
 }: IProps) {
   const navigate = useNavigate();
   const {
@@ -45,7 +47,7 @@ export default function HeaderSection({
               shape="circle"
               style={{ marginRight: 5 }}
               icon={<ArrowLeftOutlined />}
-              onClick={() => navigate(-1)}
+              onClick={() => (navigateTo ? navigate(navigateTo) : navigate(-1))}
             />
           </Tooltip>
         )}

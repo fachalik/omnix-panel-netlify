@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { formatRupiahV2 } from '@/utils/utilitys';
+import { formatRupiahV2, HandlePlan } from '@/utils/utilitys';
 import { Divider, Button, Form, Radio } from 'antd';
 
 import type { RadioChangeEvent } from 'antd';
@@ -21,7 +21,7 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
 
   const options = [
     { label: 'Monthly', value: 'MONTHLY' },
-    { label: 'Annually', value: 'ANNUALY' },
+    { label: 'Annually', value: 'ANNUAL' },
   ];
 
   const onChange = ({ target: { value } }: RadioChangeEvent) => {
@@ -49,17 +49,6 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
       isMount = false;
     };
   }, [watchData]);
-
-  const HandlePlan = ({ plan, sum }: { plan: string; sum: number }) => {
-    switch (plan) {
-      case 'monthly':
-        return formatRupiahV2(sum.toString());
-      case 'annually':
-        return formatRupiahV2((sum * 12).toString());
-      default:
-        return formatRupiahV2(sum.toString());
-    }
-  };
 
   return (
     <div

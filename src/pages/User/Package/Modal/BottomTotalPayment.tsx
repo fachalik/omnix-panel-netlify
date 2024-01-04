@@ -1,6 +1,6 @@
 import React from 'react';
 import { useOrderStore } from '@/store';
-import { formatRupiahV2 } from '@/utils/utilitys';
+import { HandlePlan } from '@/utils/utilitys';
 
 interface IProps {
   children: React.ReactNode;
@@ -25,17 +25,6 @@ export const BottomTotalPayment: React.FC<IProps> = ({ children }) => {
       isMount = false;
     };
   }, [checkout]);
-
-  const HandlePlan = ({ plan, sum }: { plan: string; sum: number }) => {
-    switch (plan) {
-      case 'monthly':
-        return formatRupiahV2(sum.toString());
-      case 'annually':
-        return formatRupiahV2((sum * 12).toString());
-      default:
-        return formatRupiahV2(sum.toString());
-    }
-  };
 
   return (
     <div style={{ position: 'relative', height: '100%', width: '100%' }}>

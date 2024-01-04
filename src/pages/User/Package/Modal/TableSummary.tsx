@@ -3,7 +3,7 @@ import { Table, Typography, Button } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useOrderStore } from '@/store';
 import { StoreOrder } from '@/store/order';
-import { formatRupiahV2 } from '@/utils/utilitys';
+import { HandlePlan } from '@/utils/utilitys';
 
 import { BottomTotalPayment } from './BottomTotalPayment';
 
@@ -37,17 +37,6 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
       isMount = false;
     };
   }, [checkout]);
-
-  const HandlePlan = ({ plan, sum }: { plan: string; sum: number }) => {
-    switch (plan) {
-      case 'monthly':
-        return formatRupiahV2(sum.toString());
-      case 'annually':
-        return formatRupiahV2((sum * 12).toString());
-      default:
-        return formatRupiahV2(sum.toString());
-    }
-  };
 
   const columns: ColumnsType<StoreOrder> = [
     {

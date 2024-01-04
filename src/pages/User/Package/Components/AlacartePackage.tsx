@@ -254,9 +254,10 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                 )}
               </div>
 
+              {/* {JSON.stringify(item.item)} */}
               <Checkbox
                 checked={checkedBox('alacarte', {
-                  id: item?._id,
+                  id: item?.item?._id,
                   name: item?.item?.productName,
                   quantity: 1,
                   price: item?.item?.productPrice,
@@ -264,7 +265,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                 })}
                 onChange={() => {
                   handleCheckboxChange('alacarte', {
-                    id: item?._id,
+                    id: item?.item?._id,
                     name: item?.item?.productName,
                     quantity: 1,
                     price: item?.item?.productPrice,
@@ -275,7 +276,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
             </div>
 
             {checkedBox('alacarte', {
-              id: item?._id,
+              id: item?.item?._id,
               name: item?.item?.productName,
               quantity: 1,
               price: item?.item?.productPrice,
@@ -297,7 +298,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
               )}
 
             {checkedBox('alacarte', {
-              id: item?._id,
+              id: item?.item?._id,
               name: item?.item?.productName,
               quantity: 1,
               price: item?.item?.productPrice,
@@ -333,7 +334,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                         >
                           <Checkbox
                             checked={checkedBox('alacarte_addon', {
-                              id: item?._id,
+                              id: item?.item?._id,
                               name: detail?.name,
                               quantity: 1,
                               price: detail?.price,
@@ -341,7 +342,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                             })}
                             onChange={() => {
                               handleCheckboxChange('alacarte_addon', {
-                                id: item?._id,
+                                id: item?.item?._id,
                                 name: detail?.name,
                                 quantity: 1,
                                 price: detail?.price,
@@ -379,7 +380,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                               onChangeRadio(e, 'package_addon');
                             }}
                             value={{
-                              id: item?._id,
+                              id: item?.item?._id,
                               channel: item?.channel,
                               name: detail?.name,
                               quantity: 1,
@@ -391,7 +392,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                                 (i: any) => i.channel === item.channel
                               ),
                               {
-                                id: item?._id,
+                                id: item?.item?._id,
                                 channel: item?.channel,
                                 name: detail?.name,
                                 quantity: 1,

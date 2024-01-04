@@ -11,6 +11,17 @@ export const transformPath = (path: string) => {
   return transformedString.trim();
 };
 
+export const HandlePlan = ({ plan, sum }: { plan?: string; sum: number }) => {
+  switch (plan) {
+    case 'MONTHLY':
+      return formatRupiahV2(sum.toString());
+    case 'ANNUAL':
+      return formatRupiahV2((sum * 12).toString());
+    default:
+      return formatRupiahV2(sum.toString());
+  }
+};
+
 export const hexToRgba = (hex: string, opacity: number): string => {
   // Ensure the hex color is valid
   const isValidHex = /^#([0-9A-F]{3}){1,2}$/i.test(hex);

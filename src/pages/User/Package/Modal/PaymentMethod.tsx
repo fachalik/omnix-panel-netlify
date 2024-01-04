@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Radio, message } from 'antd';
+import { Button, Radio, message, Popconfirm } from 'antd';
 import { useOrderStore } from '@/store';
 
 import { palette } from '@/theme/themeConfig';
@@ -11,8 +11,8 @@ import { PostOrder } from '@/service/order';
 import { Checkout } from '@/models';
 
 import { BottomTotalPayment } from './BottomTotalPayment';
-import { FinishPayment } from './FinishPayment';
 import { useNavigate } from 'react-router-dom';
+import { RecurringPayment } from './RecurringPayment';
 
 interface IProps {
   current: number;
@@ -25,10 +25,12 @@ interface IProps {
 
 export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
   const navigate = useNavigate();
+  const [recurringPayment, setRecurringPayment] =
+    React.useState<boolean>(false);
   const [snapShow, setSnapShow] = React.useState<boolean>(false);
-  const [paymentMethod, setPaymentMethod] = React.useState(4);
+  const [paymentMethod, setPaymentMethod] = React.useState(2);
   const [total, setTotal] = React.useState<number>(0);
-  const { prev } = props;
+  const { prev, current, handleClose, next, setCurrent, steps } = props;
   const { checkout, plan, productCategory, productType } = useOrderStore(
     (state) => state
   );
@@ -55,17 +57,31 @@ export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
     setPaymentMethod(val);
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (paymentMethod: number) => {
+    switch (paymentMethod) {
+      case 1:
+        setRecurringPayment(true);
+        break;
+      case 2:
+        await handlePaymentMethodOne();
+        break;
+    }
+  };
+
+  const handlePaymentMethodOne = async () => {
     const data: Checkout = {
       total,
-      name: 'order',
-      payment_type: 'other',
+      name:
+        checkout[0]?.type === 'PACKAGE'
+          ? checkout[0]?.name ?? ''
+          : `${checkout[0]?.name} - ${checkout[0]?.type}`,
+      payment_type:
+        pMethod.find((item) => item.code == paymentMethod)?.title ?? 'others',
       productCategory,
       method: plan,
       productType,
       checkout,
     };
-    // console.log({ data });
     const response = await PostOrder(data);
 
     if (response.data.midtrans.token) {
@@ -90,9 +106,25 @@ export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
       message.error('something was wrong');
     }
   };
+
   return (
     <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-      {!snapShow && (
+      <div
+        id={'snap-container'}
+        style={{ width: '100%', height: '100%' }}
+      ></div>
+      {recurringPayment && (
+        <RecurringPayment
+          setBack={() => setRecurringPayment(false)}
+          current={current}
+          next={next}
+          prev={prev}
+          steps={steps}
+          handleClose={handleClose}
+          setCurrent={setCurrent}
+        />
+      )}
+      {!snapShow && !recurringPayment && (
         <>
           <div style={{ padding: '2em 1em', width: '100%' }}>
             {pMethod.map((item: PaymentMethodType, idx) => (
@@ -159,17 +191,19 @@ export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
           <BottomTotalPayment>
             <div style={{ display: 'flex', gap: '1em' }}>
               <Button onClick={() => prev()}>Back to summary</Button>
-              <Button type="primary" onClick={handleCheckout}>
-                Continue payment
-              </Button>
+              <Popconfirm
+                title="Checkout item?"
+                description="Are you sure to checkout this item?"
+                onConfirm={() => handleCheckout(paymentMethod)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary">Continue payment</Button>
+              </Popconfirm>
             </div>
           </BottomTotalPayment>
         </>
       )}
-      <div
-        id={'snap-container'}
-        style={{ width: '100%', height: '100%', padding: '2em 1em' }}
-      ></div>
     </div>
   );
 };

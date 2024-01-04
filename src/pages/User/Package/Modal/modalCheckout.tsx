@@ -3,7 +3,6 @@ import { Steps } from 'antd';
 
 import { TableSummary } from './TableSummary';
 import { PaymentMethod } from './PaymentMethod';
-import { FinishPayment } from './FinishPayment';
 
 const steps = [
   {
@@ -62,18 +61,6 @@ export const ModalCheckout: React.FC<IForm> = ({ handleClose }: IForm) => {
             setCurrent={setCurrent}
           />
         );
-
-      // case 'finish-payment':
-      //   return (
-      //     <FinishPayment
-      //       current={current}
-      //       next={next}
-      //       prev={prev}
-      //       steps={steps}
-      //       handleClose={handleClose}
-      //       setCurrent={setCurrent}
-      //     />
-      //   );
 
       default:
         break;

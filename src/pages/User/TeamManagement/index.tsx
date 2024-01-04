@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Button,
-  Table,
   Tag,
   //  Tooltip, Dropdown, Menu, Popconfirm
 } from 'antd';
@@ -12,15 +11,16 @@ import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import { palette } from '@/theme/themeConfig';
 import moment from 'moment';
-// import { EditTwoTone } from '@ant-design/icons';
 import Modal from '@/components/Modal';
 import FormAddTeam from './Form/FormAddTeam';
 import Content from '@/layouts/Dashboard/Content';
-// import FormUserEdit from './Form/FormUserEdit';
+import { TablePagination } from '@/components/TablePagination';
 
 import { useAuthStore } from '@/store';
 
 export default function TeamManagement() {
+  const [limit, _setLimit] = React.useState<number>(10);
+  const [page, setPage] = React.useState<number>(1);
   const { user } = useAuthStore((state) => state);
   // ** Modal Create
   const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
@@ -28,8 +28,8 @@ export default function TeamManagement() {
 
   const { data, isLoading, isSuccess, isError, error }: any = useGetTeam({
     token: getLogin()?.token ?? '',
-    limit: 10,
-    page: 1,
+    limit: limit,
+    page: page,
     UnitAccounts: user?._id ?? '',
   });
 
@@ -192,11 +192,16 @@ export default function TeamManagement() {
       <div style={{ marginTop: '2em', overflow: 'auto' }}>
         {isLoading && <Loading />}
         {isSuccess && data && (
-          <Table
-            loading={isLoading}
-            style={{ marginTop: 10, paddingBottom: 20 }}
+          <TablePagination
             columns={columns}
-            dataSource={data.data}
+            data={data.data}
+            isLoading={isLoading}
+            style={{ marginTop: 10, paddingBottom: 20 }}
+            total={data.total}
+            current={page}
+            pageSize={limit}
+            setPage={setPage}
+            isPaginate
           />
         )}
         {!isLoading && isError && <Error error={error} />}
