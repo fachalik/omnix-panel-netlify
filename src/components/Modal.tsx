@@ -60,11 +60,8 @@ export default function Modal(props: IModal) {
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
-      footer={footer}
+      footer={footerCancel ? footer : []}
       width={width}
-      footer={
-        footerCancel ? <Button onClick={handleCancel}>Cancel</Button> : []
-      }
     >
       {children}
     </ModalANTD>

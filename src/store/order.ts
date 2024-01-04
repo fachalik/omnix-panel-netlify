@@ -18,6 +18,7 @@ export interface IStoreOrder {
   setPlan: (plan: string) => void;
   setProductCategory: (category: string) => void;
   setProductType: (type: string) => void;
+  reset: () => void;
 }
 
 const initialState = {
@@ -70,6 +71,10 @@ export const useOrderStore = create<IStoreOrder>()(
           false,
           'set-type'
         );
+      },
+
+      reset() {
+        set((_state: IStoreOrder) => initialState, false, 'set-reset');
       },
     }),
     {

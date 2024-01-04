@@ -25,15 +25,16 @@ interface IProps {
 
 export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
   const navigate = useNavigate();
+  const { prev, current, handleClose, next, setCurrent, steps } = props;
+  const { checkout, plan, productCategory, productType, reset } = useOrderStore(
+    (state) => state
+  );
+
   const [recurringPayment, setRecurringPayment] =
     React.useState<boolean>(false);
   const [snapShow, setSnapShow] = React.useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = React.useState(2);
   const [total, setTotal] = React.useState<number>(0);
-  const { prev, current, handleClose, next, setCurrent, steps } = props;
-  const { checkout, plan, productCategory, productType } = useOrderStore(
-    (state) => state
-  );
 
   const { snapEmbed } = useSnapMidtrans();
 
@@ -85,23 +86,25 @@ export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
     const response = await PostOrder(data);
 
     if (response.data.midtrans.token) {
+      console.log('resonse.data', response.data);
       setSnapShow(true);
       snapEmbed(response.data.midtrans.token, 'snap-container', {
         onSuccess: function (result: any) {
           console.log('success', result);
-          navigate(`/order-history/1`);
+          navigate(`/order-history/${response.data.orderId}`);
           setSnapShow(false);
         },
         onPending: function (result: any) {
           console.log('pending', result);
-          navigate(`/order-history/1`);
+          navigate(`/order-history/${response.data.orderId}`);
           setSnapShow(false);
         },
         onClose: function () {
-          navigate(`/order-history/1`);
+          navigate(`/order-history/${response.data.orderId}`);
           setSnapShow(false);
         },
       });
+      reset();
     } else if (response && response.status === 'error') {
       message.error('something was wrong');
     }
