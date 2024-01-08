@@ -22,6 +22,7 @@ export default function OrderHistory() {
 
   const handleDateRangeChange = (dates: any) => {
     setSelectedDateRange(dates);
+    setPage(1);
   };
 
   const { user } = useAuthStore((state) => state);
@@ -31,6 +32,10 @@ export default function OrderHistory() {
     inCart: {
       color: 'warning',
       text: 'IN CART',
+    },
+    success: {
+      color: 'success',
+      text: 'SUCCESSFULL',
     },
   };
 
