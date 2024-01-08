@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { useAuthStore } from '@/store/auth';
+// import { useAuthStore } from '@/store/auth';
 import { Form } from 'antd';
 import { timeout } from '@/utils/utilitys';
 
 export default function useFormSignInReseller() {
-  const { loginReseller } = useAuthStore((state) => state);
+  // const { loginReseller } = useAuthStore((state) => state);
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
@@ -13,10 +13,10 @@ export default function useFormSignInReseller() {
     console.log('Failed:', errorInfo);
   };
 
-  const onFinish = async (params: any) => {
+  const onFinish = async (_params: any) => {
     setIsLoading(true);
     await timeout(1000);
-    await loginReseller(params);
+    // await loginReseller(params);
     setIsLoading(false);
   };
 

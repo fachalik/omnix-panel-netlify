@@ -1,6 +1,6 @@
 import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { InboxOutlined, LockOutlined } from '@ant-design/icons';
+import { InboxOutlined } from '@ant-design/icons';
 import useFormSignInReseller from '../Hooks/useFormSignInReseller';
 
 type FieldType = {
@@ -49,9 +49,7 @@ export default function FormSignInReseller() {
           rules={[{ required: true, message: 'Password is required!' }]}
           hasFeedback
         >
-          <Input.Password
-   
-          />
+          <Input.Password />
         </Form.Item>
         <a
           type="link"

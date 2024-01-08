@@ -21,8 +21,8 @@ const fetchProduct = async (params: GetPackageQueryParams): Promise<any> => {
   const data = await getProductPaginate(
     params.token,
     params.page,
-    params.limit,
-    params.id
+    params.limit
+    // params.id
   );
   return data;
 };

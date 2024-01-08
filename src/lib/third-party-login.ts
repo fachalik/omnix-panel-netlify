@@ -4,14 +4,13 @@ import isBrowser from './is-browser';
 export default function thirdPartyLogin(href: string): Promise<any> | null {
   if (!isBrowser) return null;
   const loginWindow = open(href, '_self');
-  return new Promise<any>((res, rej) => {
+  return new Promise<any>((res, _rej) => {
     function listen(e: MessageEvent<any>) {
       const { origin, data } = e;
       if (
-        [
-          'http://localhost:3000',
-          'https://omnix-panel.netlify.app/',
-        ].includes(origin) === false
+        ['http://localhost:3000', 'https://omnix-panel.netlify.app/'].includes(
+          origin
+        ) === false
       )
         return;
 

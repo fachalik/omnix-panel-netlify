@@ -216,7 +216,9 @@ export const usepatchProductUser = () => {
 
 // ** UPDATE
 const patchProductAddOnUser = async ({ val }: any) => {
-  const { data } = await updateProductUserAddon({ val });
+  const { data } = await updateProductUserAddon({
+    val,
+  });
   return data;
 };
 

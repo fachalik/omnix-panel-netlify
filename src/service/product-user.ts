@@ -212,7 +212,7 @@ export const updateProductUserAddon = ({
   id_user,
 }: {
   val: any;
-  id: string;
+  id?: string;
   id_reseller?: string;
   id_user?: string;
 }) => {

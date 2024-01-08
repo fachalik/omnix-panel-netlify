@@ -15,10 +15,10 @@ interface IFormTeam {
   handleClose: () => void;
 }
 
-export default function FormAddGroup({ handleClose }: IFormTeam) {
+export default function FormAddGroup({}: IFormTeam) {
   const { mutate } = useCreateMenu();
   const { form, isLoading, onFinish, onFinishFailed } = useFormPackage({
-    handleCloseForm: handleClose,
+    // handleCloseForm: handleClose,
     mutate,
   });
 

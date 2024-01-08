@@ -16,11 +16,11 @@ export default function useFormUser({ handleClose, data }: HooksTypes) {
     email: data?.email ?? '',
     password: '',
     password_confirmation: '',
-    phoneNumber: data?.phoneNumber ?? '',
-    firstName: data?.firstName ?? '',
-    lastName: data?.lastName ?? '',
-    role: data?.role?.name ?? '',
-    status: data?.status?.name ?? '',
+    // phoneNumber: data?.phoneNumber ?? '',
+    // firstName: data?.firstName ?? '',
+    // lastName: data?.lastName ?? '',
+    // role: data?.role?.name ?? '',
+    // status: data?.status?.name ?? '',
   };
 
   const formik = useFormik({
@@ -31,7 +31,7 @@ export default function useFormUser({ handleClose, data }: HooksTypes) {
       if (data) {
         delete value.email;
         delete value.password;
-        payload = await { val: value, id: data.id };
+        payload = await { val: value, id: data._id };
       } else {
         delete value.password_confirmation;
         payload = await value;

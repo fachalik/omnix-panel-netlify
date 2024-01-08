@@ -1,7 +1,7 @@
 import { Button, Form, Input } from 'antd';
 
 import { usePatchUser } from '@/hooks/ReactQuery/admin/useGetUsers';
-import useFormUser from '../Hooks/useFormUser';
+// import useFormUser from '../Hooks/useFormUser';
 import { User } from '@/models';
 
 interface IFormUsersEdit {
@@ -18,8 +18,8 @@ type FieldType = {
   lastName?: string;
 };
 
-export default function FormUserEdit({ handleClose, data }: IFormUsersEdit) {
-  const { mutate, isLoading } = usePatchUser();
+export default function FormUserEdit({}: IFormUsersEdit) {
+  const { isLoading } = usePatchUser();
 
   const [form] = Form.useForm();
   // const formik: any = useFormUser({ handleClose, mutate, data });

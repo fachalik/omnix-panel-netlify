@@ -16,7 +16,7 @@ export default function HomeComponent() {
     <Content>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
         <p style={{ fontSize: 20, fontWeight: 'bold' }}>
-          {`Welcome to Omnix, ${user?.firstName ?? ''}`}
+          {`Welcome to Omnix, ${user?.name ?? ''}`}
         </p>
         <div style={{ marginLeft: 'auto' }}>
           <Button type="primary" ghost>

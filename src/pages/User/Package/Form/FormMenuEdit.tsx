@@ -16,10 +16,10 @@ interface IFormTeam {
   data: any;
 }
 
-export default function FormMenuEdit({ handleClose, data }: IFormTeam) {
+export default function FormMenuEdit({ data }: IFormTeam) {
   const { mutate } = usePatchMenu();
   const { form, isLoading, onFinish, onFinishFailed } = useFormPackage({
-    handleCloseForm: handleClose,
+    // handleCloseForm: handleClose,
     mutate,
   });
 
