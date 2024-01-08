@@ -4,6 +4,7 @@ import { Row, Col, Tag, Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
 import { formatRupiahV2 } from '@/utils/utilitys';
+import { statusMap } from '@/utils/utilitys';
 import moment from 'moment';
 
 interface IProps {
@@ -13,18 +14,6 @@ interface IProps {
 const HeaderDetailOrder: React.FC<IProps> = ({ data }) => {
   const lastData =
     data?.transactionDetail[data?.transactionDetail.length - 1] ?? {};
-  const statusMap: any = {
-    inCart: {
-      color: 'warning',
-      rex: '#fffbe6',
-      text: 'IN CART',
-    },
-    success: {
-      color: 'success',
-      rex: '#f6ffed',
-      text: 'SUCCESSFULL',
-    },
-  };
 
   const BoxItem = ({
     children,

@@ -11,6 +11,34 @@ export const transformPath = (path: string) => {
   return transformedString.trim();
 };
 
+export const statusMap: any = {
+  inCart: {
+    color: 'processing',
+    rex: '#e6f4ff',
+    text: 'IN CART',
+  },
+  success: {
+    color: 'success',
+    rex: '#f6ffed',
+    text: 'SUCCESSFULL',
+  },
+  expire: {
+    color: 'error',
+    rex: '#fff2f0',
+    text: 'EXPIRED',
+  },
+  cancel: {
+    color: 'warning',
+    rex: '#fffbe6',
+    text: 'CANCELED',
+  },
+  deny: {
+    color: 'cyan',
+    rex: '#e6fffb',
+    text: 'DENY',
+  },
+};
+
 export const HandlePlan = ({ plan, sum }: { plan?: string; sum: number }) => {
   switch (plan) {
     case 'MONTHLY':

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { getLogin } from '@/utils/sessions';
 import { useGetOrderUser } from '@/hooks/ReactQuery/user/useGetOrderUser';
 import { useAuthStore } from '@/store';
+import { statusMap } from '@/utils/utilitys';
 
 import { TablePagination } from '@/components/TablePagination';
 import Content from '@/layouts/Dashboard/Content';
@@ -27,17 +28,6 @@ export default function OrderHistory() {
 
   const { user } = useAuthStore((state) => state);
   const navigate = useNavigate();
-
-  const statusMap: any = {
-    inCart: {
-      color: 'warning',
-      text: 'IN CART',
-    },
-    success: {
-      color: 'success',
-      text: 'SUCCESSFULL',
-    },
-  };
 
   const { data, isLoading, isSuccess, isError, error }: any = useGetOrderUser({
     token: getLogin()?.token,
