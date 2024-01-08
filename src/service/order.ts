@@ -43,12 +43,24 @@ export const getCarts = ({
     }
   });
 
-export const getCartsDetail = ({ token, id }: { token: string; id: string }) =>
+export const getCartsDetail = ({
+  token,
+  id,
+  orderId,
+}: {
+  token: string;
+  id?: string;
+  orderId?: string;
+}) =>
   new Promise<any>(async (resolve, reject) => {
     try {
-      const respon = await http.get(`/api/carts/${id}`, {
+      const respon = await http.get(`/api/carts/detail`, {
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+        params: {
+          id,
+          orderId,
         },
       });
       if (respon.data) {

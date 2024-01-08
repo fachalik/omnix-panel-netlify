@@ -91,16 +91,16 @@ export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
       snapEmbed(response.data.midtrans.token, 'snap-container', {
         onSuccess: function (result: any) {
           console.log('success', result);
-          navigate(`/order-history/${response.data.orderId}`);
+          navigate(`/order-history?orderId=${response.data.orderId}`);
           setSnapShow(false);
         },
         onPending: function (result: any) {
           console.log('pending', result);
-          navigate(`/order-history/${response.data.orderId}`);
+          navigate(`/order-history?orderId=${response.data.orderId}`);
           setSnapShow(false);
         },
         onClose: function () {
-          navigate(`/order-history/${response.data.orderId}`);
+          navigate(`/order-history?orderId=${response.data.orderId}`);
           setSnapShow(false);
         },
       });

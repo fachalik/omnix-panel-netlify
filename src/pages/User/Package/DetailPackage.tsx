@@ -201,8 +201,9 @@ export default function OrderHistory() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
-      {isLoading && <Loading />}
-      {isSuccess && (
+      {(isLoading || isLoadingPackage) && <Loading />}
+
+      {(isSuccess || isSuccessPackage) && (
         <div style={{ width: '100%' }}>
           <HeaderSection
             isBack
@@ -362,7 +363,9 @@ export default function OrderHistory() {
           </Modal>
         </div>
       )}
-      {!isLoading && isError && <Error error={error} />}
+      {!isLoading && !isLoadingPackage && !isLoadingProduct && isError && (
+        <Error error={error} />
+      )}
     </div>
   );
 }

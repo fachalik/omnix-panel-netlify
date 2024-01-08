@@ -19,7 +19,7 @@ const Detail: React.FC = () => {
 
   const { data, isLoading, isSuccess, isError, error }: any =
     useGetDetailOrderUser({
-      id: id ?? '',
+      orderId: id ?? '',
       token: getLogin()?.token,
     });
 

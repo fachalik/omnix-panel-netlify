@@ -50,16 +50,22 @@ export const useGetOrderUser = (params: {
 
 const fetchGetDetailOrderUser = async (params: {
   token: any;
-  id: string;
+  id?: string;
+  orderId?: string;
 }): Promise<any> => {
   const data = await getCartsDetail({
     token: params.token,
     id: params.id,
+    orderId: params.orderId,
   });
   return data;
 };
 
-export const useGetDetailOrderUser = (params: { token: any; id: string }) => {
+export const useGetDetailOrderUser = (params: {
+  token: any;
+  id?: string;
+  orderId?: string;
+}) => {
   return useQuery<any, Error>({
     queryKey: [...QUERY_KEY, params],
     queryFn: () => fetchGetDetailOrderUser(params),

@@ -107,6 +107,7 @@ export const useGetProductUserWithAddon = (params: {
     queryKey: [...QUERY_KEY, params],
     queryFn: () => fetchProductUserWithAddon(params),
     keepPreviousData: true,
+    cacheTime: 0,
   });
 };
 
@@ -139,7 +140,7 @@ export const useGetDetailProductUser = (params: {
     queryFn: () => fetchProductGetDetailUser(params),
     keepPreviousData: true,
     enabled: params.id ? true : false,
-    // cacheTime: 0,
+    cacheTime: 0,
   });
 };
 

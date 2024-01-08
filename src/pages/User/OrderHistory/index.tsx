@@ -115,7 +115,7 @@ export default function OrderHistory() {
         return (
           <Button
             onClick={() => {
-              navigate(`/order-history/${record._id}`);
+              navigate(`/order-history/${record.orderId}`);
             }}
             icon={<EllipsisOutlined />}
           />
