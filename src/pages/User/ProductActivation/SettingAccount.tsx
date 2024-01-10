@@ -126,7 +126,14 @@ export default function Page() {
         }}
       >
         <Avatar size={'large'} src={`/icons/whatsapp.svg`} />
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'start',
+            alignItems: 'start',
+          }}
+        >
           <div style={{ fontSize: 17, fontWeight: 'bold', color: '#2d2d2d' }}>
             Whatsapp
           </div>

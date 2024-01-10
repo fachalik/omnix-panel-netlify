@@ -22,7 +22,7 @@ export const theme: ThemeConfig = {
   components: {
     Menu: {
       darkSubMenuItemBg: palette.primary.main,
-      darkItemSelectedBg: palette.primary.dark,
+      darkItemSelectedBg: 'rgba(255,255,255,0.2)',
     },
   },
 };

@@ -41,6 +41,12 @@ const ChannelWhatsappSubscribe = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Whatsapp/subscribe')
 );
 const ProductActivation = lazy(() => import('@/pages/User/ProductActivation'));
+const ProductActivationDetail = lazy(
+  () => import('@/pages/User/ProductActivation/Detail')
+);
+const ProductActivationSettingAccount = lazy(
+  () => import('@/pages/User/ProductActivation/SettingAccount')
+);
 const TeamManagement = lazy(() => import('@/pages/User/TeamManagement'));
 const GroupManagement = lazy(() => import('@/pages/User/GroupManagement'));
 const OrderHistory = lazy(() => import('@/pages/User/OrderHistory'));
@@ -192,6 +198,21 @@ const Routers: ListRouteProps[] = [
   {
     comp: ProductActivation,
     path: '/product-activation',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.REGULER],
+  },
+  //
+  {
+    comp: ProductActivationDetail,
+    path: '/product-activation/:id',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.REGULER],
+  },
+  {
+    comp: ProductActivationSettingAccount,
+    path: '/product-activation/:id/setting-account',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.REGULER],

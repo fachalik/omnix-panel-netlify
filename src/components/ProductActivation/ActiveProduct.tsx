@@ -1,4 +1,3 @@
-import React from 'react';
 // import { useGetProduct } from './Hooks/useGetProduct';
 // import { getLogin } from '@/utils/sessions';
 // import Loading from '../Loading';
@@ -7,7 +6,7 @@ import React from 'react';
 import CardItemActive from '@/components/AllCard/CardItemActive';
 import moment from 'moment';
 
-export default function ActiveProduct({}: React.FC<any>) {
+export default function ActiveProduct() {
   const data: any = [
     {
       id: 1,

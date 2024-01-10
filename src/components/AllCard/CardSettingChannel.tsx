@@ -36,6 +36,8 @@ export default function CardSettingChannel() {
             style={{
               display: 'flex',
               flexDirection: 'column',
+              justifyContent: 'start',
+              alignItems: 'start',
               marginLeft: 5,
             }}
           >
