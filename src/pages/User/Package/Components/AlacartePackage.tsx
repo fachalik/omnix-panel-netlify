@@ -261,7 +261,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                   name: item?.item?.productName,
                   quantity: 1,
                   price: item?.item?.productPrice,
-                  type: `ALACARTE`,
+                  type: `ADDON_ALACARTE`,
                 })}
                 onChange={() => {
                   handleCheckboxChange('alacarte', {
@@ -269,7 +269,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                     name: item?.item?.productName,
                     quantity: 1,
                     price: item?.item?.productPrice,
-                    type: `ALACARTE`,
+                    type: `ADDON_ALACARTE`,
                   });
                 }}
               />
@@ -280,7 +280,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
               name: item?.item?.productName,
               quantity: 1,
               price: item?.item?.productPrice,
-              type: `ALACARTE`,
+              type: `ADDON_ALACARTE`,
             }) &&
               item.addOn.length !== 0 && (
                 <>
@@ -302,7 +302,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
               name: item?.item?.productName,
               quantity: 1,
               price: item?.item?.productPrice,
-              type: `ALACARTE`,
+              type: `ADDON_ALACARTE`,
             }) &&
               item.addOn.length !== 0 &&
               item.addOn.map((item: any, idx: number) => (
@@ -385,7 +385,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                               name: detail?.name,
                               quantity: 1,
                               price: detail?.price,
-                              type: `PACKAGE_ADDON`,
+                              type: `ADDON_PACKAGE`,
                             }}
                             checked={_.isEqual(
                               getValue('package_addon').find(
@@ -397,7 +397,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                                 name: detail?.name,
                                 quantity: 1,
                                 price: detail?.price,
-                                type: `PACKAGE_ADDON`,
+                                type: `ADDON_PACKAGE`,
                               }
                             )}
                           >

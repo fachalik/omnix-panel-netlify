@@ -150,7 +150,7 @@ export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
                                 name: detail?.name,
                                 quantity: 1,
                                 price: detail?.price,
-                                type: `PACKAGE_ADDON`,
+                                type: `ADDON_PACKAGE`,
                               }
                             )}
                             onChange={() => {
@@ -161,7 +161,7 @@ export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
                                   name: detail?.name,
                                   quantity: 1,
                                   price: detail?.price,
-                                  type: `PACKAGE_ADDON`,
+                                  type: `ADDON_PACKAGE`,
                                 }
                               );
                             }}
@@ -228,7 +228,7 @@ export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
                             name: detail?.name,
                             quantity: 1,
                             price: detail?.price,
-                            type: `PACKAGE_ADDON`,
+                            type: `ADDON_PACKAGE`,
                           }}
                           checked={_.isEqual(
                             getValue(`package_addon_${item.channel}`)?.find(
@@ -240,7 +240,7 @@ export const InformationPackageAddOn: React.FC<IProps> = (props: IProps) => {
                               name: detail?.name,
                               quantity: 1,
                               price: detail?.price,
-                              type: `PACKAGE_ADDON`,
+                              type: `ADDON_PACKAGE`,
                             }
                           )}
                         >
