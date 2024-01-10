@@ -19,4 +19,10 @@ export const theme: ThemeConfig = {
     fontFamily: 'Plus Jakarta Sans',
     wireframe: false,
   },
+  components: {
+    Menu: {
+      darkSubMenuItemBg: palette.primary.main,
+      darkItemSelectedBg: palette.primary.dark,
+    },
+  },
 };

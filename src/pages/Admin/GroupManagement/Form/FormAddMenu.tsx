@@ -32,8 +32,6 @@ export default function FormAddMenu({ handleClose, id }: IFormMenu) {
     is_not_paginate: '1',
   });
 
-  // console.log('dataMenu', dataMenu);
-
   form.setFieldsValue({
     menu: [],
     status: true,

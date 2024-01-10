@@ -1,12 +1,12 @@
 import { Button, Form, Input, Select } from 'antd';
 
 function FormAccount() {
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+  const onFinish = (_values: any) => {
+    // console.log('Success:', values);
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+  const onFinishFailed = (_errorInfo: any) => {
+    // console.log('Failed:', errorInfo);
   };
 
   type FieldType = {

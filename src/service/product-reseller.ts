@@ -86,7 +86,7 @@ export const postProductReseller = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.post(`/api/products-for-reseller`, payload);
-      console.log('respon', respon);
+
       if (respon) {
         resolve(respon);
       }

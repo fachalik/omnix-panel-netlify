@@ -14,3 +14,18 @@ export interface CheckoutElement {
   name: string;
   type: string;
 }
+
+export interface CheckoutSubscribe {
+  total: number;
+  payment_type?: string;
+  cardNumber_cc?: number;
+  cardExpMonth_cc?: number;
+  cardExpYear_cc?: number;
+  cardCvv_cc?: number;
+  phone_number_gopay?: number;
+  country_code_gopay?: number;
+  name: string;
+  productType: string;
+  productCategory: string;
+  checkout: CheckoutElement[];
+}

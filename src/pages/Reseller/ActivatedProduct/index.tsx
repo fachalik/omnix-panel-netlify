@@ -3,15 +3,13 @@ import { useActivatedProduct } from '@/store';
 import Step1 from '@/components/ActivatedProduct/Step1';
 import Step2 from '@/components/ActivatedProduct/Step2';
 import Step3 from '@/components/ActivatedProduct/Step3';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import Content from '@/layouts/Dashboard/Content';
 
 function Page() {
   const { currentState } = useActivatedProduct((state) => state);
 
-  const location: any = useLocation();
-
-  console.log('location', location);
+  // const location: any = useLocation();
 
   return (
     <Content

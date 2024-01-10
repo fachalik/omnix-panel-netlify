@@ -40,7 +40,7 @@ const ChannelWhatsapp = lazy(
 const ChannelWhatsappSubscribe = lazy(
   () => import('@/pages/User/ChannelSubscribe/Channel/Whatsapp/subscribe')
 );
-const ActivatedProduct = lazy(() => import('@/pages/User/ActivatedProduct'));
+const ProductActivation = lazy(() => import('@/pages/User/ProductActivation'));
 const TeamManagement = lazy(() => import('@/pages/User/TeamManagement'));
 const GroupManagement = lazy(() => import('@/pages/User/GroupManagement'));
 const OrderHistory = lazy(() => import('@/pages/User/OrderHistory'));
@@ -190,8 +190,8 @@ const Routers: ListRouteProps[] = [
     auth: [RoleEnum.REGULER],
   },
   {
-    comp: ActivatedProduct,
-    path: '/active-product',
+    comp: ProductActivation,
+    path: '/product-activation',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.REGULER],

@@ -85,7 +85,7 @@ export const postProductAdmin = (payload: any) =>
   new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.post(`/api/products`, payload);
-      console.log('respon', respon);
+
       if (respon) {
         resolve(respon);
       }

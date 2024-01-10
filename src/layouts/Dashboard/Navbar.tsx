@@ -98,7 +98,6 @@ export default function Navbar() {
         alignItems: 'center',
         justifyContent: 'space-between',
         display: 'flex',
-        padding: '0px 20px',
         width: '100%',
       }}
     >

@@ -15,7 +15,7 @@ export const statusMap: any = {
   inCart: {
     color: 'processing',
     rex: '#e6f4ff',
-    text: 'IN CART',
+    text: 'WAITING FOR PAYMENT',
   },
   success: {
     color: 'success',

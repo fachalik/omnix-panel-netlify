@@ -128,7 +128,6 @@ export const usedestroyProduct = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, any>(destroyProduct, {
     onSuccess: async () => {
-      console.log(QUERY_KEY);
       await queryClient.invalidateQueries(QUERY_KEY);
       message.success('Product has been deleted');
     },

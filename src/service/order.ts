@@ -1,5 +1,5 @@
 import http from '../utils/request';
-import { Checkout } from '@/models';
+import { Checkout, CheckoutSubscribe } from '@/models';
 
 export const getCarts = ({
   token,
@@ -78,6 +78,24 @@ export const PostOrder = (payload: Checkout) =>
   new Promise<any>(async (resolve, reject) => {
     try {
       const respon = await http.post(`/api/carts/payment`, payload);
+      if (respon) {
+        resolve(respon);
+      }
+    } catch (err: any) {
+      const message: string = err.response
+        ? `${err.response.data.message}`
+        : 'Oops, something wrong with our server, please try again later.';
+      reject(message);
+    }
+  });
+
+export const PostOrderSubscribe = (payload: CheckoutSubscribe) =>
+  new Promise<any>(async (resolve, reject) => {
+    try {
+      const respon = await http.post(
+        `/api/carts/payment_subscriptions`,
+        payload
+      );
       if (respon) {
         resolve(respon);
       }

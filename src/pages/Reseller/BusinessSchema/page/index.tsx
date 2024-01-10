@@ -22,8 +22,6 @@ export default function index() {
   const username = searchParams.get('username');
   const role = searchParams.get('role');
 
-  console.log('role', role);
-
   return (
     <div
       style={{

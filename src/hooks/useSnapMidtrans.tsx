@@ -6,8 +6,8 @@ const useSnapMidtrans = () => {
   useEffect(() => {
     const myMidtransClientKey = import.meta.env.VITE_APP_MIDTRANS_CLIENT_ID;
     const apiUrlMidtrans = import.meta.env.VITE_APP_MIDTRANS_API_URL;
-    console.log({ myMidtransClientKey });
-    console.log({ apiUrlMidtrans });
+    // console.log({ myMidtransClientKey });
+    // console.log({ apiUrlMidtrans });
     const script = document.createElement('script');
     script.src = `${apiUrlMidtrans}/snap/snap.js`;
     script.setAttribute('data-client-key', myMidtransClientKey);
@@ -23,7 +23,7 @@ const useSnapMidtrans = () => {
 
   const snapEmbed = (snap_token: any, embedId: any, action: any) => {
     if (snap) {
-      console.log({ embedId });
+      // console.log({ embedId });
       snap.embed(snap_token, {
         embedId,
         onSuccess: function (result: any) {

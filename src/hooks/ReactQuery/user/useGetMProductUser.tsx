@@ -23,7 +23,6 @@ export const usecreateMProductUser = () => {
     onSuccess: async (data: any) => {
       await queryClient.invalidateQueries(QUERY_KEY);
       await message.success('Product has been added');
-      await console.log('data', data);
       await setSearchParams({
         ...searchParams,
         type: data.productType,
@@ -47,7 +46,6 @@ export const usedestroyMProductUser = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, any>(destroyMProductUser, {
     onSuccess: async () => {
-      console.log(QUERY_KEY);
       await queryClient.invalidateQueries(QUERY_KEY);
       message.success('Product has been deleted');
     },
@@ -70,7 +68,6 @@ export const usepatchMProductUser = () => {
     onSuccess: async (data: any) => {
       await queryClient.invalidateQueries(QUERY_KEY);
       await message.success('Product successfully updated');
-      await console.log('data', data);
     },
     onError: (error) => {
       console.error(error);

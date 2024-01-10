@@ -10,8 +10,6 @@ export default function UseAuth() {
     setAuth(getLogin());
   }, [user]);
 
-  console.log('auth', auth);
-
   return {
     auth,
     isLogin: Boolean(auth.token),

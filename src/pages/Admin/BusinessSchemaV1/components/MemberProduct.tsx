@@ -41,7 +41,6 @@ type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
 export default function MemberProduct(props: IProps) {
   const { user_data } = props;
-  console.log('user_data', user_data);
 
   const { user } = useAuthStore((state) => state);
   const [dataEdit, setdataEdit] = React.useState<any>(null);

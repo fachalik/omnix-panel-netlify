@@ -19,11 +19,9 @@ if (token) {
 
 http.interceptors.response.use(
   (response) => {
-    console.log('token', token);
     return response;
   },
   async (error) => {
-    console.log('token', token);
     // const { config, response } = error;
 
     // if (response.status === 401) {

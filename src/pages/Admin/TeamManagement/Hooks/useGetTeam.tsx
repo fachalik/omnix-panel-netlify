@@ -76,22 +76,3 @@ export const usePatchUser = () => {
     },
   });
 };
-
-// // ** DELETE
-// const destroyUser = async (id: number) => {
-//   const { data } = await deleteUser(id);
-//   return data;
-// };
-
-// export const useDestroyUser = () => {
-//   const queryClient = useQueryClient();
-//   return useMutation<any, Error, any>(destroyUser, {
-//     onSuccess: async () => {
-//       console.log(QUERY_KEY);
-//       await queryClient.invalidateQueries(QUERY_KEY);
-//     },
-//     onError: (error) => {
-//       console.error(error);
-//     },
-//   });
-// };

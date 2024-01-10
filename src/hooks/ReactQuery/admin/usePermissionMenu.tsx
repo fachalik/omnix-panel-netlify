@@ -122,22 +122,3 @@ export const usepatchPermissionMenu = () => {
     },
   });
 };
-
-// // ** DELETE
-// const destroyGroup = async (id: number) => {
-//   const { data } = await deleteGroup(id);
-//   return data;
-// };
-
-// export const usedestroyGroup = () => {
-//   const queryClient = useQueryClient();
-//   return useMutation<any, Error, any>(destroyGroup, {
-//     onSuccess: async () => {
-//       console.log(QUERY_KEY);
-//       await queryClient.invalidateQueries(QUERY_KEY);
-//     },
-//     onError: (error) => {
-//       console.error(error);
-//     },
-//   });
-// };

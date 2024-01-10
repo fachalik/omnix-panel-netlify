@@ -70,43 +70,46 @@ export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
   };
 
   const handlePaymentMethodOne = async () => {
-    const data: Checkout = {
-      total,
-      name:
-        checkout[0]?.type === 'PACKAGE'
-          ? checkout[0]?.name ?? ''
-          : `${checkout[0]?.name} - ${checkout[0]?.type}`,
-      payment_type:
-        pMethod.find((item) => item.code == paymentMethod)?.title ?? 'others',
-      productCategory,
-      method: plan,
-      productType,
-      checkout,
-    };
-    const response = await PostOrder(data);
+    try {
+      const data: Checkout = {
+        total,
+        name:
+          checkout[0]?.type === 'PACKAGE'
+            ? checkout[0]?.name ?? ''
+            : `${checkout[0]?.name} - ${checkout[0]?.type}`,
+        payment_type:
+          pMethod.find((item) => item.code == paymentMethod)?.title ?? 'others',
+        productCategory,
+        method: plan,
+        productType,
+        checkout,
+      };
+      const response = await PostOrder(data);
 
-    if (response.data.midtrans.token) {
-      console.log('resonse.data', response.data);
-      setSnapShow(true);
-      snapEmbed(response.data.midtrans.token, 'snap-container', {
-        onSuccess: function (result: any) {
-          console.log('success', result);
-          navigate(`/order-history?orderId=${response.data.orderId}`);
-          setSnapShow(false);
-        },
-        onPending: function (result: any) {
-          console.log('pending', result);
-          navigate(`/order-history?orderId=${response.data.orderId}`);
-          setSnapShow(false);
-        },
-        onClose: function () {
-          navigate(`/order-history?orderId=${response.data.orderId}`);
-          setSnapShow(false);
-        },
-      });
-      reset();
-    } else if (response && response.status === 'error') {
-      message.error('something was wrong');
+      if (response.data.midtrans.token) {
+        setSnapShow(true);
+        snapEmbed(response.data.midtrans.token, 'snap-container', {
+          onSuccess: function (result: any) {
+            console.log('success', result);
+            navigate(`/order-history?orderId=${response.data.orderId}`);
+            setSnapShow(false);
+          },
+          onPending: function (result: any) {
+            console.log('pending', result);
+            navigate(`/order-history?orderId=${response.data.orderId}`);
+            setSnapShow(false);
+          },
+          onClose: function () {
+            navigate(`/order-history?orderId=${response.data.orderId}`);
+            setSnapShow(false);
+          },
+        });
+        reset();
+      } else if (response && response.status === 'error') {
+        message.error('something was wrong');
+      }
+    } catch (err: any) {
+      message.error(err);
     }
   };
 

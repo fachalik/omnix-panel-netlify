@@ -15,6 +15,11 @@ import { capitalizeFirstLetter } from '@/utils/utilitys';
 
 export default function Sidebar() {
   const [mapMenu, setMapMenu] = React.useState<any>([]);
+  const location = useLocation();
+
+  const { pathname } = location;
+  const link = pathname.split('/')[1];
+  const [selectedKey, setSelectedKey] = React.useState<string>(link);
   const {
     other: { sidebarCollapse },
   } = useOtherStore((state) => state);
@@ -24,10 +29,6 @@ export default function Sidebar() {
   const { menu } = useAuthStore((state) => state);
 
   const navigate = useNavigate();
-
-  const location = useLocation();
-
-  const { pathname } = location;
 
   const isMobile = useIsMobile();
 
@@ -112,7 +113,7 @@ export default function Sidebar() {
       collapsed={sidebarCollapse}
       collapsedWidth={isMobile ? 0 : '4rem'}
       breakpoint="lg"
-      width={240}
+      width={264}
       style={{
         height: '100vh',
         overflow: 'hidden',
@@ -125,27 +126,35 @@ export default function Sidebar() {
     >
       <div
         style={{
-          height: 50,
-          backgroundColor: palette.primary.light,
+          height: '8%',
+          backgroundColor: palette.primary.dark,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
         }}
       >
-        <img
-          src={sidebarCollapse ? OmnixSmall : OmnixBig}
-          alt="Vercel Logo"
+        <div
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            margin: 'auto',
-            backgroundColor: palette.primary.light,
-            padding: 5,
+            height: sidebarCollapse ? '50%' : '80%',
           }}
-        />
+        >
+          <img
+            src={sidebarCollapse ? OmnixSmall : OmnixBig}
+            alt="Vercel Logo"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              margin: 'auto',
+              padding: 5,
+            }}
+          />
+        </div>
       </div>
-
       <Menu
         style={{
-          padding: 5,
+          // padding: 5,
           marginTop: 20,
           overflow: 'hidden',
           height: height - 150,
@@ -153,23 +162,24 @@ export default function Sidebar() {
           backgroundColor: palette.primary.dark,
           color: 'white',
         }}
-        theme="light"
+        theme="dark"
         mode="inline"
         onClick={(e) => {
           navigate(`/${e.key}`);
+          setSelectedKey(e.key);
         }}
-        defaultSelectedKeys={[pathname]}
-        defaultOpenKeys={[pathname]}
-        selectedKeys={[pathname]}
+        defaultSelectedKeys={[selectedKey]}
+        defaultOpenKeys={[selectedKey]}
+        selectedKeys={[selectedKey]}
         items={
           mapMenu.length !== 0 &&
-          mapMenu?.map((val: any, idx: number) => {
+          mapMenu?.map((val: any) => {
             return {
               key: val.key,
               icon: (
                 <Tooltip placement="left">
                   <div
-                    key={`${idx}_${val.key}`}
+                    key={`${val.key}`}
                     style={{
                       display: 'flex',
                       justifyContent: 'center',
