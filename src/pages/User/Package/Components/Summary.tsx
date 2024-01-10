@@ -99,7 +99,7 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
         <p style={{ fontSize: 15, fontWeight: 600 }}>Tax</p>
 
         <p style={{ fontSize: 15, fontWeight: 600 }}>
-          <HandlePlan plan={plan} sum={total * 0.11} />
+          <HandlePlan plan={plan} sum={Math.ceil(total * 0.11)} />
         </p>
       </div>
       <Divider />
@@ -113,7 +113,7 @@ export const Summary: React.FC<IProps> = (props: IProps) => {
         <p style={{ fontSize: 15, fontWeight: 600 }}>Total</p>
 
         <p style={{ fontSize: 15, fontWeight: 600 }}>
-          {formatRupiahV2((total * 0.11 + total).toString())}
+          {formatRupiahV2((Math.ceil(total * 0.11) + total).toString())}
         </p>
       </div>
       <p style={{ fontSize: 12, fontWeight: 400 }}>

@@ -22,7 +22,7 @@ export default function useFormRecurring({ total }: IProps) {
 
   const { midtransNew3DsEmbed } = use3DSMidtrans();
 
-  const { checkout, productCategory, productType } = useOrderStore(
+  const { checkout, productCategory, productType, tenant_name } = useOrderStore(
     (state) => state
   );
 
@@ -34,6 +34,7 @@ export default function useFormRecurring({ total }: IProps) {
   const onFinish = async (params: any) => {
     try {
       const data: CheckoutSubscribe = {
+        tenant_name,
         total,
         cardNumber_cc: Number(params.cardNumber_cc),
         cardExpMonth_cc: Number(dayjs(params.expiry).format('MM')),

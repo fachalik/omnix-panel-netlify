@@ -29,9 +29,18 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useOrderStore } from '@/store';
 
 export default function OrderHistory() {
-  const { setCheckout, setProductCategory, setProductType } = useOrderStore(
-    (state) => state
-  );
+  const [current, setCurrent] = React.useState(0);
+
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+
+  const { setCheckout, setProductCategory, setProductType, setTenantName } =
+    useOrderStore((state) => state);
   const [initData, setInitData] = React.useState<any>({});
   const [wFields, setWFields] = React.useState<any>([]);
   const methods = useForm({
@@ -356,10 +365,24 @@ export default function OrderHistory() {
             width={'80%'}
             title="Subscription Summary"
             isModalOpen={IsModalCreate}
-            handleCancel={handleCancelCreate}
+            handleCancel={() => {
+              handleCancelCreate();
+              setTenantName('');
+              setCurrent(0);
+            }}
             footerCancel={false}
           >
-            <ModalCheckout handleClose={handleCancelCreate} />
+            <ModalCheckout
+              current={current}
+              next={next}
+              prev={prev}
+              setCurrent={setCurrent}
+              handleClose={() => {
+                handleCancelCreate();
+                setTenantName('');
+                setCurrent(0);
+              }}
+            />
           </Modal>
         </div>
       )}

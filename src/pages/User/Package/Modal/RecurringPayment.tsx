@@ -45,7 +45,7 @@ export const RecurringPayment: React.FC<IProps> = (props: IProps) => {
         return total + item.quantity * item.price;
       }, 0);
 
-      setTotal(totalPrice + totalPrice * 0.11);
+      setTotal(totalPrice + Math.ceil(totalPrice * 0.11));
     }
 
     return () => {

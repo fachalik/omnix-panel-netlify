@@ -1,4 +1,5 @@
 export interface Checkout {
+  tenant_name: string;
   total: number;
   name: string;
   productType: string;
@@ -16,6 +17,7 @@ export interface CheckoutElement {
 }
 
 export interface CheckoutSubscribe {
+  tenant_name: string;
   total: number;
   payment_type?: string;
   cardNumber_cc?: number;

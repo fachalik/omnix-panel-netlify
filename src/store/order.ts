@@ -14,10 +14,12 @@ export interface IStoreOrder {
   plan: string;
   productCategory: string;
   productType: string;
+  tenant_name: string;
   setCheckout: (items: StoreOrder[]) => void;
   setPlan: (plan: string) => void;
   setProductCategory: (category: string) => void;
   setProductType: (type: string) => void;
+  setTenantName: (name: string) => void;
   reset: () => void;
 }
 
@@ -26,6 +28,7 @@ const initialState = {
   plan: 'MONTHLY',
   productCategory: '',
   productType: '',
+  tenant_name: '',
 };
 
 export const useOrderStore = create<IStoreOrder>()(
@@ -67,6 +70,16 @@ export const useOrderStore = create<IStoreOrder>()(
         set(
           (_state: IStoreOrder) => ({
             productType: type,
+          }),
+          false,
+          'set-type'
+        );
+      },
+
+      setTenantName(name: string) {
+        set(
+          (_state: IStoreOrder) => ({
+            tenant_name: name,
           }),
           false,
           'set-type'

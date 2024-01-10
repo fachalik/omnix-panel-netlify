@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Steps } from 'antd';
 
 import { TableSummary } from './TableSummary';
@@ -13,27 +13,23 @@ const steps = [
     title: 'Payment Method',
     content: 'payment-method',
   },
-  // {
-  //   title: 'Finish Payment',
-  //   content: 'finish-payment',
-  // },
 ];
 
 interface IForm {
   handleClose: () => void;
+  next: () => void;
+  prev: () => void;
+  current: any;
+  setCurrent: any;
 }
 
-export const ModalCheckout: React.FC<IForm> = ({ handleClose }: IForm) => {
-  const [current, setCurrent] = useState(0);
-
-  const next = () => {
-    setCurrent(current + 1);
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
-
+export const ModalCheckout: React.FC<IForm> = ({
+  handleClose,
+  next,
+  prev,
+  current,
+  setCurrent,
+}: IForm) => {
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
   const mapContent = (content: string) => {

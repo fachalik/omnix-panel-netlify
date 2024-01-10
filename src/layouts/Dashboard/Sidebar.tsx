@@ -131,7 +131,7 @@ export default function Sidebar() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+          borderBottom: '2px solid rgba(255, 255, 255, 0.2)',
         }}
       >
         <div

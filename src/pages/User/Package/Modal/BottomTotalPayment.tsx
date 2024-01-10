@@ -18,7 +18,7 @@ export const BottomTotalPayment: React.FC<IProps> = ({ children }) => {
         return total + item.quantity * item.price;
       }, 0);
 
-      setTotal(totalPrice + totalPrice * 0.11);
+      setTotal(totalPrice + Math.ceil(totalPrice * 0.11));
     }
 
     return () => {

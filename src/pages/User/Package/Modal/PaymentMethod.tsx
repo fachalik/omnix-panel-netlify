@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Radio, message, Popconfirm } from 'antd';
+import { Button, Radio, message, Input, Form, Popconfirm } from 'antd';
 import { useOrderStore } from '@/store';
 
 import { palette } from '@/theme/themeConfig';
@@ -24,11 +24,19 @@ interface IProps {
 }
 
 export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
+  const [form] = Form.useForm();
+
   const navigate = useNavigate();
   const { prev, current, handleClose, next, setCurrent, steps } = props;
-  const { checkout, plan, productCategory, productType, reset } = useOrderStore(
-    (state) => state
-  );
+  const {
+    checkout,
+    plan,
+    productCategory,
+    productType,
+    reset,
+    tenant_name,
+    setTenantName,
+  } = useOrderStore((state) => state);
 
   const [recurringPayment, setRecurringPayment] =
     React.useState<boolean>(false);
@@ -46,7 +54,7 @@ export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
         return total + item.quantity * item.price;
       }, 0);
 
-      setTotal(totalPrice + totalPrice * 0.11);
+      setTotal(totalPrice + Math.ceil(totalPrice * 0.11));
     }
 
     return () => {
@@ -73,6 +81,7 @@ export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
     try {
       const data: Checkout = {
         total,
+        tenant_name,
         name:
           checkout[0]?.type === 'PACKAGE'
             ? checkout[0]?.name ?? ''
@@ -132,82 +141,110 @@ export const PaymentMethod: React.FC<IProps> = (props: IProps) => {
       )}
       {!snapShow && !recurringPayment && (
         <>
-          <div style={{ padding: '2em 1em', width: '100%' }}>
-            {pMethod.map((item: PaymentMethodType, idx) => (
-              <div
-                key={`${idx}_${item.code}`}
-                style={{
-                  width: '100%',
-                  padding: '16px 12px',
-                  background: 'white',
-                  margin: '10px 0px',
-                  border: '1px solid var(--Neutral-60, #BFBFBF)',
-                  borderRadius: 5,
-                  cursor: 'pointer',
-                }}
-                onClick={() => !item.disabled && onChange(item.code)}
+          <Form form={form}>
+            <div style={{ padding: '2em 1em', width: '100%' }}>
+              <Form.Item
+                label="tenant name"
+                name="tenant_name"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your tenant name!',
+                  },
+                ]}
               >
+                <Input
+                  name="tenant_name"
+                  value={tenant_name}
+                  placeholder="infomedia"
+                  onChange={(e) => setTenantName(e.target.value)}
+                />
+              </Form.Item>
+              {pMethod.map((item: PaymentMethodType, idx) => (
                 <div
+                  key={`${idx}_${item.code}`}
                   style={{
                     width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
+                    padding: '16px 12px',
+                    background: 'white',
+                    margin: '10px 0px',
+                    border: '1px solid var(--Neutral-60, #BFBFBF)',
+                    borderRadius: 5,
+                    cursor: 'pointer',
                   }}
+                  onClick={() => !item.disabled && onChange(item.code)}
                 >
                   <div
                     style={{
+                      width: '100%',
                       display: 'flex',
-                      justifyContent: 'start',
+                      justifyContent: 'space-between',
                       alignItems: 'center',
-                      gap: '1em',
                     }}
                   >
-                    <Radio
-                      onChange={(e) => onChange(e.target.value)}
-                      disabled={item.disabled}
-                      value={item.code}
-                      checked={paymentMethod === item.code}
-                    />
                     <div
                       style={{
-                        width: '100%',
                         display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'start',
                         justifyContent: 'start',
+                        alignItems: 'center',
+                        gap: '1em',
                       }}
                     >
-                      <p style={{ fontSize: 16, fontWeight: 700 }}>
-                        {item.title}
-                      </p>
-                      <p style={{ fontSize: 13, fontWeight: 400 }}>
-                        {item.description}
-                      </p>
+                      <Radio
+                        onChange={(e) => onChange(e.target.value)}
+                        disabled={item.disabled}
+                        value={item.code}
+                        checked={paymentMethod === item.code}
+                      />
+                      <div
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'start',
+                          justifyContent: 'start',
+                        }}
+                      >
+                        <p style={{ fontSize: 16, fontWeight: 700 }}>
+                          {item.title}
+                        </p>
+                        <p style={{ fontSize: 13, fontWeight: 400 }}>
+                          {item.description}
+                        </p>
+                      </div>
                     </div>
+                    <i
+                      className={item.icon}
+                      style={{ fontSize: 42, color: palette.primary.main }}
+                    />
                   </div>
-                  <i
-                    className={item.icon}
-                    style={{ fontSize: 42, color: palette.primary.main }}
-                  />
                 </div>
-              </div>
-            ))}
-          </div>
-          <BottomTotalPayment>
-            <div style={{ display: 'flex', gap: '1em' }}>
-              <Button onClick={() => prev()}>Back to summary</Button>
-              <Popconfirm
-                title="Checkout item?"
-                description="Are you sure to checkout this item?"
-                onConfirm={() => handleCheckout(paymentMethod)}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button type="primary">Continue payment</Button>
-              </Popconfirm>
+              ))}
             </div>
-          </BottomTotalPayment>
+            <BottomTotalPayment>
+              <div style={{ display: 'flex', gap: '1em' }}>
+                <Button htmlType="button" onClick={() => prev()}>
+                  Back to summary
+                </Button>
+                <Popconfirm
+                  title="Checkout item?"
+                  description="Are you sure to checkout this item?"
+                  disabled={!tenant_name}
+                  onConfirm={() =>
+                    tenant_name
+                      ? handleCheckout(paymentMethod)
+                      : message.error('Please input tenant name')
+                  }
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button htmlType="submit" type="primary">
+                    Continue payment
+                  </Button>
+                </Popconfirm>
+              </div>
+            </BottomTotalPayment>
+          </Form>
         </>
       )}
     </div>

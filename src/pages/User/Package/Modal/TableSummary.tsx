@@ -30,7 +30,7 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
         return total + item.quantity * item.price;
       }, 0);
 
-      setTotal(totalPrice + totalPrice * 0.11);
+      setTotal(totalPrice + Math.ceil(totalPrice * 0.11));
     }
 
     return () => {
@@ -84,7 +84,7 @@ export const TableSummary: React.FC<IProps> = (props: IProps) => {
           let total = 0;
 
           pageData.forEach(({ price, quantity }) => {
-            ppn += price * quantity * 0.11;
+            ppn += Math.ceil(price * quantity * 0.11);
             total += price * quantity;
           });
 

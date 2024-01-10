@@ -1,9 +1,9 @@
 import { Card, Tabs } from 'antd';
 
-import ExploreProduct from '@/components/ProductActivation/ExploreProduct';
 import ActiveProduct from '@/components/ProductActivation/ActiveProduct';
-import ExploreOrder from '@/components/ProductActivation/ExploreOrder';
 import Content from '@/layouts/Dashboard/Content';
+// import ExploreProduct from '@/components/ProductActivation/ExploreProduct';
+// import ExploreOrder from '@/components/ProductActivation/ExploreOrder';
 
 export default function Page() {
   return (
@@ -16,16 +16,16 @@ export default function Page() {
               key: 'channel',
               children: <ActiveProduct />,
             },
-            {
-              label: 'Explore Product',
-              key: 'explore',
-              children: <ExploreProduct />,
-            },
-            {
-              label: 'Order Product',
-              key: 'order',
-              children: <ExploreOrder />,
-            },
+            // {
+            //   label: 'Explore Product',
+            //   key: 'explore',
+            //   children: <ExploreProduct />,
+            // },
+            // {
+            //   label: 'Order Product',
+            //   key: 'order',
+            //   children: <ExploreOrder />,
+            // },
           ]}
           tabBarStyle={{
             marginLeft: 10,

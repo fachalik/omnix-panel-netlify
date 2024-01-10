@@ -37,6 +37,16 @@ export const statusMap: any = {
     rex: '#e6fffb',
     text: 'DENY',
   },
+  active: {
+    color: 'success',
+    rex: '#f6ffed',
+    text: 'ACTIVE',
+  },
+  buildinprogress: {
+    color: 'processing',
+    rex: '#e6f4ff',
+    text: 'BUILD IN PROGRESS',
+  },
 };
 
 export const HandlePlan = ({ plan, sum }: { plan?: string; sum: number }) => {

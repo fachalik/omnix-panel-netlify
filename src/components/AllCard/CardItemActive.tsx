@@ -1,34 +1,36 @@
-import { EllipsisOutlined } from '@ant-design/icons';
+import { EllipsisOutlined, LinkOutlined } from '@ant-design/icons';
 import { Button, Card, Row, Col, Avatar, Tag } from 'antd';
 import moment from 'moment';
 import { formatRupiah } from '@/utils/utilitys';
 
 import channelService from '@/assets/icons/channelservice.svg';
 import channelmarketing from '@/assets/icons/channelmarketing.svg';
+import channelsales from '@/assets/icons/channelsales.svg';
 import { useNavigate } from 'react-router-dom';
+import { statusMap } from '@/utils/utilitys';
 
-interface ICardItem {
-  id: number;
-  package_name: string;
-  package_type: string;
-  package_price: number;
-  package_tax: number;
-  package_description: string;
-  channel_email: boolean;
-  channel_facebook: boolean;
-  channel_instagram: boolean;
-  channel_whatsapp: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: null;
-  __entity: string;
-}
+// interface ICardItem {
+//   id: number;
+//   package_name: string;
+//   package_type: string;
+//   package_price: number;
+//   package_tax: number;
+//   package_description: string;
+//   channel_email: boolean;
+//   channel_facebook: boolean;
+//   channel_instagram: boolean;
+//   channel_whatsapp: boolean;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   deletedAt: null;
+//   __entity: string;
+// }
 
-interface IItem {
-  item: ICardItem;
-}
+// interface IItem {
+//   item: ICardItem;
+// }
 
-export default function CardItemActive(props: IItem) {
+export default function CardItemActive(props: any) {
   const navigate = useNavigate();
   const { item } = props;
   const {
@@ -36,19 +38,24 @@ export default function CardItemActive(props: IItem) {
     package_name,
     package_type,
     package_price,
-    package_tax,
+    // package_tax,
     package_description,
     createdAt,
+    status,
+    // tenant_code,
+    link,
   } = item;
 
   const mapIcon = (icon: string) => {
-    // console.log('icon', icon);
-    switch (icon.toLowerCase()) {
-      case 'omnix_services':
+    switch (icon) {
+      case 'OMNIX_SERVICE':
         return channelService;
 
-      case 'omnix_marketing':
+      case 'OMNIX_MARKETING':
         return channelmarketing;
+
+      case 'OMNIX_SALES':
+        return channelsales;
       default:
         break;
     }
@@ -85,14 +92,16 @@ export default function CardItemActive(props: IItem) {
               marginLeft: 5,
             }}
           >
-            <div
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                color: '#2D2D2D',
-              }}
-            >
-              {package_name}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.5em' }}>
+              <p style={{ fontSize: 14, fontWeight: 500, color: '#2D2D2D' }}>
+                {package_name}
+              </p>
+
+              <Button
+                shape="circle"
+                icon={<LinkOutlined />}
+                onClick={() => window.open(link, '_target')}
+              />
             </div>
           </div>
         </Col>
@@ -177,33 +186,7 @@ export default function CardItemActive(props: IItem) {
             </div>
           </div>
         </Col>
-        <Col xs={24} sm={24} md={24} lg={2} xl={2}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              marginLeft: 5,
-            }}
-          >
-            <div
-              style={{
-                color: '#18181B',
-                fontSize: 12,
-                fontWeight: 'bold',
-              }}
-            >
-              Tax
-            </div>
-            <div
-              style={{
-                fontSize: 12,
-                color: '#71717A',
-              }}
-            >
-              {package_tax}%
-            </div>
-          </div>
-        </Col>
+
         <Col xs={24} sm={24} md={24} lg={3} xl={3}>
           <div
             style={{
@@ -231,8 +214,10 @@ export default function CardItemActive(props: IItem) {
             </div>
           </div>
         </Col>
-        <Col xs={24} sm={24} md={24} lg={2} xl={2}>
-          <Tag color={'success'}>Active</Tag>
+        <Col xs={24} sm={24} md={24} lg={4} xl={4}>
+          <Tag color={statusMap[status]['color']}>
+            {statusMap[status]['text']}
+          </Tag>
         </Col>
         <Col xs={24} sm={24} md={24} lg={2} xl={2}>
           <Button
