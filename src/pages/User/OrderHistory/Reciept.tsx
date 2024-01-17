@@ -1,11 +1,10 @@
 import React from 'react';
-import { Row, Col, Table, Typography, Layout, Divider, Avatar } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import { Row, Col, Typography, Layout, Divider, Avatar } from 'antd';
 import { useParams } from 'react-router-dom';
 
 import { useGetDetailOrderUser } from '@/hooks/ReactQuery/user/useGetOrderUser';
 import { getLogin } from '@/utils/sessions';
-import { HandlePlan, formatRupiahV2 } from '@/utils/utilitys';
+import { formatRupiahV2 } from '@/utils/utilitys';
 
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
