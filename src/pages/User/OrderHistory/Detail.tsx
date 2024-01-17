@@ -70,7 +70,7 @@ const Detail: React.FC = () => {
       {isLoading && <Loading />}
       {isSuccess && data && (
         <>
-          <HeaderDetailOrder data={data} />
+          <HeaderDetailOrder data={data} id={id ?? ''} />
           <Content>
             <Row style={{ height: '100%', width: '100%' }}>
               <Table

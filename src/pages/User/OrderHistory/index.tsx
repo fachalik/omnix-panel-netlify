@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Tag, DatePicker } from 'antd';
+import { Button, Tag, DatePicker, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { EllipsisOutlined } from '@ant-design/icons';
 import moment from 'moment';
@@ -65,18 +65,43 @@ export default function OrderHistory() {
       dataIndex: 'createdAt',
       render: (_, record: any) => {
         return (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '.5em',
-              justifyContent: 'center',
-              textAlign: 'center',
-            }}
-          >
-            <p>{moment(record?.createdAt).format('MMMM D, YYYY | h:mm A')}</p>
-            <Button disabled>Download Invoice</Button>
-          </div>
+          <>
+            {record.transactionStatus === 'success' ? (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '.5em',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                <p>
+                  {moment(record?.createdAt).format('MMMM D, YYYY | h:mm A')}
+                </p>
+                <Button
+                  onClick={() =>
+                    window.open(`/invoice/${record?.orderId}`, '_blank')
+                  }
+                >
+                  Download Invoice
+                </Button>
+                {}
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '.5em',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                <Typography>-</Typography>
+              </div>
+            )}
+          </>
         );
       },
     },

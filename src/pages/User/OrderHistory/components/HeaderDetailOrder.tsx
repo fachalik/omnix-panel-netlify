@@ -9,9 +9,10 @@ import moment from 'moment';
 
 interface IProps {
   data: any;
+  id: string;
 }
 
-const HeaderDetailOrder: React.FC<IProps> = ({ data }) => {
+const HeaderDetailOrder: React.FC<IProps> = ({ data, id }) => {
   const lastData =
     data?.transactionDetail[data?.transactionDetail.length - 1] ?? {};
 
@@ -52,7 +53,6 @@ const HeaderDetailOrder: React.FC<IProps> = ({ data }) => {
       </p>
     </Col>
   );
-  console.log({ data });
 
   return (
     <div
@@ -113,7 +113,7 @@ const HeaderDetailOrder: React.FC<IProps> = ({ data }) => {
 
         <Col
           xs={24}
-          md={12}
+          md={data?.transactionStatus == 'success' ? 12 : 20}
           style={{
             height: 'auto',
             padding: '1em',
@@ -210,76 +210,86 @@ const HeaderDetailOrder: React.FC<IProps> = ({ data }) => {
           </div>
         </Col>
 
-        <Col
-          xs={24}
-          md={8}
-          style={{
-            height: 'auto',
-            padding: '1em',
-          }}
-        >
-          <div
+        {data?.transactionStatus == 'success' && (
+          <Col
+            xs={24}
+            md={8}
             style={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '2em',
+              height: 'auto',
+              padding: '1em',
             }}
           >
             <div
               style={{
+                height: '100%',
                 display: 'flex',
+                flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '1.5em',
+                gap: '2em',
               }}
             >
-              <Button type="primary" icon={<DownloadOutlined />}>
-                Download Invoice
-              </Button>
               <div
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
-                  gap: '.5em',
-                  textAlign: 'start',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '1.5em',
                 }}
               >
-                <p style={{ fontSize: 13, fontWeight: 400 }}>Invoice Date</p>
-                <p style={{ fontSize: 13, fontWeight: 700 }}>
-                  {moment(data.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
-                </p>
+                <Button
+                  type="primary"
+                  icon={<DownloadOutlined />}
+                  onClick={() => window.open(`/invoice/${id}`, '_blank')}
+                >
+                  Download Invoice
+                </Button>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '.5em',
+                    textAlign: 'start',
+                  }}
+                >
+                  <p style={{ fontSize: 13, fontWeight: 400 }}>Invoice Date</p>
+                  <p style={{ fontSize: 13, fontWeight: 700 }}>
+                    {moment(data.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '1.5em',
-              }}
-            >
-              <Button type="default" icon={<DownloadOutlined />}>
-                Download Reciept
-              </Button>
               <div
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
-                  gap: '.5em',
-                  textAlign: 'start',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '1.5em',
                 }}
               >
-                <p style={{ fontSize: 13, fontWeight: 400 }}>Invoice Date</p>
-                <p style={{ fontSize: 13, fontWeight: 700 }}>
-                  {moment(data.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
-                </p>
+                <Button
+                  type="default"
+                  icon={<DownloadOutlined />}
+                  onClick={() => window.open(`/reciept/${id}`, '_blank')}
+                >
+                  Download Reciept
+                </Button>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '.5em',
+                    textAlign: 'start',
+                  }}
+                >
+                  <p style={{ fontSize: 13, fontWeight: 400 }}>Invoice Date</p>
+                  <p style={{ fontSize: 13, fontWeight: 700 }}>
+                    {moment(data.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </Col>
+          </Col>
+        )}
       </Row>
     </div>
   );

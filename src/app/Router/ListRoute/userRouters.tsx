@@ -54,6 +54,9 @@ const OrderHitoryDetail = lazy(
   () => import('@/pages/User/OrderHistory/Detail')
 );
 
+const Invoice = lazy(() => import('@/pages/User/OrderHistory/Invoice'));
+const Reciept = lazy(() => import('@/pages/User/OrderHistory/Reciept'));
+
 const Routers: ListRouteProps[] = [
   {
     redirectLink: '*',
@@ -185,6 +188,20 @@ const Routers: ListRouteProps[] = [
     comp: OrderHistory,
     path: '/order-history',
     layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.REGULER],
+  },
+  {
+    comp: Invoice,
+    path: '/invoice/:id',
+    layout: 'Plain',
+    index: true,
+    auth: [RoleEnum.REGULER],
+  },
+  {
+    comp: Reciept,
+    path: '/reciept/:id',
+    layout: 'Plain',
     index: true,
     auth: [RoleEnum.REGULER],
   },
