@@ -282,7 +282,7 @@ export default function Invoice() {
                 style={{
                   display: 'flex',
                   gap: '1em',
-                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Avatar
