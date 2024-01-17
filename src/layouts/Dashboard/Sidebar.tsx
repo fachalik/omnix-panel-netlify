@@ -185,6 +185,7 @@ export default function Sidebar() {
                       justifyContent: 'center',
                       alignItems: 'center',
                       height: '100%',
+                      fontSize: '22px',
                     }}
                     className={`${val.icon}`}
                   />

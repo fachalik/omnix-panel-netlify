@@ -14,10 +14,10 @@ export default function useFormSignIn() {
   };
 
   const onFinish = async (params: any) => {
-    setIsLoading(true);
-    timeout(1000);
-    login(params);
-    setIsLoading(false);
+    await setIsLoading(true);
+    await timeout(1000);
+    await login(params);
+    await setIsLoading(false);
   };
 
   return {

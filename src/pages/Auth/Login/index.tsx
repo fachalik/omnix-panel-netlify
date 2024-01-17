@@ -21,25 +21,10 @@ import { useNavigate } from 'react-router-dom';
 import RegisterImage from '@/assets/image/register-image.png';
 
 export default function Login() {
-  // const { push } = useRouter();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  // const [user, setUser] = React.useState<string>('user');
 
   const { isLoading, isNotLogin } = useCheckIsNotLogin();
-
-  // const redirect =
-  //   import.meta.env.MODE === 'development'
-  //     ? 'http://localhost:3000/google'
-  //     : 'https://omnix-panel.netlify.app/google';
-
-  // const googleLogin = async () => {
-  //   thirdPartyLogin(
-  //     `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${
-  //       import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
-  //     }&scope=openid%20email%20profile&redirect_uri=${redirect}&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow`
-  //   );
-  // };
 
   if (isLoading) {
     <Loading />;
@@ -306,74 +291,8 @@ export default function Login() {
                     Sign In
                   </p>
 
-                  {/* <Row gutter={[8, 16]}>
-                    <Col span={12}>
-                      <Card
-                        onClick={() => setUser('user')}
-                        style={{
-                          cursor: 'pointer',
-                          borderColor:
-                            user === 'user' ? palette.primary.main : '',
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <UserOutlined
-                            style={{
-                              fontSize: 22,
-                              color:
-                                user === 'user' ? palette.primary.main : '',
-                            }}
-                          />
-                          <p>Regular</p>
-                        </div>
-                      </Card>
-                    </Col>
-                    <Col span={12}>
-                      <Card
-                        onClick={() => setUser('reseller')}
-                        style={{
-                          cursor: 'pointer',
-                          borderColor:
-                            user === 'reseller' ? palette.primary.main : '',
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <BankOutlined
-                            style={{
-                              fontSize: 22,
-                              color:
-                                user === 'reseller' ? palette.primary.main : '',
-                            }}
-                          />
-                          <p>Reseller</p>
-                        </div>
-                      </Card>
-                    </Col>
-                  </Row> */}
-
                   <FormSignIn />
 
-                  {/* {user === 'reseller' && <FormSignInReseller />} */}
-
-                  {/* <Divider plain>Or</Divider>
-                  <Button onClick={googleLogin} type="primary" block>
-                    <GoogleOutlined />
-                    Sign in with google
-                  </Button> */}
                   <div
                     style={{
                       marginTop: '2em',

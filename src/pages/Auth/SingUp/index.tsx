@@ -128,11 +128,6 @@ export default function SignUp() {
         {user === 'user' && <FormSignUpUser />}
         {user === 'reseller' && <FormSignUpReseller />}
 
-        {/* <Divider plain>Atau melalui</Divider>
-        <Button onClick={googleLogin} block>
-          <GoogleOutlined />
-          Sign up with google
-        </Button> */}
         <div
           style={{
             marginTop: '1em',

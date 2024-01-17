@@ -12,6 +12,9 @@ import {
   Modal,
   Tooltip,
   message,
+  Row,
+  Col,
+  Grid,
 } from 'antd';
 import type { MenuProps } from 'antd';
 
@@ -20,6 +23,8 @@ import { useLocation } from 'react-router-dom';
 import { useOtherStore, useAuthStore, useModalLogoutstore } from '@/store';
 
 export default function Navbar() {
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
   const { pathname } = useLocation();
 
   const { user, logoutAuth, setIsLogout } = useAuthStore((state) => state);
@@ -89,6 +94,7 @@ export default function Navbar() {
   return (
     <Layout.Header
       style={{
+        padding: '0px 1em',
         height: '8%',
         position: 'sticky',
         top: 0,
@@ -104,7 +110,6 @@ export default function Navbar() {
       <div
         style={{
           height: '100%',
-          marginLeft: '1em',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
@@ -115,9 +120,11 @@ export default function Navbar() {
           icon={sidebarCollapse ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={() => setSidebarCollapse()}
         />
-        <p style={{ marginLeft: '1em', fontSize: 12, fontWeight: 800 }}>
-          {actulPathname}
-        </p>
+        {!screens.xs && (
+          <p style={{ marginLeft: '1em', fontSize: 12, fontWeight: 800 }}>
+            {actulPathname}
+          </p>
+        )}
       </div>
       <div
         style={{
@@ -125,67 +132,79 @@ export default function Navbar() {
           alignItems: 'center',
           justifyContent: 'center',
           height: '100%',
+          gap: '1em',
         }}
       >
-        {user?.role.toLowerCase() == 'reseller' && (
-          <Tooltip placement="bottom" title={'Copy Referall Code'}>
-            <Button
-              onClick={() => {
-                navigator.clipboard.writeText(user?.ReferalCode ?? '');
-                message.success(
-                  `Referall Code ${user?.ReferalCode} has been copy`
-                );
-              }}
-              style={{ marginRight: 15 }}
-            >
-              {user?.ReferalCode}
-            </Button>
-          </Tooltip>
-        )}
-
-        <div
+        <Row
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            lineHeight: 1.5,
-            marginRight: '1em',
-            textAlign: 'right',
+            alignItems: 'center',
+            justifyContent: 'end',
           }}
         >
-          <p style={{ color: '#6e6b7b', fontWeight: 'bold', fontSize: 12 }}>
-            {user?.name}
-          </p>
-          <p
-            style={{
-              color: palette.primary.main,
-              fontWeight: 'bold',
-              fontSize: 10,
-            }}
-          >
-            {user?.role}
-          </p>
-        </div>
-        <Dropdown menu={{ items }} placement="topRight" trigger={['click']}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Avatar
+          <Col style={{ display: 'flex', gap: '1em', alignItems: 'center' }}>
+            {user?.role.toLowerCase() == 'reseller' && (
+              <Tooltip placement="bottom" title={'Copy Referall Code'}>
+                <Button
+                  onClick={() => {
+                    navigator.clipboard.writeText(user?.ReferalCode ?? '');
+                    message.success(
+                      `Referall Code ${user?.ReferalCode} has been copy`
+                    );
+                  }}
+                  style={{ marginRight: 15 }}
+                >
+                  {user?.ReferalCode}
+                </Button>
+              </Tooltip>
+            )}
+          </Col>
+          <Col style={{ display: 'flex', gap: '1em', alignItems: 'center' }}>
+            <div
               style={{
-                background: palette.primary.main,
-                color: '#fff',
-                textTransform: 'uppercase',
-                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                lineHeight: 1.5,
+                textAlign: 'right',
               }}
-              size={'large'}
             >
-              {user?.name.charAt(0)}
-            </Avatar>
-          </div>
-        </Dropdown>
+              <p style={{ color: '#6e6b7b', fontWeight: 'bold', fontSize: 12 }}>
+                {user?.name}
+              </p>
+              <p
+                style={{
+                  color: palette.primary.main,
+                  fontWeight: 'bold',
+                  fontSize: 10,
+                }}
+              >
+                {user?.role}
+              </p>
+            </div>
+
+            <Dropdown menu={{ items }} placement="topRight" trigger={['click']}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Avatar
+                  style={{
+                    background: palette.primary.main,
+                    color: '#fff',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                  }}
+                  size={'large'}
+                >
+                  {user?.name.charAt(0)}
+                </Avatar>
+              </div>
+            </Dropdown>
+          </Col>
+        </Row>
       </div>
     </Layout.Header>
   );

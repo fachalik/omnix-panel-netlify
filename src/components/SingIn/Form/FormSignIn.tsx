@@ -21,7 +21,6 @@ export default function FormSignIn() {
         name="basic"
         layout="vertical"
         form={form}
-        initialValues={{}}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
