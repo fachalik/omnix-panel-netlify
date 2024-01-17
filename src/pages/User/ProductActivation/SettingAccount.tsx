@@ -7,6 +7,7 @@ import {
   Divider,
   Table,
 } from 'antd';
+import HeaderSection from '@/components/HeaderSection';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 
@@ -92,66 +93,84 @@ export default function Page() {
     },
   ];
   return (
-    <Card>
-      <Breadcrumb
-        separator=""
-        items={[
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
+      <HeaderSection
+        isBack
+        item={[
           {
             href: '/product-activation',
             title: 'Product Activation',
           },
           {
-            type: 'separator',
-            separator: '>',
-          },
-          {
-            href: `/product-activation/${id}`,
-            title: 'OMNIX Marketer',
-          },
-          {
-            type: 'separator',
-            separator: '>',
+            href: '/product-activation/1',
+            title: 'Omnix Marketer',
           },
           {
             title: 'Setting Account',
           },
         ]}
       />
-      <div
-        style={{
-          display: 'flex',
-          marginTop: 20,
-          alignItems: 'center',
-          gap: 10,
-        }}
-      >
-        <Avatar size={'large'} src={`/icons/whatsapp.svg`} />
+      <Card>
+        <Breadcrumb
+          separator=""
+          items={[
+            {
+              href: '/product-activation',
+              title: 'Product Activation',
+            },
+            {
+              type: 'separator',
+              separator: '>',
+            },
+            {
+              href: `/product-activation/${id}`,
+              title: 'OMNIX Marketer',
+            },
+            {
+              type: 'separator',
+              separator: '>',
+            },
+            {
+              title: 'Setting Account',
+            },
+          ]}
+        />
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'start',
-            alignItems: 'start',
+            marginTop: 20,
+            alignItems: 'center',
+            gap: 10,
           }}
         >
-          <div style={{ fontSize: 17, fontWeight: 'bold', color: '#2d2d2d' }}>
-            Whatsapp
+          <Avatar size={'large'} src={`/icons/whatsapp.svg`} />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'start',
+              alignItems: 'start',
+            }}
+          >
+            <div style={{ fontSize: 17, fontWeight: 'bold', color: '#2d2d2d' }}>
+              Whatsapp
+            </div>
+            <div style={{ fontSize: 12, color: '#595959' }}>
+              Select which channel account you will use
+            </div>
           </div>
-          <div style={{ fontSize: 12, color: '#595959' }}>
-            Select which channel account you will use
+          <div style={{ marginLeft: 'auto' }}>
+            <Button type="primary">Add Account</Button>
           </div>
         </div>
-        <div style={{ marginLeft: 'auto' }}>
-          <Button type="primary">Add Account</Button>
-        </div>
-      </div>
-      <Divider />
-      <Table
-        columns={columns()}
-        rowKey={(record) => record.id}
-        dataSource={data}
-        pagination={false}
-      />
-    </Card>
+        <Divider />
+        <Table
+          columns={columns()}
+          rowKey={(record) => record.id}
+          dataSource={data}
+          pagination={false}
+        />
+      </Card>
+    </div>
   );
 }

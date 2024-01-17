@@ -1,12 +1,26 @@
-import { Card, Breadcrumb, Row, Col, Tabs, Button } from 'antd';
+import { Card, Breadcrumb, Row, Col, Tabs } from 'antd';
 import CardSettingChannel from '@/components/AllCard/CardSettingChannel';
 import { CredentialInformation } from './CredentialInformation';
 import { PaymentInformation } from './PaymentInformation';
+import HeaderSection from '@/components/HeaderSection';
+
 import marketingImg from '@/assets/icons/channelmarketing.svg';
 
 export default function Page() {
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
+      <HeaderSection
+        isBack
+        item={[
+          {
+            href: '/product-activation',
+            title: 'Product Activation',
+          },
+          {
+            title: 'Omnix Marketer',
+          },
+        ]}
+      />
       <Card>
         <Breadcrumb
           separator=""
