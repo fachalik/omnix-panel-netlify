@@ -1,6 +1,6 @@
 import React from 'react';
-import Content from '@/layouts/Dashboard/Content';
 import { Row, Col, Tag, Button } from 'antd';
+
 import { DownloadOutlined } from '@ant-design/icons';
 
 import { formatRupiahV2 } from '@/utils/utilitys';
@@ -14,32 +14,6 @@ interface IProps {
 const HeaderDetailOrder: React.FC<IProps> = ({ data }) => {
   const lastData =
     data?.transactionDetail[data?.transactionDetail.length - 1] ?? {};
-
-  const BoxItem = ({
-    children,
-    xs,
-    md,
-    style,
-  }: {
-    children: React.ReactNode;
-    xs: number;
-    md: number;
-    style?: React.CSSProperties;
-  }) => (
-    <Col
-      xs={xs}
-      md={md}
-      style={{
-        padding: '1em',
-        // backgroundColor: '#f7f7f7',
-        height: 'auto',
-        borderRadius: '.3em',
-        ...style,
-      }}
-    >
-      {children}
-    </Col>
-  );
 
   const ItemMiddleHeader = ({
     xs,
@@ -63,112 +37,156 @@ const HeaderDetailOrder: React.FC<IProps> = ({ data }) => {
         rowGap: '.5em',
       }}
     >
-      <p style={{ fontSize: 16, fontWeight: 400 }}>{title}</p>
-      <p style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>
+      <p style={{ fontSize: 16, fontWeight: 400, textAlign: 'start' }}>
+        {title}
+      </p>
+      <p
+        style={{
+          fontSize: 13,
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          textAlign: 'start',
+        }}
+      >
         {value}
       </p>
     </Col>
   );
+  console.log({ data });
 
   return (
-    <Content
+    <div
       style={{
+        backgroundColor: '#fff',
         width: '100%',
-        height: '100%',
-        //  border: ' 2px solid #DD9C93'
+        border: '.15em solid gray',
+        borderRadius: '.5em',
       }}
     >
-      <Row justify="space-between">
-        <BoxItem
+      <Row justify="space-between" style={{ width: '100%', height: '100%' }}>
+        <Col
           xs={24}
           md={4}
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '.5em',
+            height: 'auto',
             backgroundColor: statusMap[data.transactionStatus]['rex'],
+            borderRadius: '.5em 5em .5em .5em',
+            padding: '1em',
           }}
         >
-          <Tag
-            color={statusMap[data.transactionStatus]['color']}
-            style={{ textTransform: 'capitalize' }}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '.2em',
+              height: '100%',
+            }}
           >
-            {statusMap[data.transactionStatus]['text']}
-          </Tag>
-          <p>{formatRupiahV2(data.total.toString())}</p>
-          <Button type="link" href={data.midtransURL} target="_blank">
-            Cara Bayar
-          </Button>
-        </BoxItem>
-        <BoxItem
+            <div style={{ height: '100%', width: '100%' }}>
+              <Tag
+                color={statusMap[data.transactionStatus]['color']}
+                style={{ textTransform: 'capitalize' }}
+              >
+                {statusMap[data.transactionStatus]['text']}
+              </Tag>
+            </div>
+            <img
+              src={statusMap[data.transactionStatus]['icon']}
+              alt="icon"
+              style={{ height: '7em', margin: 'auto' }}
+            />
+            <p>Total Payment</p>
+            <p style={{ fontSize: 15, fontWeight: 'bold' }}>
+              {formatRupiahV2(data.total.toString())}
+            </p>
+            {data?.transactionStatus === 'inCart' &&
+              data?.payment_type === 'bank_transfer' && (
+                <Button
+                  type="text"
+                  onClick={() => window.open(data.midtransURL, '_blank')}
+                >
+                  Cara Bayar
+                </Button>
+              )}
+          </div>
+        </Col>
+
+        <Col
           xs={24}
           md={12}
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            rowGap: '2em',
-            padding: '3em',
-            backgroundColor: '#f7f7f7',
+            height: 'auto',
+            padding: '1em',
           }}
         >
-          <Row
-            gutter={[16, 16]}
+          <div
             style={{
-              height: '100%',
-              width: '100%',
               display: 'flex',
-              // flexDirection: 'column',
-              alignItems: 'center',
+              flexDirection: 'column',
               justifyContent: 'center',
+              alignItems: 'center',
+              gap: '.2em',
             }}
           >
-            <ItemMiddleHeader
-              xs={24}
-              md={8}
-              title="Order ID"
-              value={data.orderId}
-            />
-            {lastData?.va_numbers && (
+            {data?.transactionStatus === 'inCart' && (
+              <div style={{ display: 'flex', gap: '.5em' }}>
+                <i
+                  className="ri-error-warning-fill"
+                  style={{ fontSize: '1.5em', color: 'red' }}
+                />
+                <p>
+                  Pastikan Anda melakukan pembayaran sesuai dengan kode yang
+                  tertera.
+                </p>
+              </div>
+            )}
+            <Row
+              gutter={[16, 16]}
+              style={{
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                padding: '2em 0px 2em 0px',
+              }}
+            >
+              <ItemMiddleHeader
+                xs={24}
+                md={8}
+                title="Order ID"
+                value={data.orderId}
+              />
+
               <ItemMiddleHeader
                 xs={24}
                 md={8}
                 title="Virtual Account"
-                value={lastData?.va_numbers[0]['va_number']}
+                value={lastData?.va_numbers?.[0]?.['va_number'] ?? '-'}
               />
-            )}
-            <ItemMiddleHeader
-              xs={24}
-              md={8}
-              title="Billing"
-              value={data.method}
-            />
-          </Row>
-          <Row
-            gutter={[16, 16]}
-            style={{
-              height: '100%',
-              width: '100%',
-              display: 'flex',
-              // flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {lastData?.va_numbers && (
+
+              <ItemMiddleHeader
+                xs={24}
+                md={8}
+                title="Billing"
+                value={data.method}
+              />
+            </Row>
+            <Row
+              gutter={[16, 16]}
+              style={{
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <ItemMiddleHeader
                 xs={24}
                 md={8}
                 title="Payment Method"
-                value={lastData?.va_numbers[0]['bank']}
+                value={lastData?.va_numbers?.[0]?.['bank'] ?? '-'}
               />
-            )}
 
-            {lastData && (
               <ItemMiddleHeader
                 xs={24}
                 md={8}
@@ -181,41 +199,89 @@ const HeaderDetailOrder: React.FC<IProps> = ({ data }) => {
                   'MMMM Do YYYY, h:mm:ss a'
                 )}
               />
-            )}
 
-            <ItemMiddleHeader
-              xs={24}
-              md={8}
-              title="Type"
-              value={data.payment_type}
-            />
-          </Row>
-        </BoxItem>
+              <ItemMiddleHeader
+                xs={24}
+                md={8}
+                title="Type"
+                value={data?.payment_type ?? '-'}
+              />
+            </Row>
+          </div>
+        </Col>
 
-        <BoxItem
+        <Col
           xs={24}
-          md={6}
+          md={8}
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '.5em',
-            backgroundColor: '#f7f7f7',
+            height: 'auto',
+            padding: '1em',
           }}
         >
-          <Button block type="primary" icon={<DownloadOutlined />}>
-            Download Invoice
-          </Button>
-          <div style={{ display: 'flex', gap: '.5em' }}>
-            <p style={{ fontSize: 13, fontWeight: 400 }}>Invoice Date</p>
-            <p style={{ fontSize: 13, fontWeight: 700 }}>
-              {moment(data.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
-            </p>
+          <div
+            style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '2em',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '1.5em',
+              }}
+            >
+              <Button type="primary" icon={<DownloadOutlined />}>
+                Download Invoice
+              </Button>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '.5em',
+                  textAlign: 'start',
+                }}
+              >
+                <p style={{ fontSize: 13, fontWeight: 400 }}>Invoice Date</p>
+                <p style={{ fontSize: 13, fontWeight: 700 }}>
+                  {moment(data.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+                </p>
+              </div>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '1.5em',
+              }}
+            >
+              <Button type="default" icon={<DownloadOutlined />}>
+                Download Reciept
+              </Button>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '.5em',
+                  textAlign: 'start',
+                }}
+              >
+                <p style={{ fontSize: 13, fontWeight: 400 }}>Invoice Date</p>
+                <p style={{ fontSize: 13, fontWeight: 700 }}>
+                  {moment(data.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+                </p>
+              </div>
+            </div>
           </div>
-        </BoxItem>
+        </Col>
       </Row>
-    </Content>
+    </div>
   );
 };
 export default HeaderDetailOrder;

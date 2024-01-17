@@ -1,3 +1,12 @@
+import {
+  StatusDoneIcon,
+  StatusExpiredIcon,
+  StatusWaitingForPaymentIcon,
+  expiredIcon,
+  paymentDoneIcon,
+  waitingForPaymentIcon,
+} from '@/assets/icons/payment/index';
+
 /* eslint-disable no-nested-ternary */
 export const transformPath = (path: string) => {
   // Remove leading slash and replace hyphens with spaces
@@ -16,36 +25,50 @@ export const statusMap: any = {
     color: 'processing',
     rex: '#e6f4ff',
     text: 'WAITING FOR PAYMENT',
+    icon: waitingForPaymentIcon,
+    statusIcon: StatusWaitingForPaymentIcon,
   },
   success: {
     color: 'success',
     rex: '#f6ffed',
     text: 'SUCCESSFULL',
+    icon: paymentDoneIcon,
+    statusIcon: StatusDoneIcon,
   },
   expire: {
     color: 'error',
     rex: '#fff2f0',
     text: 'EXPIRED',
+    icon: expiredIcon,
+    statusIcon: StatusExpiredIcon,
   },
   cancel: {
     color: 'warning',
     rex: '#fffbe6',
     text: 'CANCELED',
+    icon: expiredIcon,
+    statusIcon: StatusExpiredIcon,
   },
   deny: {
     color: 'cyan',
     rex: '#e6fffb',
     text: 'DENY',
+    icon: expiredIcon,
+    statusIcon: StatusExpiredIcon,
   },
   active: {
     color: 'success',
     rex: '#f6ffed',
     text: 'ACTIVE',
+    icon: expiredIcon,
+    statusIcon: StatusExpiredIcon,
   },
   buildinprogress: {
     color: 'processing',
     rex: '#e6f4ff',
     text: 'BUILD IN PROGRESS',
+    icon: expiredIcon,
+    statusIcon: StatusExpiredIcon,
   },
 };
 
