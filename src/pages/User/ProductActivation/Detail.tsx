@@ -7,8 +7,6 @@ import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 
-import marketingImg from '@/assets/icons/channelmarketing.svg';
-
 import { useGetProductActivationDetail } from '@/hooks/ReactQuery/user/useGetProductActivation';
 
 import { useParams } from 'react-router-dom';

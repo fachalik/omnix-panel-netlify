@@ -13,7 +13,7 @@ export type GetProductQueryParams = {
   is_not_paginate?: string;
 };
 
-const QUERY_KEY = ['LIST_EXPLORE_PRODUCT'];
+const QUERY_KEY = ['PRODUCT_ACTIVATION_USER'];
 
 // ** GET
 
