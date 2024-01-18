@@ -7,6 +7,10 @@ import {
   waitingForPaymentIcon,
 } from '@/assets/icons/payment/index';
 
+import channelService from '@/assets/icons/channelservice.svg';
+import channelmarketing from '@/assets/icons/channelmarketing.svg';
+import channelsales from '@/assets/icons/channelsales.svg';
+
 /* eslint-disable no-nested-ternary */
 export const transformPath = (path: string) => {
   // Remove leading slash and replace hyphens with spaces
@@ -18,6 +22,21 @@ export const transformPath = (path: string) => {
   );
 
   return transformedString.trim();
+};
+
+export const mapIcon = (icon: string) => {
+  switch (icon) {
+    case 'OMNIX_SERVICE':
+      return channelService;
+
+    case 'OMNIX_MARKETING':
+      return channelmarketing;
+
+    case 'OMNIX_SALES':
+      return channelsales;
+    default:
+      break;
+  }
 };
 
 export const statusMap: any = {

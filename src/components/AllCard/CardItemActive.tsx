@@ -1,65 +1,16 @@
 import { EllipsisOutlined, LinkOutlined } from '@ant-design/icons';
-import { Button, Card, Row, Col, Avatar, Tag } from 'antd';
+import { Button, Card, Row, Col, Avatar } from 'antd';
 import moment from 'moment';
-import { formatRupiah } from '@/utils/utilitys';
 
-import channelService from '@/assets/icons/channelservice.svg';
-import channelmarketing from '@/assets/icons/channelmarketing.svg';
-import channelsales from '@/assets/icons/channelsales.svg';
 import { useNavigate } from 'react-router-dom';
-import { statusMap } from '@/utils/utilitys';
-
-// interface ICardItem {
-//   id: number;
-//   package_name: string;
-//   package_type: string;
-//   package_price: number;
-//   package_tax: number;
-//   package_description: string;
-//   channel_email: boolean;
-//   channel_facebook: boolean;
-//   channel_instagram: boolean;
-//   channel_whatsapp: boolean;
-//   createdAt: Date;
-//   updatedAt: Date;
-//   deletedAt: null;
-//   __entity: string;
-// }
-
-// interface IItem {
-//   item: ICardItem;
-// }
+import { mapIcon } from '@/utils/utilitys';
 
 export default function CardItemActive(props: any) {
   const navigate = useNavigate();
   const { item } = props;
-  const {
-    id,
-    package_name,
-    package_type,
-    package_price,
-    // package_tax,
-    package_description,
-    createdAt,
-    status,
-    // tenant_code,
-    link,
-  } = item;
 
-  const mapIcon = (icon: string) => {
-    switch (icon) {
-      case 'OMNIX_SERVICE':
-        return channelService;
+  const { _id, productName, productCategory, productType, createdAt } = item;
 
-      case 'OMNIX_MARKETING':
-        return channelmarketing;
-
-      case 'OMNIX_SALES':
-        return channelsales;
-      default:
-        break;
-    }
-  };
   return (
     <Card
       bodyStyle={{
@@ -82,7 +33,7 @@ export default function CardItemActive(props: any) {
         }}
       >
         <Col xs={24} sm={24} md={24} lg={1} xl={1}>
-          <Avatar size={'large'} src={mapIcon(package_type)} />
+          <Avatar size={'large'} src={mapIcon(productCategory)} />
         </Col>
         <Col xs={24} sm={24} md={24} lg={3} xl={3}>
           <div
@@ -94,13 +45,13 @@ export default function CardItemActive(props: any) {
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '.5em' }}>
               <p style={{ fontSize: 14, fontWeight: 500, color: '#2D2D2D' }}>
-                {package_name}
+                {productName}
               </p>
 
               <Button
                 shape="circle"
                 icon={<LinkOutlined />}
-                onClick={() => window.open(link, '_target')}
+                // onClick={() => window.open(link, '_target')}
               />
             </div>
           </div>
@@ -128,11 +79,21 @@ export default function CardItemActive(props: any) {
                 color: '#71717A',
               }}
             >
-              {package_type}
+              {productType}
             </div>
           </div>
         </Col>
-        <Col xs={24} sm={24} md={24} lg={2} xl={2}>
+        <Col xs={24} sm={24} md={24} lg={5} xl={5}>
+          <div
+            style={{
+              fontSize: 12,
+              color: '#71717A',
+            }}
+          >
+            {productCategory}
+          </div>
+        </Col>
+        {/* <Col xs={24} sm={24} md={24} lg={2} xl={2}>
           <div
             style={{
               display: 'flex',
@@ -158,8 +119,8 @@ export default function CardItemActive(props: any) {
               {formatRupiah(package_price.toString(), 'Rp.')}
             </div>
           </div>
-        </Col>
-        <Col xs={24} sm={24} md={24} lg={6} xl={6}>
+        </Col> */}
+        {/* <Col xs={24} sm={24} md={24} lg={6} xl={6}>
           <div
             style={{
               display: 'flex',
@@ -185,9 +146,9 @@ export default function CardItemActive(props: any) {
               {package_description}
             </div>
           </div>
-        </Col>
+        </Col> */}
 
-        <Col xs={24} sm={24} md={24} lg={3} xl={3}>
+        <Col xs={24} sm={24} md={24} lg={6} xl={6}>
           <div
             style={{
               display: 'flex',
@@ -214,14 +175,14 @@ export default function CardItemActive(props: any) {
             </div>
           </div>
         </Col>
-        <Col xs={24} sm={24} md={24} lg={4} xl={4}>
+        {/* <Col xs={24} sm={24} md={24} lg={4} xl={4}>
           <Tag color={statusMap[status]['color']}>
             {statusMap[status]['text']}
           </Tag>
-        </Col>
-        <Col xs={24} sm={24} md={24} lg={2} xl={2}>
+        </Col> */}
+        <Col xs={24} sm={24} md={24} lg={6} xl={6}>
           <Button
-            onClick={() => navigate(`/product-activation/${id}`)}
+            onClick={() => navigate(`/product-activation/${_id}`)}
             block
             icon={<EllipsisOutlined style={{ fontSize: 20 }} />}
           ></Button>
