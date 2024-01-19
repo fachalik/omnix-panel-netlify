@@ -9,11 +9,12 @@ import Error from '@/components/Error';
 
 import { useGetProductActivationDetail } from '@/hooks/ReactQuery/user/useGetProductActivation';
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { mapIcon } from '@/utils/utilitys';
 
 export default function Page() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data, isLoading, isSuccess, isError, error }: any =
     useGetProductActivationDetail({
       token: getLogin().token ?? '',
@@ -90,7 +91,16 @@ export default function Page() {
                   >
                     {data?.productName}
                   </div>
-                  <a type="link">Change Plan</a>
+                  {data.productsDetail.length !== 0 && (
+                    <a
+                      type={'link'}
+                      onClick={() => {
+                        navigate(`/package/${data.main_product_id ?? ''}`);
+                      }}
+                    >
+                      Change Plan
+                    </a>
+                  )}
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={4}>
                   <div style={{ fontSize: 12 }}>Role</div>

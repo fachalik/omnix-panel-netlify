@@ -208,6 +208,8 @@ export default function OrderHistory() {
     setProductType(data?.productType ?? '');
   };
 
+  console.log('watch', methods.watch);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
       {(isLoading || isLoadingPackage) && <Loading />}

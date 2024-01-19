@@ -9,7 +9,7 @@ export default function CardItemActive(props: any) {
   const navigate = useNavigate();
   const { item } = props;
 
-  const { _id, productCategory, productType, createdAt } = item;
+  const { _id, productName, productCategory, productType, createdAt } = item;
 
   return (
     <Card
@@ -35,7 +35,7 @@ export default function CardItemActive(props: any) {
         <Col xs={24} sm={24} md={24} lg={1} xl={1}>
           <Avatar size={'large'} src={mapIcon(productCategory)} />
         </Col>
-        <Col xs={24} sm={24} md={24} lg={7} xl={7}>
+        <Col xs={24} sm={24} md={24} lg={4} xl={4}>
           <div
             style={{
               display: 'flex',
@@ -54,6 +54,16 @@ export default function CardItemActive(props: any) {
                 // onClick={() => window.open(link, '_target')}
               />
             </div>
+          </div>
+        </Col>
+        <Col xs={24} sm={24} md={24} lg={3} xl={3}>
+          <div
+            style={{
+              fontSize: 12,
+              color: '#71717A',
+            }}
+          >
+            {productName}
           </div>
         </Col>
         <Col xs={24} sm={24} md={24} lg={3} xl={3}>
@@ -83,16 +93,7 @@ export default function CardItemActive(props: any) {
             </div>
           </div>
         </Col>
-        {/* <Col xs={24} sm={24} md={24} lg={3} xl={3}>
-          <div
-            style={{
-              fontSize: 12,
-              color: '#71717A',
-            }}
-          >
-            {prod}
-          </div>
-        </Col> */}
+
         {/* <Col xs={24} sm={24} md={24} lg={2} xl={2}>
           <div
             style={{
