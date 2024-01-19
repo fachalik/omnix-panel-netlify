@@ -8,7 +8,7 @@ import { formatRupiahV2 } from '@/utils/utilitys';
 
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import { InfomediaLogo, InfomediaSmallLogo } from '@/assets/icons';
+import { InfomediaLogo } from '@/assets/icons';
 import moment from 'moment';
 
 export default function Reciept() {
@@ -218,9 +218,7 @@ export default function Reciept() {
                 }}
               >
                 <Avatar
-                  src={
-                    <img src={InfomediaSmallLogo} alt="infomediaSmallLogo" />
-                  }
+                  src={<img src={InfomediaLogo} alt="infomediaSmallLogo" />}
                 />
                 <Typography style={{ fontSize: 13, fontWeight: 700 }}>
                   Infomedia Nusantara
