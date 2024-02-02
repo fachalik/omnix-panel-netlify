@@ -1,8 +1,8 @@
 import React from 'react';
 import { Steps } from 'antd';
 
-import { TableSummary } from './TableSummary';
-import { PaymentMethod } from './PaymentMethod';
+import { TableSummary } from '../components/TableSummary';
+import { PaymentMethod } from '../components/PaymentMethod';
 
 const steps = [
   {

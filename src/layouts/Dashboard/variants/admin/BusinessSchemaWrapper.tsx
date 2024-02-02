@@ -67,11 +67,12 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
                 style={{ width: '100%' }}
                 gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
               >
-                <Col xs={24} md={5} style={{ marginBottom: 15 }}>
+                <Col xs={24} md={6} style={{ marginBottom: 15 }}>
                   <Content style={{ width: '100%' }}>
                     <p style={{ fontSize: 16, fontWeight: 600 }}>Settings</p>
                     <Divider />
                     <div
+                      key="something"
                       style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -128,7 +129,7 @@ export default function BusinessSchemaWrapper({ children }: IDashboardLayout) {
                 </Col>
                 <Col
                   xs={24}
-                  md={24 - 5}
+                  md={24 - 6}
                   style={{ marginBottom: 15, width: '100%', height: '100%' }}
                 >
                   <Row

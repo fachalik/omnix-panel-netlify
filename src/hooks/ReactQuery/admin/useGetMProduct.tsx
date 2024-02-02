@@ -138,7 +138,7 @@ const patchMProduct = async ({ val, id }: any) => {
 export const usepatchMProduct = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, any>(patchMProduct, {
-    onSuccess: async (data: any) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEY);
       await message.success('Product successfully updated');
     },

@@ -1,49 +1,38 @@
-import React from 'react';
 import { Table, Button, Tooltip, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useSearchParams } from 'react-router-dom';
 
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import Drawer from '@/components/Drawer';
 
 import { EllipsisOutlined } from '@ant-design/icons';
 
 import lodash from 'lodash';
 import { formatRupiah } from '@/utils/utilitys';
-// import {
-//   useGetProduct,
-//   usepatchProduct,
-// } from '@/hooks/ReactQuery/admin/useGetProduct';
 import {
-  useGetProductReseller,
-  usepatchProductReseller,
-} from '@/hooks/ReactQuery/reseller/useGetProductReseller';
+  useGetProduct,
+  usepatchProduct,
+} from '@/hooks/ReactQuery/admin/useGetProduct';
 import { getLogin } from '@/utils/sessions';
-import FormAddDetailProduct from '../Form/FormAddDetailProduct';
-import { useAuthStore } from '@/store/auth';
 
-export default function DetailProduct() {
-  const { user } = useAuthStore((state) => state);
+export default function Package() {
   const [searchParams, setSearchParams]: any = useSearchParams();
 
   const product = searchParams.get('product');
   const type = searchParams.get('type');
+  const user: any = searchParams.get('user');
   const role: any = searchParams.get('role');
 
-  const [addProduct, setAddProduct] = React.useState<boolean>(false);
+  const { mutate: mutatePatch } = usepatchProduct();
 
-  const { mutate: mutatePatch } = usepatchProductReseller();
-
-  const { data, isLoading, error, isError, isSuccess }: any =
-    useGetProductReseller({
-      token: getLogin()?.token ?? '',
-      page: 1,
-      limit: 100,
-      productType: type,
-      productCategory: product,
-      akses: user?._id ?? '',
-    });
+  const { data, isLoading, error, isError, isSuccess }: any = useGetProduct({
+    token: getLogin()?.token ?? '',
+    page: 1,
+    limit: 100,
+    productType: type,
+    productCategory: product,
+    typeDetails: 'PACKAGE',
+  });
 
   const columns: ColumnsType<any> = [
     {
@@ -119,6 +108,7 @@ export default function DetailProduct() {
                   product: product,
                   name: record?.productName,
                   id: record._id,
+                  typeDetails: 'PACKAGE',
                   user,
                   role,
                 });
@@ -131,7 +121,6 @@ export default function DetailProduct() {
                 mutatePatch({
                   val: { status: record?.status == 1 ? 0 : 1 },
                   id: record._id,
-                  id_reseller: user?._id ?? '',
                 })
               }
               style={{ marginRight: '0.5em' }}
@@ -146,25 +135,6 @@ export default function DetailProduct() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <div
-        style={{
-          marginBottom: '1em',
-          display: 'flex',
-          alignItems: 'start',
-          justifyContent: 'end',
-          width: '100%',
-        }}
-      >
-        <Button
-          onClick={() => {
-            setAddProduct(true);
-          }}
-          type="primary"
-          style={{ marginLeft: '1em' }}
-        >
-          Add Product
-        </Button>
-      </div>
       <div
         style={{
           width: '100%',
@@ -190,18 +160,6 @@ export default function DetailProduct() {
           />
         )}
         {!isLoading && isError && <Error error={error} />}
-
-        <Drawer
-          onClose={() => setAddProduct(false)}
-          open={addProduct}
-          title={`Add product ${product.replaceAll('_', ' ').toLowerCase()}`}
-        >
-          <FormAddDetailProduct
-            handleClose={() => setAddProduct(false)}
-            productCategory={product}
-            productType={type}
-          />
-        </Drawer>
       </div>
     </div>
   );

@@ -12,9 +12,14 @@ import { useGetProductActivationDetail } from '@/hooks/ReactQuery/user/useGetPro
 import { useNavigate, useParams } from 'react-router-dom';
 import { mapIcon } from '@/utils/utilitys';
 
+import { useOrderStore } from '@/store';
+
 export default function Page() {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const { setChangePlan } = useOrderStore((state) => state);
+
   const { data, isLoading, isSuccess, isError, error }: any =
     useGetProductActivationDetail({
       token: getLogin().token ?? '',
@@ -95,7 +100,11 @@ export default function Page() {
                     <a
                       type={'link'}
                       onClick={() => {
-                        navigate(`/package/${data.main_product_id ?? ''}`);
+                        // console.log('data', data);
+                        setChangePlan(data);
+                        navigate(
+                          `/package/${data.main_product_id ?? ''}?change_plan=1`
+                        );
                       }}
                     >
                       Change Plan

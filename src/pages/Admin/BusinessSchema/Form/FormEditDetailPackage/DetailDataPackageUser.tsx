@@ -6,7 +6,7 @@ import Loading from '@/components/Loading';
 
 import Error from '@/components/Error';
 import ProductInformation from './ProductInformation';
-import ProductPricingInformation from './ProductPricingInformation';
+// import ProductPricingInformation from './ProductPricingInformation';
 import LicenseInformation from './LicenseInformation';
 import Channel from './Channel';
 import AddOn from './AddOn';
@@ -14,22 +14,26 @@ import AddOn from './AddOn';
 import useFormEditDetailProduct from '../../Hooks/useFormEditDetailProduct';
 import useFormAddOnDetailProduct from '../../Hooks/useFormAddOnDetailProduct';
 import {
-  useGetDetailProduct,
-  usepatchProduct,
-  usepatchProductAddOn,
-} from '@/hooks/ReactQuery/admin/useGetProduct';
+  useGetDetailProductUser,
+  // usepatchProductUser,
+  usepatchProductAddOnUser,
+} from '@/hooks/ReactQuery/user/useGetProductUser';
+
+import { usepatchProduct } from '@/hooks/ReactQuery/admin/useGetProduct';
 
 import { useSearchParams } from 'react-router-dom';
 import { getLogin } from '@/utils/sessions';
 
-export default function DetailDataProduct() {
+export default function DetailDataProductUser() {
   const [initData, setInitData] = React.useState<any>({});
   const [initDataAddon, setInitDataAddon] = React.useState<any>({});
   const [searchParams]: any = useSearchParams();
   const { mutate: mutateProduct } = usepatchProduct();
-  const { mutate: mutateAddOn } = usepatchProductAddOn();
+  const { mutate: mutateAddOn } = usepatchProductAddOnUser();
 
   const id = searchParams.get('id');
+  const role: any = searchParams.get('role');
+  const user: any = searchParams.get('user');
 
   const {
     data: dataDetail,
@@ -38,13 +42,13 @@ export default function DetailDataProduct() {
     isError: isErrorDetail,
     isSuccess: isSuccessDetail,
     refetch: refetchDetail,
-  }: any = useGetDetailProduct({
+  }: any = useGetDetailProductUser({
     token: getLogin()?.token ?? '',
     id,
-    key: `PRODUCT_DETAILS_${id}`,
+    key: `PRODUCT_DETAILS_USER_${id}`,
+    id_reseller: role === 'RESELLER' ? user : '',
+    id_user: role === 'REGULER' ? user : '',
   });
-
-  console.log({ dataDetail });
 
   const {
     form,
@@ -58,6 +62,8 @@ export default function DetailDataProduct() {
     mutate: mutateProduct,
     refetch: refetchDetail,
     id,
+    role,
+    user,
   });
 
   const {
@@ -78,7 +84,7 @@ export default function DetailDataProduct() {
     form.resetFields();
     formAddon.resetFields();
 
-    const product = await dataDetail?.data?.product;
+    const product = await dataDetail?.data?.product[0];
     const addOn = await dataDetail?.data?.addOn;
 
     const initDataAddon = {
@@ -102,6 +108,7 @@ export default function DetailDataProduct() {
       typeDetails: product?.typeDetails ?? '',
       typeSchema: product?.typeSchema ?? '',
       productPrice: product?.productPrice ?? '',
+      salesPrice: product?.salesPrice ?? '',
       minQuantity: product?.minQuantity ?? '',
       maxQuantity: product?.maxQuantity ?? '',
       licenseAgent:
@@ -253,19 +260,22 @@ export default function DetailDataProduct() {
                             form={form}
                             watchData={watchData}
                             error={errorProduct}
+                            role={role}
                           />
 
-                          <ProductPricingInformation
+                          {/* <ProductPricingInformation
                             form={form}
                             watchData={watchData}
                             error={errorProduct}
-                          />
+                            role={role}
+                          /> */}
 
                           <RenderData>
                             <LicenseInformation
                               form={form}
                               watchData={watchData}
                               error={errorProduct}
+                              role={role}
                             />
                           </RenderData>
 
@@ -274,6 +284,7 @@ export default function DetailDataProduct() {
                               form={form}
                               watchData={watchData}
                               error={errorProduct}
+                              role={role}
                             />
                           </RenderData>
 
@@ -337,6 +348,7 @@ export default function DetailDataProduct() {
                             formAddon={formAddon}
                             watchDataAddon={watchDataAddon}
                             error={errorAddon}
+                            role={role}
                           />
 
                           <Form.Item shouldUpdate className="submit">

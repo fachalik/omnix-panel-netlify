@@ -36,6 +36,11 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
           quantity: 1,
           price: selectedItems?.item?.salesPrice,
           type: selectedItems?.item?.typeDetails,
+          license: {
+            Agent: selectedItems?.item?.licenseAgent,
+            Backroom: selectedItems?.item?.licenseBackroom,
+            SVP: selectedItems?.item?.licenseSVP,
+          },
         });
       }
     }
@@ -46,6 +51,7 @@ export const SelectPackage: React.FC<IProps> = (props: IProps) => {
   }, [selectedItems]);
 
   const handleOnClickData = async (item: any) => {
+    console.log('item', item);
     if (item?.item?.productName.toLowerCase() !== 'custom') {
       let resultObject: any = {};
 

@@ -5,7 +5,7 @@ import { useOrderStore } from '@/store';
 import { StoreOrder } from '@/store/order';
 import { HandlePlan } from '@/utils/utilitys';
 
-import { BottomTotalPayment } from './BottomTotalPayment';
+import { BottomTotalPayment } from '../components/BottomTotalPayment';
 
 interface IProps {
   current: number;

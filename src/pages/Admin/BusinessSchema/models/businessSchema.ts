@@ -12,6 +12,7 @@ export type FieldTypeUpdateProduct = {
   salesPrice?: string;
   minQuantity?: string;
   maxQuantity?: string;
+  selectedProductPackages?: string[];
   licenseAgent?: license;
   licenseSVP?: license;
   licenseBackroom?: license;

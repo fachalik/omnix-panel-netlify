@@ -93,6 +93,28 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
     setValue(key, updatedValues);
   };
 
+  const findMinMax = (item: any, name: string) => {
+    let keyName = '';
+
+    if (name.toLowerCase().indexOf('agent') > -1) {
+      keyName = 'agent';
+    }
+
+    if (name.toLowerCase().indexOf('supervisor') > -1) {
+      keyName = 'svp';
+    }
+
+    if (name.toLowerCase().indexOf('backroom') > -1) {
+      keyName = 'backroom';
+    }
+
+    const key: string = Object.keys(item?.item).filter(
+      (word) => word.toLowerCase().indexOf(keyName) > -1
+    )[0];
+
+    return item?.item[key];
+  };
+
   if (!isLoading && isSuccess && Object.keys(dataAddOn).length !== 0)
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '.5em' }}>
@@ -233,6 +255,7 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
                 fontWeight: 600,
               }}
             >{`License User`}</p>
+
             <p style={{ fontSize: 13, fontWeight: 400 }}>
               Increase your included License Account for your integrations
               between your Omnix Panel Account and other services.
@@ -254,6 +277,11 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
                         price:
                           item?.item?.salesPrice ?? item?.item?.productPrice,
                         type: `ADDON`,
+                        license: {
+                          Agent: item?.item?.licenseAgent,
+                          Backroom: item?.item?.licenseBackroom,
+                          SVP: item?.item?.licenseSVP,
+                        },
                       })?.quantity ?? 1
                     }
                     onChange={(e: any) =>
@@ -266,12 +294,21 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
                           price:
                             item?.item?.salesPrice ?? item?.item?.productPrice,
                           type: `ADDON`,
+                          license: {
+                            Agent: item?.item?.licenseAgent,
+                            Backroom: item?.item?.licenseBackroom,
+                            SVP: item?.item?.licenseSVP,
+                          },
                         },
                         e
                       )
                     }
-                    min={item?.item?.minQuantity ?? 1}
-                    max={item?.item?.maxQuantity ?? 5}
+                    min={
+                      findMinMax(item, item?.item?.productName ?? '')?.min ?? 1
+                    }
+                    max={
+                      findMinMax(item, item?.item?.productName ?? '')?.min ?? 5
+                    }
                     defaultValue={1}
                     disabled={
                       !checkedBox('addon', {
@@ -281,6 +318,11 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
                         price:
                           item?.item?.salesPrice ?? item?.item?.productPrice,
                         type: `ADDON`,
+                        license: {
+                          Agent: item?.item?.licenseAgent,
+                          Backroom: item?.item?.licenseBackroom,
+                          SVP: item?.item?.licenseSVP,
+                        },
                       })
                     }
                   />
@@ -309,6 +351,11 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
                     quantity: 1,
                     price: item?.item?.salesPrice ?? item?.item?.productPrice,
                     type: `ADDON`,
+                    license: {
+                      Agent: item?.item?.licenseAgent,
+                      Backroom: item?.item?.licenseBackroom,
+                      SVP: item?.item?.licenseSVP,
+                    },
                   })}
                   onChange={() => {
                     handleCheckboxChange('addon', {
@@ -317,6 +364,11 @@ export const AddOnPackage: React.FC<IProps> = (props: IProps) => {
                       quantity: 1,
                       price: item?.item?.salesPrice ?? item?.item?.productPrice,
                       type: `ADDON`,
+                      license: {
+                        Agent: item?.item?.licenseAgent,
+                        Backroom: item?.item?.licenseBackroom,
+                        SVP: item?.item?.licenseSVP,
+                      },
                     });
                   }}
                 />

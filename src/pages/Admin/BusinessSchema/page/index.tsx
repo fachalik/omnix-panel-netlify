@@ -12,6 +12,10 @@ import FormEditDetailProduct from '../Form/FormEditDetailProduct';
 import DetailDataProductReseller from '../Form/FormEditDetailProduct/DetailDataProductReseller';
 import DetailDataProductUser from '../Form/FormEditDetailProduct/DetailDataProductUser';
 
+import FormEditDetailPackage from '../Form/FormEditDetailPackage';
+import DetailDataPackageReseller from '../Form/FormEditDetailPackage/DetailDataPackageReseller';
+import DetailDataPackageUser from '../Form/FormEditDetailPackage/DetailDataPackageUser';
+
 export default function index() {
   const [searchParams] = useSearchParams();
   const menu: any = searchParams.get('menu');
@@ -22,6 +26,7 @@ export default function index() {
   const user = searchParams.get('user');
   const username = searchParams.get('username');
   const role = searchParams.get('role');
+  const typeDetails = searchParams.get('typeDetails');
 
   return (
     <div
@@ -43,11 +48,35 @@ export default function index() {
         <DetailProductReseller />
       )}
 
-      {product && type && id && role == 'null' && <FormEditDetailProduct />}
-      {product && type && id && role === 'REGULER' && <DetailDataProductUser />}
-      {product && type && id && role === 'RESELLER' && (
-        <DetailDataProductReseller />
+      {product &&
+        type &&
+        id &&
+        role == 'null' &&
+        typeDetails === 'NONPACKAGE' && <FormEditDetailProduct />}
+      {product &&
+        type &&
+        id &&
+        role === 'REGULER' &&
+        typeDetails === 'NONPACKAGE' && <DetailDataProductUser />}
+      {product &&
+        type &&
+        id &&
+        role === 'RESELLER' &&
+        typeDetails === 'NONPACKAGE' && <DetailDataProductReseller />}
+
+      {product && type && id && role == 'null' && typeDetails === 'PACKAGE' && (
+        <FormEditDetailPackage />
       )}
+      {product &&
+        type &&
+        id &&
+        role === 'REGULER' &&
+        typeDetails === 'PACKAGE' && <DetailDataPackageUser />}
+      {product &&
+        type &&
+        id &&
+        role === 'RESELLER' &&
+        typeDetails === 'PACKAGE' && <DetailDataPackageReseller />}
     </div>
   );
 }

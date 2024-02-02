@@ -11,6 +11,7 @@ export const getProductUser = ({
   is_not_paginate,
   akses,
   id_user,
+  typeDetails,
 }: {
   token: string;
   page: number;
@@ -22,6 +23,7 @@ export const getProductUser = ({
   is_not_paginate?: string;
   akses?: string;
   id_user: string;
+  typeDetails?: string;
 }) =>
   new Promise<any>(async (resolve, reject) => {
     try {
@@ -39,6 +41,7 @@ export const getProductUser = ({
           is_not_paginate,
           akses,
           id_user,
+          typeDetails,
         },
       });
       if (respon.data) {

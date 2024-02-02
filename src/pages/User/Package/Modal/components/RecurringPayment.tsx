@@ -5,11 +5,11 @@ import { Button, Form, Input, Row, Col, DatePicker } from 'antd';
 import Cards from 'react-credit-cards';
 import dayjs from 'dayjs';
 
-import { BottomTotalPayment } from './BottomTotalPayment';
+import { BottomTotalPayment } from '../components/BottomTotalPayment';
 import { CreditCardOutlined, LockOutlined } from '@ant-design/icons';
 import { useOrderStore } from '@/store';
 
-import useFormRecurring from '../Hooks/useFormRecurring';
+import useFormRecurring from '../../Hooks/useFormRecurring';
 
 interface IProps {
   current: number;

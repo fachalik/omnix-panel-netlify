@@ -1,5 +1,5 @@
 import React from 'react';
-import { Skeleton, Checkbox, Radio, Space, Form } from 'antd';
+import { Skeleton, Checkbox, Radio, Space, Form, InputNumber } from 'antd';
 import { palette } from '@/theme/themeConfig';
 import { formatRupiah } from '@/utils/utilitys';
 import type { RadioChangeEvent } from 'antd';
@@ -61,6 +61,234 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
     const itemIndex = updatedValues.findIndex((i) => i.name === item.name);
 
     return itemIndex !== -1;
+  };
+
+  const getValueInputNumber = (key: any, item: any): any => {
+    const formValues = watchData();
+
+    const updatedValues = [...(formValues[key] || [])];
+
+    const itemIndex = updatedValues.findIndex((i) => i.name === item.name);
+
+    if (itemIndex !== -1) {
+      return updatedValues[itemIndex];
+    } else {
+      return {};
+    }
+  };
+
+  const changeValueInputNumber = (key: any, item: any, e: any) => {
+    const formValues = getValue();
+
+    const updatedValues = [...(formValues[key] || [])];
+
+    const itemIndex = updatedValues.findIndex((i) => i.name === item.name);
+
+    if (itemIndex !== -1) {
+      updatedValues[itemIndex]['quantity'] = e;
+    }
+    setValue(key, updatedValues);
+  };
+
+  const PackageName = ({ item, name }: { item: any; name: string }) => {
+    let keyName = 'none';
+
+    if (name.toLowerCase().indexOf('agent') > -1) {
+      keyName = 'agent';
+    }
+
+    if (name.toLowerCase().indexOf('supervisor') > -1) {
+      keyName = 'svp';
+    }
+
+    if (name.toLowerCase().indexOf('backroom') > -1) {
+      keyName = 'backroom';
+    }
+
+    switch (keyName) {
+      case 'agent':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              gap: '.5em',
+              alignItems: 'center',
+            }}
+          >
+            <InputNumber
+              value={
+                getValueInputNumber('alacarte', {
+                  id: item?.item?._id,
+                  name: item?.item?.productName,
+                  quantity: 1,
+                  price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                  type: `ALACARTE`,
+                })?.quantity ?? 1
+              }
+              onChange={(e: any) =>
+                changeValueInputNumber(
+                  'alacarte',
+                  {
+                    id: item?.item?._id,
+                    name: item?.item?.productName,
+                    quantity: 1,
+                    price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                    type: `ALACARTE`,
+                  },
+                  e
+                )
+              }
+              min={item.item?.licenseAgent[0]?.minQuantity ?? 1}
+              max={item.item?.licenseAgent[0]?.maxQuantity ?? 5}
+              defaultValue={1}
+              disabled={
+                !checkedBox('alacarte', {
+                  id: item?.item?._id,
+                  name: item?.item?.productName,
+                  quantity: 1,
+                  price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                  type: `ALACARTE`,
+                })
+              }
+            />
+            <i className="ri-user-3-line" style={{ fontSize: '14px' }} />
+            <p
+              style={{
+                fontSize: '13px',
+                color: palette.primary.main,
+                fontWeight: 500,
+                textTransform: 'capitalize',
+              }}
+            >
+              {`${
+                item.item?.licenseAgent[0]?.maxQuantity ?? 0
+              } Max License Agent`}
+            </p>
+          </div>
+        );
+
+      case 'svp':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              gap: '.5em',
+              alignItems: 'center',
+            }}
+          >
+            <InputNumber
+              value={
+                getValueInputNumber('alacarte', {
+                  id: item?.item?._id,
+                  name: item?.item?.productName,
+                  quantity: 1,
+                  price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                  type: `ALACARTE`,
+                })?.quantity ?? 1
+              }
+              onChange={(e: any) =>
+                changeValueInputNumber(
+                  'alacarte',
+                  {
+                    id: item?.item?._id,
+                    name: item?.item?.productName,
+                    quantity: 1,
+                    price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                    type: `ALACARTE`,
+                  },
+                  e
+                )
+              }
+              min={item.item?.licenseSVP[0]?.minQuantity ?? 1}
+              max={item.item?.licenseSVP[0]?.maxQuantity ?? 5}
+              defaultValue={1}
+              disabled={
+                !checkedBox('alacarte', {
+                  id: item?.item?._id,
+                  name: item?.item?.productName,
+                  quantity: 1,
+                  price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                  type: `ALACARTE`,
+                })
+              }
+            />
+            <i className="ri-user-3-line" style={{ fontSize: '14px' }} />
+            <p
+              style={{
+                fontSize: '13px',
+                color: palette.primary.main,
+                fontWeight: 500,
+                textTransform: 'capitalize',
+              }}
+            >
+              {`${item?.item?.licenseSVP[0]?.maxQuantity ?? 0} Max License SPV`}
+            </p>
+          </div>
+        );
+      case 'backroom':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              gap: '.5em',
+              alignItems: 'center',
+            }}
+          >
+            <InputNumber
+              value={
+                getValueInputNumber('alacarte', {
+                  id: item?.item?._id,
+                  name: item?.item?.productName,
+                  quantity: 1,
+                  price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                  type: `ALACARTE`,
+                })?.quantity ?? 1
+              }
+              onChange={(e: any) =>
+                changeValueInputNumber(
+                  'alacarte',
+                  {
+                    id: item?.item?._id,
+                    name: item?.item?.productName,
+                    quantity: 1,
+                    price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                    type: `ALACARTE`,
+                  },
+                  e
+                )
+              }
+              min={item.item?.licenseBackroom[0]?.minQuantity ?? 1}
+              max={item.item?.licenseBackroom[0]?.maxQuantity ?? 5}
+              defaultValue={1}
+              disabled={
+                !checkedBox('alacarte', {
+                  id: item?.item?._id,
+                  name: item?.item?.productName,
+                  quantity: 1,
+                  price: item?.item?.salesPrice ?? item?.item?.productPrice,
+                  type: `ALACARTE`,
+                })
+              }
+            />
+            <i className="ri-tv-2-line" style={{ fontSize: '14px' }} />
+            <p
+              style={{
+                fontSize: '13px',
+                color: palette.primary.main,
+                fontWeight: 500,
+                textTransform: 'capitalize',
+              }}
+            >
+              {`${
+                item?.item?.licenseBackroom[0]?.maxQuantity ?? 0
+              } Max License Backroom`}
+            </p>
+          </div>
+        );
+
+      default:
+        return <p>-</p>;
+    }
   };
 
   if (!isLoading && isSuccess && Object.keys(data).length !== 0)
@@ -128,83 +356,8 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                   {formatRupiah(item.item.productPrice.toString(), 'Rp.')}
                 </p>
 
-                {item.item?.licenseAgent.length !== 0 && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: '.5em',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <i
-                      className="ri-user-3-line"
-                      style={{ fontSize: '14px' }}
-                    />
-                    <p
-                      style={{
-                        fontSize: '13px',
-                        color: palette.primary.main,
-                        fontWeight: 500,
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {`${
-                        item.item?.licenseAgent[0]?.maxQuantity ?? 0
-                      } License Agent`}
-                    </p>
-                  </div>
-                )}
+                <PackageName item={item} name={item?.item?.productName} />
 
-                {item?.item?.licenseSVP.length !== 0 && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: '.5em',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <i
-                      className="ri-user-3-line"
-                      style={{ fontSize: '14px' }}
-                    />
-                    <p
-                      style={{
-                        fontSize: '13px',
-                        color: palette.primary.main,
-                        fontWeight: 500,
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {`${
-                        item?.item?.licenseSVP[0]?.maxQuantity ?? 0
-                      } License SPV`}
-                    </p>
-                  </div>
-                )}
-
-                {item?.item?.licenseBackroom.length !== 0 && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: '.5em',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <i className="ri-tv-2-line" style={{ fontSize: '14px' }} />
-                    <p
-                      style={{
-                        fontSize: '13px',
-                        color: palette.primary.main,
-                        fontWeight: 500,
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {`${
-                        item?.item?.licenseBackroom[0]?.maxQuantity ?? 0
-                      } License Backroom`}
-                    </p>
-                  </div>
-                )}
                 {item?.item?.channel.length !== 0 && (
                   <>
                     <div
@@ -254,14 +407,13 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                 )}
               </div>
 
-              {/* {JSON.stringify(item.item)} */}
               <Checkbox
                 checked={checkedBox('alacarte', {
                   id: item?.item?._id,
                   name: item?.item?.productName,
                   quantity: 1,
                   price: item?.item?.productPrice,
-                  type: `ADDON_ALACARTE`,
+                  type: 'ALACARTE',
                 })}
                 onChange={() => {
                   handleCheckboxChange('alacarte', {
@@ -269,7 +421,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
                     name: item?.item?.productName,
                     quantity: 1,
                     price: item?.item?.productPrice,
-                    type: `ADDON_ALACARTE`,
+                    type: 'ALACARTE',
                   });
                 }}
               />
@@ -280,7 +432,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
               name: item?.item?.productName,
               quantity: 1,
               price: item?.item?.productPrice,
-              type: `ADDON_ALACARTE`,
+              type: 'ALACARTE',
             }) &&
               item.addOn.length !== 0 && (
                 <>
@@ -302,7 +454,7 @@ export const AlacartePackage: React.FC<IProps> = (props: IProps) => {
               name: item?.item?.productName,
               quantity: 1,
               price: item?.item?.productPrice,
-              type: `ADDON_ALACARTE`,
+              type: 'ALACARTE',
             }) &&
               item.addOn.length !== 0 &&
               item.addOn.map((item: any, idx: number) => (

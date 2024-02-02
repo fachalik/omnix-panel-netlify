@@ -2,7 +2,6 @@
 import { Button, Form, Input, Select, InputNumber } from 'antd';
 import useFormDetailProduct from '../Hooks/useFormDetailProduct';
 
-
 import { FieldTypeAddProduct } from '../models/businessSchema';
 
 interface IFormMenu {
@@ -16,7 +15,6 @@ export default function FormAddDetailProduct({
   productType,
   productCategory,
 }: IFormMenu) {
-
   const { form, isLoading, onFinish, onFinishFailed } = useFormDetailProduct({
     handleCloseForm: handleClose,
     // mutate: mutateCreate,
@@ -64,10 +62,10 @@ export default function FormAddDetailProduct({
               (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())
             }
             options={[
-              {
-                value: 'PACKAGE',
-                label: 'Package',
-              },
+              // {
+              //   value: 'PACKAGE',
+              //   label: 'Package',
+              // },
               {
                 value: 'ALACARTE',
                 label: 'Ala Carte',

@@ -3,7 +3,7 @@ import { theme, Tooltip, Button, Breadcrumb } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { ItemType } from 'antd/es/breadcrumb/Breadcrumb';
-
+import { useOrderStore } from '@/store';
 // type BreadCr
 
 interface IProps {
@@ -21,10 +21,21 @@ export default function HeaderSection({
   style,
   navigateTo,
 }: IProps) {
+  const { reset } = useOrderStore((state) => state);
   const navigate = useNavigate();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const navigateRoute = () => {
+    if (navigateTo) {
+      navigate(navigateTo);
+      reset();
+    } else {
+      navigate(-1);
+      reset();
+    }
+  };
 
   return (
     <div
@@ -47,7 +58,7 @@ export default function HeaderSection({
               shape="circle"
               style={{ marginRight: 5 }}
               icon={<ArrowLeftOutlined />}
-              onClick={() => (navigateTo ? navigate(navigateTo) : navigate(-1))}
+              onClick={() => navigateRoute()}
             />
           </Tooltip>
         )}

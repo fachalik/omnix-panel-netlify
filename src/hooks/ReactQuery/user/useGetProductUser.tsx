@@ -27,6 +27,7 @@ const fetchProductUser = async (params: {
   status?: string;
   term?: string;
   is_not_paginate?: string;
+  typeDetails?: string;
 }): Promise<any> => {
   const data = await getProductUser({
     token: params.token,
@@ -39,6 +40,7 @@ const fetchProductUser = async (params: {
     is_not_paginate: params.is_not_paginate,
     akses: params.akses,
     id_user: params.id_user,
+    typeDetails: params.typeDetails,
   });
   return data;
 };
@@ -54,6 +56,7 @@ export const useGetProductUser = (params: {
   status?: string;
   term?: string;
   is_not_paginate?: string;
+  typeDetails?: string;
 }) => {
   return useQuery<any, Error>({
     queryKey: [...QUERY_KEY, params],

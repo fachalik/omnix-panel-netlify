@@ -9,6 +9,7 @@ export const getProductAdmin = ({
   productType,
   productCategory,
   is_not_paginate,
+  typeDetails,
 }: {
   token: string;
   page: number;
@@ -20,6 +21,7 @@ export const getProductAdmin = ({
   is_not_paginate?: string;
   id_reseller?: string;
   id_user?: string;
+  typeDetails?: string;
 }) =>
   new Promise<any>(async (resolve, reject) => {
     try {
@@ -35,6 +37,7 @@ export const getProductAdmin = ({
           productType,
           productCategory,
           is_not_paginate,
+          typeDetails,
         },
       });
       if (respon.data) {

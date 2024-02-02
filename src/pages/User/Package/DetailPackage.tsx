@@ -13,17 +13,19 @@ import {
 } from '@/hooks/ReactQuery/user/useGetProductUser';
 import { useAuthStore } from '@/store/auth';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { getLogin } from '@/utils/sessions';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
+
 import { InformationPackage } from './Components/InformationPackage';
 import { InformationPackageAddOn } from './Components/InformationPackageAddon';
 import { SelectPackage } from './Components/SelectPackage';
 import { AddOnPackage } from './Components/AddOnPackage';
 import { Summary } from './Components/Summary';
 import { AlacartePackage } from './Components/AlacartePackage';
-import { ModalCheckout } from './Modal/modalCheckout';
+import { ModalCheckout } from './Modal/ModalCheckout/modalCheckout';
+import { ModalChangePlan } from './Modal/ModalChangePlan/modalChangePlan';
 
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useOrderStore } from '@/store';
@@ -54,10 +56,18 @@ export default function OrderHistory() {
 
   const { user } = useAuthStore((state) => state);
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+
+  const status_change_plan: any = searchParams.get('change_plan') ?? null;
 
   // ** Modal Create
   const [IsModalCreate, setIsModalCreate] = React.useState<boolean>(false);
   const handleCancelCreate = () => setIsModalCreate(false);
+
+  // ** Modal ChangePlan
+  const [IsModalChangePlan, setIsModalChangePlan] =
+    React.useState<boolean>(false);
+  const handleCancelChangePlan = () => setIsModalChangePlan(false);
 
   const [itemPackages, setItemPackes] = React.useState<any>({});
   const [selectedItems, setSelectedItems] = React.useState<any>({});
@@ -202,13 +212,18 @@ export default function OrderHistory() {
       .filter((item: any) => item !== null)
       .reduce((result: any, array: any) => result.concat(array), []);
 
-    setIsModalCreate(true);
+    if (status_change_plan) {
+      setIsModalChangePlan(true);
+      // setIsModalCreate(true);
+    } else {
+      setIsModalCreate(true);
+    }
     setCheckout(combinedArray);
     setProductCategory(data?.key ?? '');
     setProductType(data?.productType ?? '');
   };
 
-  console.log('watch', methods.watch);
+  console.log('selectedItems', selectedItems);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
@@ -375,6 +390,30 @@ export default function OrderHistory() {
             footerCancel={false}
           >
             <ModalCheckout
+              current={current}
+              next={next}
+              prev={prev}
+              setCurrent={setCurrent}
+              handleClose={() => {
+                handleCancelCreate();
+                setTenantName('');
+                setCurrent(0);
+              }}
+            />
+          </Modal>
+
+          <Modal
+            width={'80%'}
+            title="Change Plan Summary"
+            isModalOpen={IsModalChangePlan}
+            handleCancel={() => {
+              handleCancelChangePlan();
+              setTenantName('');
+              setCurrent(0);
+            }}
+            footerCancel={false}
+          >
+            <ModalChangePlan
               current={current}
               next={next}
               prev={prev}

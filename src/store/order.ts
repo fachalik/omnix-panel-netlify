@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 
 export interface StoreOrder {
   id: string;
@@ -16,6 +16,8 @@ export interface IStoreOrder {
   productType: string;
   tenant_name: string;
   productId?: string;
+  changePlan?: any;
+  setChangePlan: (item: any) => void;
   setCheckout: (items: StoreOrder[]) => void;
   setProductId: (id: string) => void;
   setPlan: (plan: string) => void;
@@ -26,6 +28,7 @@ export interface IStoreOrder {
 }
 
 const initialState = {
+  changePlan: null,
   productId: '',
   checkout: [],
   plan: 'MONTHLY',
@@ -36,75 +39,87 @@ const initialState = {
 
 export const useOrderStore = create<IStoreOrder>()(
   devtools(
-    (set, _get) => ({
-      ...initialState,
+    persist(
+      (set, _get) => ({
+        ...initialState,
 
-      setCheckout(items: StoreOrder[]) {
-        set(
-          (_state: IStoreOrder) => ({
-            checkout: items,
-          }),
-          false,
-          'set-checkout'
-        );
-      },
+        setCheckout(items: StoreOrder[]) {
+          set(
+            (_state: IStoreOrder) => ({
+              checkout: items,
+            }),
+            false,
+            'set-checkout'
+          );
+        },
 
-      setProductId(id: string) {
-        set(
-          (_state: IStoreOrder) => ({
-            productId: id,
-          }),
-          false,
-          'set-product-id'
-        );
-      },
+        setChangePlan(item: any) {
+          set(
+            (_state: IStoreOrder) => ({
+              changePlan: item,
+            }),
+            false,
+            'set-change-plan'
+          );
+        },
 
-      setPlan(plan: string) {
-        set(
-          (_state: IStoreOrder) => ({
-            plan,
-          }),
-          false,
-          'set-plan'
-        );
-      },
+        setProductId(id: string) {
+          set(
+            (_state: IStoreOrder) => ({
+              productId: id,
+            }),
+            false,
+            'set-product-id'
+          );
+        },
 
-      setProductCategory(category: string) {
-        set(
-          (_state: IStoreOrder) => ({
-            productCategory: category,
-          }),
-          false,
-          'set-category'
-        );
-      },
+        setPlan(plan: string) {
+          set(
+            (_state: IStoreOrder) => ({
+              plan,
+            }),
+            false,
+            'set-plan'
+          );
+        },
 
-      setProductType(type: string) {
-        set(
-          (_state: IStoreOrder) => ({
-            productType: type,
-          }),
-          false,
-          'set-type'
-        );
-      },
+        setProductCategory(category: string) {
+          set(
+            (_state: IStoreOrder) => ({
+              productCategory: category,
+            }),
+            false,
+            'set-category'
+          );
+        },
 
-      setTenantName(name: string) {
-        set(
-          (_state: IStoreOrder) => ({
-            tenant_name: name,
-          }),
-          false,
-          'set-type'
-        );
-      },
+        setProductType(type: string) {
+          set(
+            (_state: IStoreOrder) => ({
+              productType: type,
+            }),
+            false,
+            'set-type'
+          );
+        },
 
-      reset() {
-        set((_state: IStoreOrder) => initialState, false, 'set-reset');
-      },
-    }),
-    {
-      name: 'omnix-order-state',
-    }
+        setTenantName(name: string) {
+          set(
+            (_state: IStoreOrder) => ({
+              tenant_name: name,
+            }),
+            false,
+            'set-type'
+          );
+        },
+
+        reset() {
+          set((_state: IStoreOrder) => initialState, false, 'set-reset');
+        },
+      }),
+      {
+        name: 'omnix-order-state',
+      }
+    )
   )
 );

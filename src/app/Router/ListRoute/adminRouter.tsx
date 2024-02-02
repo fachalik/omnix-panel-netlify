@@ -10,6 +10,7 @@ const BusinessManagementProduct = lazy(
 );
 
 const TeamManagement = lazy(() => import('@/pages/Admin/TeamManagement'));
+const GroupSkillManagement = lazy(() => import('@/pages/Admin/GroupSkill'));
 const GroupManagement = lazy(() => import('@/pages/Admin/GroupManagement'));
 const MenuManagement = lazy(() => import('@/pages/Admin/ManageMenu'));
 
@@ -45,6 +46,13 @@ const Routers: ListRouteProps[] = [
   {
     comp: TeamManagement,
     path: '/manage-team',
+    layout: 'Dashboard',
+    index: true,
+    auth: [RoleEnum.ADMIN],
+  },
+  {
+    comp: GroupSkillManagement,
+    path: '/manage-group-skill',
     layout: 'Dashboard',
     index: true,
     auth: [RoleEnum.ADMIN],

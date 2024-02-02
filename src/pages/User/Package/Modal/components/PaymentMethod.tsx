@@ -10,7 +10,7 @@ import useSnapMidtrans from '@/hooks/useSnapMidtrans';
 import { PostOrder } from '@/service/order';
 import { Checkout } from '@/models';
 
-import { BottomTotalPayment } from './BottomTotalPayment';
+import { BottomTotalPayment } from '../components/BottomTotalPayment';
 import { useNavigate } from 'react-router-dom';
 import { RecurringPayment } from './RecurringPayment';
 
